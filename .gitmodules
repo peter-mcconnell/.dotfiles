@@ -4,3 +4,6 @@
 [submodule "bundle/vagrant"]
 	path = bundle/vagrant
 	url = git://github.com/markcornick/vim-vagrant.git
+[submodule "bundle/javascript"]
+	path = bundle/javascript
+	url = https://github.com/pangloss/vim-javascript.git
