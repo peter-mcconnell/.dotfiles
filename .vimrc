@@ -15,10 +15,11 @@ set nu
 syntax on
 colorscheme murphy 
 if has("gui_running")
-    set guioptions-=T
-    set guioptions+=e
-    set t_Co=256
-    set guitablabel=%M\ %t
+    set background=dark
+    colorscheme desert
+else
+    colorscheme desert
+    let g:colors_name="desert"
 endif
 set encoding=utf8
 set ffs=unix,dos,mac
