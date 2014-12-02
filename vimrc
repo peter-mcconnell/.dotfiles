@@ -15,6 +15,7 @@ Plugin 'fatih/vim-go'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'tpope/vim-fugitive'
+Plugin 'bling/vim-airline'
 Plugin 'altercation/vim-colors-solarized'
 
 " All of your Plugins must be added before the following line
@@ -35,4 +36,8 @@ filetype plugin indent on    " required
 " APPEARANCE
 syntax enable
 set background=dark
-colorscheme solarized
+try
+	colorscheme solarized
+catch /^Vim\%((\a\+)\)\=:E185/
+	" colorscheme isnt installed
+endtry
