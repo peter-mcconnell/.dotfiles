@@ -1,90 +1,38 @@
-" load in pathogen <https://github.com/tpope/vim-pathogen>
-execute pathogen#infect()
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-" Use Vim settings, rather then Vi settings (much better!).
-set nocompatible
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
-" show tabs
-set listchars=tab:>.
-set list
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
 
-" enable line numbers 
-set nu
+" added by pete
+Plugin 'fatih/vim-go'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'tpope/vim-fugitive'
+Plugin 'altercation/vim-colors-solarized'
 
-" enable syntax highlighting
-syntax on
-colorscheme murphy 
-if has("gui_running")
-    set background=dark
-    colorscheme desert
-else
-    colorscheme desert
-    let g:colors_name="desert"
-endif
-set encoding=utf8
-set ffs=unix,dos,mac
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
 
-" window switching
-set hidden
-
-" better command-line completion
-set wildmenu
-
-" show partial commands in the last line of the screen
-set showcmd
-
-" highlight searches
-set hlsearch
-
-" ignore case sensitivity (except on uppercasing)
-set ignorecase
-set smartcase
-
-" Makes search act like search in modern browsers
-set incsearch
-
-" allow backspacing over autoindent
-set backspace=indent,eol,start
-
-" Set to auto read when a file is changed from the outside
-set autoread
-
-" Ignore compiled files
-set wildignore=*.o,*~,*.pyc
-
-" Enable filetype plugins
-filetype plugin on
-filetype indent on
-
-" indents
-set autoindent
-set shiftwidth=4
-set tabstop=4
-set expandtab
-set wrap
-
-set lbr
-set tw=500
-
-" A buffer becomes hidden when it is abandoned
-set hid
-
-" Height of the command bar
-set cmdheight=2
-
-" ruler
-set ruler
-
-" always display status line
-set laststatus=2
-set statusline=[%02n]\ %f\ %(\[%M%R%H]%)%=\ %4l,%02c%2V\ %P%*
-
-" instead of failing a command because of unsaved changes prompt save
-set confirm
-
-" use visual bell instead of audio bleep
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
-
+" APPEARANCE
+syntax enable
+set background=dark
+colorscheme solarized
