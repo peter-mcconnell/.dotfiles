@@ -10,14 +10,14 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-" added by pete
+" Plugins
 Plugin 'scrooloose/nerdtree'
 Plugin 'fatih/vim-go'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
-Plugin 'altercation/vim-colors-solarized'
+Bundle 'tomasr/molokai'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -34,6 +34,11 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
+" Gnome
+if $COLORTERM == 'gnome-terminal'
+	set t_Co=256
+endif
+
 " NERDTree
 " autoclose
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | e
@@ -45,7 +50,8 @@ map <C-n> :NERDTreeToggle<CR>
 syntax enable
 set background=dark
 try
-	colorscheme solarized
+	colorscheme molokai
 catch /^Vim\%((\a\+)\)\=:E185/
 	" colorscheme isnt installed
 endtry
+let g:rehash256 = 1
