@@ -6,7 +6,7 @@ install: clean linkrc
 	@vim +PluginInstall +qall
 
 linkrc:
-	@ln -s `pwd`/.vimrc ~/.vimrc
+	@ln -s `pwd`/vimrc ~/.vimrc
 
 clean:
 	@rm -rf ~/.vim/bundle/
