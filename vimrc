@@ -18,6 +18,8 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
 Plugin 'klen/python-mode'
+Plugin 'avakhov/vim-yaml'
+Plugin 'ingydotnet/yaml-vim'
 Bundle 'tomasr/molokai'
 
 " All of your Plugins must be added before the following line
