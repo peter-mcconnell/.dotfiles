@@ -20,6 +20,7 @@ Plugin 'bling/vim-airline'
 Plugin 'klen/python-mode'
 Plugin 'avakhov/vim-yaml'
 Plugin 'ingydotnet/yaml-vim'
+Plugin 'StanAngeloff/php.vim'
 Bundle 'tomasr/molokai'
 
 " All of your Plugins must be added before the following line
