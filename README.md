@@ -1,10 +1,10 @@
-# .myvim
+# .dotfiles
 
 This is just for lil' old me. Feel free to steal though
 
 - clone
 - `make install`
 
-###note
+# requirements
 
-This symlinks the `~/.vimrc` to the `vimrc` in this directory. Perhaps not the best idea but keeps my tweaks in the repo.
+This has been tailored for my own personal needs. Tested on ubuntu14:04 with Terminator
