@@ -408,11 +408,7 @@ if [ ! -d "${HOME}/bin" ]; then
 fi
 
 if [ ! -d "${HOME}/Sites" ]; then
-    if [ ! -d "/var/www/Sites" ]; then
-        mkdir -p "/var/www/Sites"
-        echo "/var/www/Sites was missing. I created it for you."
-    fi
-    ln -s /var/www/Sites "${HOME}/Sites"
+    mkdir -p "${HOME}/Sites"
     echo "${HOME}/Sites was missing. I created it for you."
 fi
 
