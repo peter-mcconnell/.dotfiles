@@ -5,10 +5,6 @@
 # adding 256 colors
 export TERM=xterm-256color
 
-# google cloud sdk
-source "$HOME/google-cloud-sdk/path.bash.inc"
-source "$HOME/google-cloud-sdk/completion.bash.inc"
-
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
