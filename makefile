@@ -1,7 +1,7 @@
 help:
 	@echo "install - installs dotfiles"
 
-install: clean vundle vim bashaliases bash vundleplugins
+install: clean vundle vim bashprofile bashaliases bash vundleplugins
 	@echo "installed"
 
 vim:
@@ -9,6 +9,9 @@ vim:
 
 bash: 
 	@ln -s `pwd`/bashrc ~/.bashrc
+
+bashprofile:
+	@ln -s `pwd`/bash_profile ~/.bash_profile
 
 bashaliases:
 	@ln -s `pwd`/bash_aliases ~/.bash_aliases
