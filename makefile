@@ -25,5 +25,6 @@ vundleplugins:
 clean:
 	@touch ~/.bashrc && mv ~/.bashrc ~/.bashrc.backup
 	@touch ~/.bash_aliases && mv ~/.bash_aliases ~/.bash_aliases.backup
+	@touch ~/.bash_profile && mv ~/.bash_profile ~/.bash_profile.backup
 	@rm -rf ~/.vim/bundle/
 	@touch ~/.vimrc && mv ~/.vimrc ~/.vimrc.backup
