@@ -10,6 +10,6 @@ if [ -d "$HOME/google-cloud" ] ; then
 fi
 
 # ansible
-if [ -d "$HOME/ansible" ]; then
-    source "$HOME/ansible/hacking/env-setup"
-fi
+#if [ -d "$HOME/ansible" ]; then
+#    source "$HOME/ansible/hacking/env-setup"
+#fi
