@@ -117,6 +117,10 @@ PathFull="\W"
 NewLine="\n"
 Jobs="\j"
 
+# OSX
+export CLICOLOR=1
+export LSCOLORS=ExFxBxDxCxegedabagacad
+
 # PS1
 export PS1=$IBlack$Time12h$Color_Off'$(git branch &>/dev/null;\
 if [ $? -eq 0 ]; then \
@@ -132,24 +136,6 @@ else \
   # @2 - Prompt when not in GIT repo
   echo " '$Yellow$PathShort$Color_Off'\n\$ "; \
 fi)'
-
-
-# Alias definitions.
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
-# Local user profile.
-if [ -f ~/.bash_profile ]; then
-    . ~/.bash_profile
-fi
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    . /etc/bash_completion
-fi
 
 ######################################################################################################################################################
 #----- CUSTOM STARTS HERE ------ CUSTOM STARTS HERE ------ CUSTOM STARTS HERE ------ CUSTOM STARTS HERE ------ CUSTOM STARTS HERE ------ CUSTOM STARTS HERE
@@ -375,12 +361,6 @@ if [ -z ${DISPLAY:=""} ]; then
     fi
 fi
 export DISPLAY
-
-if [ -f ~/.bash_exports ]; then . ~/.bash_exports ; fi
-if [ -f ~/.bash_functions ]; then . ~/.bash_functions ; fi
-if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases ; fi
-if [ -f ~/.bash_completion ]; then . ~/.bash_completion ; fi
-if [ -f /etc/bash_completion ]; then . /etc/bash_completion ; complete -cf sudo; fi
 
 ##################################################
 # PATH                       #
