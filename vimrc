@@ -1,6 +1,9 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+" show line numbers
+set nu
+
 " show whitespace
 set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
 set list
