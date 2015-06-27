@@ -1,7 +1,7 @@
 help:
 	@echo "install - installs dotfiles"
 
-install: clean vundle vim bashprofile bashaliases bash vundleplugins
+install: clean tmux vundle vim bashprofile bashaliases bash vundleplugins
 	@echo "installed"
 
 vim:
@@ -16,6 +16,9 @@ bashprofile:
 bashaliases:
 	@ln -s `pwd`/bash_aliases ~/.bash_aliases
 
+tmux:
+	@ln -s `pwd`/tmux.conf ~/.tmux.conf
+
 vundle:
 	@git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
@@ -23,6 +26,7 @@ vundleplugins:
 	@vim +PluginInstall +qall
 
 clean:
+	@touch ~/.tmux.conf && mv ~/.tmux.conf ~/.tmux.conf.backup
 	@touch ~/.bashrc && mv ~/.bashrc ~/.bashrc.backup
 	@touch ~/.bash_aliases && mv ~/.bash_aliases ~/.bash_aliases.backup
 	@touch ~/.bash_profile && mv ~/.bash_profile ~/.bash_profile.backup
