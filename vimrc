@@ -1,6 +1,9 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+" enabling mouse
+set mouse=a
+
 " show line numbers
 set nu
 
