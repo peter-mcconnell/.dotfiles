@@ -8,3 +8,5 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 alias ls='ls -GFh'
+
+alias tmux="TERM=screen-256color-bce tmux"
