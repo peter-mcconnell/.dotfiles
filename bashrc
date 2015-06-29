@@ -5,6 +5,8 @@ test -f ~/.bash_functions && source ~/.bash_functions
 test -f ~/.bash_completion && source ~/.bash_completion
 test -f ~/.bash_completion && source ~/.bash_completion
 test -f /etc/bash_completion && source /etc/bash_completion
+test -f /usr/local/git/contrib/completion/git-completion.bash && source /usr/local/git/contrib/completion/git-completion.bash
+test -f /usr/local/git/contrib/completion/git-prompt.sh && source /usr/local/git/contrib/completion/git-prompt.sh
 
 # golang
 export GOPATH=~/GoWorkspaces
