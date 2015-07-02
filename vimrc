@@ -1,6 +1,7 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+set backspace=2
 set laststatus=2
 
 " enabling mouse
