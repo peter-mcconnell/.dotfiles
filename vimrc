@@ -1,6 +1,8 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+set laststatus=2
+
 " enabling mouse
 set mouse=a
 
@@ -28,9 +30,12 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
 Plugin 'klen/python-mode'
+Plugin 'davidhalter/jedi-vim'
 Plugin 'avakhov/vim-yaml'
 Plugin 'ingydotnet/yaml-vim'
 Plugin 'StanAngeloff/php.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'christoomey/vim-tmux-navigator'
 Bundle 'tomasr/molokai'
 
 " All of your Plugins must be added before the following line
@@ -48,10 +53,7 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-" Gnome
-if $COLORTERM == 'gnome-terminal'
-	set t_Co=256
-endif
+set t_Co=256
 
 " NERDTree
 " autoclose
