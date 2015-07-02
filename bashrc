@@ -8,6 +8,12 @@ test -f /etc/bash_completion && source /etc/bash_completion
 test -f /usr/local/git/contrib/completion/git-completion.bash && source /usr/local/git/contrib/completion/git-completion.bash
 test -f /usr/local/git/contrib/completion/git-prompt.sh && source /usr/local/git/contrib/completion/git-prompt.sh
 
+# mysql (osx)
+
+if [ -d /usr/local/mysql/bin ]; then
+	export PATH=/usr/local/mysql/bin:$PATH
+fi
+
 # golang
 export GOPATH=~/GoWorkspaces
 
