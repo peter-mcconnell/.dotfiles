@@ -8,7 +8,7 @@ set laststatus=2
 set mouse=a
 
 " show line numbers
-set nu
+set rnu
 
 " show whitespace
 set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
@@ -37,6 +37,8 @@ Plugin 'ingydotnet/yaml-vim'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'FuzzyFinder'
+Plugin 'tpope/vim-surround'
 Bundle 'tomasr/molokai'
 
 " All of your Plugins must be added before the following line
