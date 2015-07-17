@@ -8,6 +8,7 @@ set laststatus=2
 set mouse=a
 
 " show line numbers
+set nu
 set rnu
 
 " show whitespace
@@ -38,7 +39,7 @@ Plugin 'StanAngeloff/php.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'L9'
-Plugin 'FuzzyFinder'
+Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-surround'
 Bundle 'tomasr/molokai'
 
