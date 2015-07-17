@@ -1,6 +1,8 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+set colorcolumn=80
+
 set backspace=2
 set laststatus=2
 
