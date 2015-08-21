@@ -44,6 +44,7 @@ Plugin 'L9'
 Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-surround'
 Bundle 'tomasr/molokai'
+Plugin 'mattn/emmet-vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
