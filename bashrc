@@ -9,9 +9,13 @@ test -f /usr/local/git/contrib/completion/git-completion.bash && source /usr/loc
 test -f /usr/local/git/contrib/completion/git-prompt.sh && source /usr/local/git/contrib/completion/git-prompt.sh
 
 # mysql (osx)
-
 if [ -d /usr/local/mysql/bin ]; then
 	export PATH=/usr/local/mysql/bin:$PATH
+fi
+
+# packer
+if [ -d ~/packer ]; then
+	export PATH=~/packer:$PATH
 fi
 
 # golang

@@ -1,5 +1,6 @@
 alias l='ls -al'
 
+alias vi='vim'
 # vim on osx
 if [ -d /usr/local/Cellar/vim/7.4.712/bin/ ]; then
 	alias vim='/usr/local/Cellar/vim/7.4.712/bin/vim'
