@@ -20,15 +20,14 @@ tmux:
 	@ln -s `pwd`/tmux.conf ~/.tmux.conf
 
 vundle:
-	@git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+	@if [ -d "~/.vim/bundle" ]; then git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim; fi
 
 vundleplugins:
-	@vim +PluginInstall +qall
+	@vim +PluginClean +PluginInstall +qall
 
 clean:
 	@touch ~/.tmux.conf && mv ~/.tmux.conf ~/.tmux.conf.backup
 	@touch ~/.bashrc && mv ~/.bashrc ~/.bashrc.backup
 	@touch ~/.bash_aliases && mv ~/.bash_aliases ~/.bash_aliases.backup
 	@touch ~/.bash_profile && mv ~/.bash_profile ~/.bash_profile.backup
-	@rm -rf ~/.vim/bundle/
 	@touch ~/.vimrc && mv ~/.vimrc ~/.vimrc.backup
