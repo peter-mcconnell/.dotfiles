@@ -1,9 +1,10 @@
 alias l='ls -al'
 
 alias vi='vim'
+
 # vim on osx
-if [ -d /usr/local/Cellar/vim/7.4.712/bin/ ]; then
-	alias vim='/usr/local/Cellar/vim/7.4.712/bin/vim'
+if [ -d /usr/local/Cellar/macvim/7.4-77/bin ]; then
+	alias vim='/usr/local/Cellar/macvim/7.4-77/bin/mvim -v'
 fi
 
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
