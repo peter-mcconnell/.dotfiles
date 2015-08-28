@@ -43,7 +43,7 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'L9'
 Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-surround'
-Plugin 'markcornick/vim-vagrant'
+Plugin 'mitchellh/vagrant'
 Plugin 'mattn/emmet-vim'
 Bundle 'tomasr/molokai'
 
