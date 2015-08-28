@@ -45,6 +45,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'mitchellh/vagrant'
 Plugin 'mattn/emmet-vim'
+Plugin 'docker/docker'
 Bundle 'tomasr/molokai'
 
 " All of your Plugins must be added before the following line
