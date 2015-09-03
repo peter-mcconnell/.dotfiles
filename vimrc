@@ -1,3 +1,5 @@
+set autochdir " make working directory same as open file
+
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -62,6 +64,14 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
+
+" golang settings
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_fmt_command = "goimports"
 
 set t_Co=256
 
