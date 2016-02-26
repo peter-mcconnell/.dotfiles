@@ -14,9 +14,3 @@ fi
 if [ -d "$HOME/GoWorkspaces/bin" ]; then
     PATH="$HOME/GoWorkspaces/bin:$PATH"
 fi
-
-# The next line updates PATH for the Google Cloud SDK.
-source '/Users/pete/google-cloud-sdk/path.bash.inc'
-
-# The next line enables shell command completion for gcloud.
-source '/Users/pete/google-cloud-sdk/completion.bash.inc'
