@@ -23,3 +23,4 @@ fi
 if [ -d "$HOME/GoWorkspaces/bin" ]; then
     PATH="$HOME/GoWorkspaces/bin:$PATH"
 fi
+PATH=/opt/local/bin:$PATH
