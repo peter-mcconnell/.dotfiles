@@ -1,6 +1,7 @@
 alias l='ls -al'
 
 alias vi='vim'
+alias vim='/usr/local/bin/vim'
 
 # vim on osx
 if [ -d /usr/local/Cellar/macvim/7.4-77/bin ]; then
