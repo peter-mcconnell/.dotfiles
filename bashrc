@@ -139,13 +139,17 @@ PathShort="\w"
 PathFull="\W"
 NewLine="\n"
 Jobs="\j"
+User="\u"
+Host="\H"
+Cwd="\w"
+Arrow="\[\033[38;5;192m\]>"
 
 # OSX
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 
 # PS1
-export PS1=$IBlack$Time12h$Color_Off'$(git branch &>/dev/null;\
+export PS1="\[\033[38;5;230m\]$Cwd $Arrow \[\033[38;5;38m\]($User@$Host) $Arrow \[\033[38;5;239m\]$Time12h$Color_Off"'$(git branch &>/dev/null;\
 if [ $? -eq 0 ]; then \
   echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1; \
   if [ "$?" -eq "0" ]; then \
