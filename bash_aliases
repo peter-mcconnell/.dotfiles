@@ -1,5 +1,8 @@
+#lazy stuff
 alias l='ls -al'
+alias c='clear'
 
+#vim
 alias vi='vim'
 alias vim='/usr/local/bin/vim'
 
