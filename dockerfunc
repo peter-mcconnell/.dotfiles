@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# inspired by @jfrazelle
+
+### container aliases
+d_c() {
+	docker rm -f `docker ps -aq` 2> /dev/null
+	docker rm -v `docker ps --filter status=exited -q 2>/dev/null` 2>/dev/null
+	docker rmi `docker images --filter dangling=true -q 2>/dev/null` 2>/dev/null
+}
+
+d_postgres() {
+	docker run \
+		-p 5432:5432 \
+		--name postgres \
+		-d \
+		postgres:9.6
+}
+
+d_mysql() {
+	docker run \
+		-p 3306:3306 \
+		-e MYSQL_USER=root \
+		-e MYSQL_PASSWORD=pass \
+		-v $HOME/v/mysql:/var/lib/mysql \
+		--name mysql \
+		-d \
+		mysql:5.7
+}
+
+d_nginx() {
+	docker run \
+		--name nginx \
+		-d \
+		nginx:1.11.1
+}

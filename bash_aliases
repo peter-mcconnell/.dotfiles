@@ -1,3 +1,6 @@
+# docker
+source ~/.dockerfunc
+
 #lazy stuff
 alias l='ls -al'
 alias c='clear'

@@ -13,13 +13,13 @@ if [ -d /usr/local/mysql/bin ]; then
 	export PATH=/usr/local/mysql/bin:$PATH
 fi
 
-# packer
-if [ -d ~/packer ]; then
-	export PATH=~/packer:$PATH
-fi
-
 # golang
-export GOPATH=~/GoWorkspaces
+export GOPATH=~/go
+
+# golang appengine sdk
+if [ -d ~/go_appengine ]; then
+	export PATH=~/go_appengine:$PATH
+fi
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
@@ -397,33 +397,31 @@ if [ "$UID" -eq 0 ]; then
 fi
 
 # remove duplicate path entries
-export PATH=$(echo $PATH | awk -F: '
-{ for (i = 1; i <= NF; i++) arr[$i]; }
-END { for (i in arr) printf "%s:" , i; printf "\n"; } ')
+#export PATH=$(echo $PATH | awk -F: '
+#{ for (i = 1; i <= NF; i++) arr[$i]; }
+#END { for (i in arr) printf "%s:" , i; printf "\n"; } ')
 
 # autocomplete ssh commands
-complete -W "$(echo `cat ~/.bash_history | egrep '^ssh ' | sort | uniq | sed 's/^ssh //'`;)" ssh
+# complete -W "$(echo `cat ~/.bash_history | egrep '^ssh ' | sort | uniq | sed 's/^ssh //'`;)" ssh
 
 ##################################################
 # Various options to make $HOME comfy        #
 ##################################################
 
-if [ ! -d "${HOME}/bin" ]; then
-    mkdir ${HOME}/bin
-    chmod 700 ${HOME}/bin
-    echo "${HOME}/bin was missing. I created it for you."
-fi
+initMyDir () {
+	if [ -d "${1}" ]; then
+		echo "${1} exists"
+	else
+		echo "${1} missing, so I'm adding it"
+		mkdir -p "${1}"
+		echo "${2}" > "${1}/.info"
+	fi
+}
 
-if [ ! -d "${HOME}/Sites" ]; then
-    mkdir -p "${HOME}/Sites"
-    echo "${HOME}/Sites was missing. I created it for you."
-fi
-
-if [ ! -d "${HOME}/tmp" ]; then
-    mkdir ${HOME}/tmp
-    chmod 700 ${HOME}/tmp
-    echo "${HOME}/tmp was missing.  I created it for you."
-fi
+initMyDir "${HOME}/p" "Playground area for messing around"
+initMyDir "${HOME}/s" "General webapps dir"
+initMyDir "${HOME}/go" "Golang directory"
+initMyDir "${HOME}/v" "A place to store common docker volumes"
 
 ##################################################
 # Stop Flash from tracking everything you do.    #
@@ -473,7 +471,7 @@ COMP_WORDBREAKS=${COMP_WORDBREAKS/=/}
 ##################################################
 
 ###### alternatively, install bash-completion, which does this too
-# complete -cf sudo
+complete -cf sudo
 
 
 

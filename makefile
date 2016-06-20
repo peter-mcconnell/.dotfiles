@@ -15,6 +15,7 @@ bashprofile:
 
 bashaliases:
 	@ln -s `pwd`/bash_aliases ~/.bash_aliases
+	@ln -s `pwd`/dockerfunc ~/.dockerfunc
 
 tmux:
 	@ln -s `pwd`/tmux.conf ~/.tmux.conf
@@ -29,5 +30,6 @@ clean:
 	@touch ~/.tmux.conf && mv ~/.tmux.conf ~/.tmux.conf.backup
 	@touch ~/.bashrc && mv ~/.bashrc ~/.bashrc.backup
 	@touch ~/.bash_aliases && mv ~/.bash_aliases ~/.bash_aliases.backup
+	@touch ~/.dockerfunc && mv ~/.dockerfunc ~/.dockerfunc.backup
 	@touch ~/.bash_profile && mv ~/.bash_profile ~/.bash_profile.backup
 	@touch ~/.vimrc && mv ~/.vimrc ~/.vimrc.backup
