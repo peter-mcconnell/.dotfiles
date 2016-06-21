@@ -12,6 +12,8 @@ d_c() {
 d_postgres() {
 	docker run \
 		-p 5432:5432 \
+		-e POSTGRES_USER=root \
+		-e POSTGRES_PASSWORD=pass \
 		--name postgres \
 		-d \
 		postgres:9.6
@@ -26,6 +28,22 @@ d_mysql() {
 		--name mysql \
 		-d \
 		mysql:5.7
+}
+
+d_mongo() {
+	docker run \
+		-p 27017:27017 \
+		-v $HOME/v/mongodb:/data/db \
+		--name mongodb \
+		-d \
+		mongo:3.3.8;
+}
+
+d_mongouser() {
+	docker exec \
+		-ti \
+		mongodb \
+		mongo admin --eval "db.createUser({user: 'root', pwd: 'pass', roles:[{role:'root',db:'admin'}]});";
 }
 
 d_nginx() {
