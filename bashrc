@@ -15,6 +15,7 @@ fi
 
 # golang
 export GOPATH=~/go
+export PATH=$PATH:$GOPATH/bin
 
 # golang appengine sdk
 if [ -d ~/go_appengine ]; then
@@ -409,9 +410,7 @@ fi
 ##################################################
 
 initMyDir () {
-	if [ -d "${1}" ]; then
-		echo "${1} exists"
-	else
+	if [ ! -d "${1}" ]; then
 		echo "${1} missing, so I'm adding it"
 		mkdir -p "${1}"
 		echo "${2}" > "${1}/.info"
