@@ -18,6 +18,18 @@ d_c() {
 _docker_logwrap() {
 	docker logs -f `$1`
 }
+_docker_relieson(){ # taken from: https://github.com/jfrazelle/dotfiles/blob/master/.dockerfunc
+	local containers=$@
+
+	for container in $containers; do
+		local state=$(docker inspect --format "{{.State.Running}}" $container 2>/dev/null)
+
+		if [[ "$state" == "false" ]] || [[ "$state" == "" ]]; then
+			echo "$container is not running, starting it for you."
+			$container
+		fi
+	done
+}
 
 ### container aliases
 d_postgres() {
