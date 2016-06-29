@@ -2,7 +2,11 @@
 
 # inspired by @jfrazelle
 
-### container aliases
+### docker client aliases
+d_p() {
+	docker ps "${@}"
+}
+
 d_c() {
 	docker rm -f `docker ps -aq` 2> /dev/null
 	docker rm -v `docker ps --filter status=exited -q 2>/dev/null` 2>/dev/null
@@ -11,12 +15,13 @@ d_c() {
 }
 
 # simple wrapping method that follows a containers logs
-docker_logwrap() {
+_docker_logwrap() {
 	docker logs -f `$1`
 }
 
+### container aliases
 d_postgres() {
-	if [ "${1}" = "l" ]; then docker_logwrap "${FUNCNAME[0]}"; return; fi
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
 		-p 5432:5432 \
 		-e POSTGRES_USER=root \
@@ -27,7 +32,7 @@ d_postgres() {
 }
 
 d_mysql() {
-	if [ "${1}" = "l" ]; then docker_logwrap "${FUNCNAME[0]}"; return; fi
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
 		-p 3306:3306 \
 		-e MYSQL_USER=root \
@@ -39,7 +44,7 @@ d_mysql() {
 }
 
 d_mongo() {
-	if [ "${1}" = "l" ]; then docker_logwrap "${FUNCNAME[0]}"; return; fi
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
 		-p 27017:27017 \
 		-v $HOME/v/mongodb:/data/db \
@@ -49,7 +54,7 @@ d_mongo() {
 }
 
 d_mongouser() {
-	if [ "${1}" = "l" ]; then docker_logwrap "${FUNCNAME[0]}"; return; fi
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker exec \
 		-ti \
 		mongodb \
@@ -57,7 +62,7 @@ d_mongouser() {
 }
 
 d_nginx() {
-	if [ "${1}" = "l" ]; then docker_logwrap "${FUNCNAME[0]}"; return; fi
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
 		-p 80:80 \
 		--name nginx \
