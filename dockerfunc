@@ -7,9 +7,16 @@ d_c() {
 	docker rm -f `docker ps -aq` 2> /dev/null
 	docker rm -v `docker ps --filter status=exited -q 2>/dev/null` 2>/dev/null
 	docker rmi `docker images --filter dangling=true -q 2>/dev/null` 2>/dev/null
+	echo "cleaned"
+}
+
+# simple wrapping method that follows a containers logs
+docker_logwrap() {
+	docker logs -f `$1`
 }
 
 d_postgres() {
+	if [ "${1}" = "l" ]; then docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
 		-p 5432:5432 \
 		-e POSTGRES_USER=root \
@@ -20,6 +27,7 @@ d_postgres() {
 }
 
 d_mysql() {
+	if [ "${1}" = "l" ]; then docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
 		-p 3306:3306 \
 		-e MYSQL_USER=root \
@@ -31,6 +39,7 @@ d_mysql() {
 }
 
 d_mongo() {
+	if [ "${1}" = "l" ]; then docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
 		-p 27017:27017 \
 		-v $HOME/v/mongodb:/data/db \
@@ -40,6 +49,7 @@ d_mongo() {
 }
 
 d_mongouser() {
+	if [ "${1}" = "l" ]; then docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker exec \
 		-ti \
 		mongodb \
@@ -47,7 +57,9 @@ d_mongouser() {
 }
 
 d_nginx() {
+	if [ "${1}" = "l" ]; then docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
+		-p 80:80 \
 		--name nginx \
 		-d \
 		nginx:1.11.1
