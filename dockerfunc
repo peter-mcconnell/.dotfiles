@@ -32,6 +32,15 @@ _docker_relieson(){ # taken from: https://github.com/jfrazelle/dotfiles/blob/mas
 }
 
 ### container aliases
+d_vim() {
+	docker run --rm \
+		-v $HOME/v/.vim:/root/.vim \
+		-v $HOME/v/.vimrc:/root/.vimrc \
+		-v $HOME/v/.dotfiles:/root/.dotfiles \
+		-v /Users/pete/s:/root/s \
+		-ti pemcconnell/vimothy:0.1
+}
+
 d_postgres() {
 	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
