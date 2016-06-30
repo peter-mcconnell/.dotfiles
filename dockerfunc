@@ -34,7 +34,7 @@ _docker_relieson(){ # taken from: https://github.com/jfrazelle/dotfiles/blob/mas
 ### container aliases
 d_vim() {
 	docker run --rm \
-		-v $HOME/v/.vim:/root/.vim \
+		-v $HOME/v/.vim:/root/ \
 		-v $HOME/v/.vimrc:/root/.vimrc \
 		-v $HOME/v/.dotfiles:/root/.dotfiles \
 		-v $HOME/s:/root/s \
