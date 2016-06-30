@@ -37,6 +37,7 @@ d_vim() {
 		-v $HOME/v/vim:/root/ \
 		-v $HOME/v/.dotfiles:/root/.dotfiles \
 		-v $HOME/s:/root/s \
+		-v $HOME/go:/root/go \
 		-ti pemcconnell/vimothy:0.1
 }
 
