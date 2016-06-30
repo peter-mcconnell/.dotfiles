@@ -6,8 +6,8 @@ alias l='ls -al'
 alias c='clear'
 
 #vim
-alias vi='vim'
-alias vim='/usr/local/bin/vim'
+alias vi='/usr/local/bin/vim'
+alias vim='d_vim'
 
 # vim on osx
 if [ -d /usr/local/Cellar/macvim/7.4-77/bin ]; then
