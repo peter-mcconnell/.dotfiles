@@ -39,10 +39,11 @@ d_vim() {
 		vimargs=`echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")" | sed "s:$HOME:/root:"`
 	fi
 	docker run --rm \
-		-v $HOME/v/vim:/root/ \
-		-v $HOME/v/.dotfiles:/root/.dotfiles \
-		-v $HOME/s:/root/s \
-		-v $HOME/go:/root/go \
+		-v $(realpath /etc/passwd):/etc/passwd:ro \
+		-v $(realpath /etc/group):/etc/group:ro \
+		-v $HOME:$HOME \
+		-w $HOME \
+		-u $(id -u) \
 		-ti pemcconnell/vimothy:0.1 vim $vimargs
 }
 
