@@ -6,7 +6,6 @@ alias l='ls -al'
 alias c='clear'
 
 #vim
-alias vi='/usr/local/bin/vim'
 alias vim='d_vim'
 
 # vim on osx

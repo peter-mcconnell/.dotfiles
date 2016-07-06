@@ -79,6 +79,7 @@ nnoremap td  :tabclose<CR>
 set t_Co=256
 
 " NERDTree
+let NERDTreeShowHidden=1
 " autoclose
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | e
 

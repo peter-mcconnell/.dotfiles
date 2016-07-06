@@ -36,7 +36,7 @@ _docker_relieson(){ # taken from: https://github.com/jfrazelle/dotfiles/blob/mas
 d_vim() {
 	vimargs=""
 	if [ "${1}" != "" ]; then
-		vimargs=`echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")" | sed "s:$HOME:/root:"`
+		vimargs=`echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"`
 	fi
 	docker run --rm \
 		-v $(realpath /etc/passwd):/etc/passwd:ro \
@@ -45,6 +45,20 @@ d_vim() {
 		-w $HOME \
 		-u $(id -u) \
 		-ti pemcconnell/vimothy:0.1 vim $vimargs
+}
+
+d_jenkins() {
+	docker run \
+		-p 8080:8080 \
+		-p 50000:50000 \
+		-v $(realpath /etc/passwd):/etc/passwd:ro \
+		-v $(realpath /etc/group):/etc/group:ro \
+		-v $HOME/v/jenkins_home:/var/jenkins_home \
+		-w $HOME \
+		-u $(id -u) \
+		--name jenkins \
+		-d \
+		jenkins:latest
 }
 
 d_postgres() {
