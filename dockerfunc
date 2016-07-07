@@ -39,8 +39,8 @@ d_vim() {
 		vimargs=`echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"`
 	fi
 	docker run --rm \
-		-v $(realpath /etc/passwd):/etc/passwd:ro \
-		-v $(realpath /etc/group):/etc/group:ro \
+		-v /private/etc/passwd:/etc/passwd:ro \
+		-v /private/etc/group:/etc/group:ro \
 		-v $HOME:$HOME \
 		-w $HOME \
 		-u $(id -u) \
