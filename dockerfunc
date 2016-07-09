@@ -2,6 +2,8 @@
 
 # inspired by @jfrazelle
 
+IP=$(ifconfig en0 | grep inet | grep -v inet6 | awk '{print $2}')
+
 ### docker client aliases
 d_p() {
 	docker ps "${@}"
@@ -48,29 +50,48 @@ d_vim() {
 }
 
 d_jenkins() {
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
+		--add-host gitlab:"${IP}" \
+		--add-host nexus:"${IP}" \
 		-p 8080:8080 \
 		-p 50000:50000 \
 		-v $(realpath /etc/passwd):/etc/passwd:ro \
 		-v $(realpath /etc/group):/etc/group:ro \
 		-v $HOME/v/jenkins_home:/var/jenkins_home \
+		-v $HOME/v/jenkins_user:$HOME \
 		-w $HOME \
 		-u $(id -u) \
 		--name jenkins \
 		-d \
-		jenkins:latest
+		jenkinsci/jenkins:latest
+}
+
+d_nexus() {
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+	docker run \
+		--add-host gitlab:"${IP}" \
+		--add-host jenkins:"${IP}" \
+		-p 8081:8081 \
+		-v $HOME/v/nexus:/sonatype-work \
+		--name nexus \
+		-d \
+		sonatype/nexus:oss
 }
 
 d_gitlab() {
 	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
+		--add-host jenkins:"${IP}" \
+		--add-host nexus:"${IP}" \
 		-p 80:80 \
 		-p 443:443 \
 		-p 22:22 \
 		-v $HOME/v/gitlab/config:/etc/gitlab \
 		-v $HOME/v/gitlab/logs:/var/log/gitlab \
 		-v $HOME/v/gitlab/data:/var/opt/gitlab \
-		-e GITLAB_OMNIBUS_CONFIG="external_url 'http://localhost'" \
+		-e GITLAB_OMNIBUS_CONFIG="external_url 'http://gitlab'" \
+		--name gitlab \
 		-d \
 		gitlab/gitlab-ce:latest
 }
