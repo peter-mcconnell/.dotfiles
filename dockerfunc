@@ -73,7 +73,7 @@ d_nexus() {
 		--add-host gitlab:"${IP}" \
 		--add-host jenkins:"${IP}" \
 		-p 8081:8081 \
-		-v $HOME/v/nexus:/sonatype-work \
+		-v $HOME/v/nexus:/nexus-data \
 		--name nexus \
 		-d \
 		sonatype/nexus3:latest
