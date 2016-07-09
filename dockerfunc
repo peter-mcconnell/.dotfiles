@@ -76,7 +76,7 @@ d_nexus() {
 		-v $HOME/v/nexus:/sonatype-work \
 		--name nexus \
 		-d \
-		sonatype/nexus:oss
+		sonatype/nexus3:latest
 }
 
 d_gitlab() {
