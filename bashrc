@@ -13,6 +13,9 @@ if [ -d /usr/local/mysql/bin ]; then
 	export PATH=/usr/local/mysql/bin:$PATH
 fi
 
+# local ip
+LOCALIP=$(ipconfig getifaddr en0)
+
 # golang
 export GOPATH=~/go
 export PATH=$PATH:$GOPATH/bin

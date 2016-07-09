@@ -2,8 +2,6 @@
 
 # inspired by @jfrazelle
 
-IP=$(ifconfig en0 | grep inet | grep -v inet6 | awk '{print $2}')
-
 ### docker client aliases
 d_p() {
 	docker ps "${@}"
@@ -52,8 +50,8 @@ d_vim() {
 d_jenkins() {
 	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
-		--add-host gitlab:"${IP}" \
-		--add-host nexus:"${IP}" \
+		--add-host gitlab:"${LOCALIP}" \
+		--add-host nexus:"${LOCALIP}" \
 		-p 8080:8080 \
 		-p 50000:50000 \
 		-v $(realpath /etc/passwd):/etc/passwd:ro \
@@ -65,6 +63,48 @@ d_jenkins() {
 		--name jenkins \
 		-d \
 		jenkinsci/jenkins:latest
+}
+
+d_mesosphere() {
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+	# zookeeper
+	docker run -d \
+		-p 2181:2181 \
+		-p 2888:2888 \
+		-p 3888:3888 \
+		-p 8080:8080 \
+		--name zookeeper \
+		netflixoss/exhibitor:1.5.2 > /dev/null 2>&1
+	# master
+	docker run -d \
+		-p 5050:5050 \
+		--link zookeeper \
+		-e MESOS_PORT=5050 \
+		-e MESOS_ZK="zk://zookeeper:2181/mesos" \
+		-e MESOS_QUORUM=1 \
+		-e MESOS_REGISTRY=in_memory \
+		-e MESOS_LOG_DIR=/var/log/mesos \
+		-e MESOS_WORK_DIR=/var/tmp/mesos \
+		-v "${HOME}/v/mesos/log/mesos:/var/log/mesos" \
+		-v "${HOME}/v/mesos/tmp/mesos:/var/tmp/mesos" \
+		--name mesos-master \
+		mesosphere/mesos-master:0.28.0-2.0.16.ubuntu1404 > /dev/null 2>&1
+	# slave
+	docker run -d \
+		--link zookeeper \
+		-e MESOS_PORT=5051 \
+		-e MESOS_MASTER=zk://zookeeper:2181/mesos \
+		-e MESOS_SWITCH_USER=0 \
+		-e MESOS_CONTAINERIZERS=docker,mesos \
+		-e MESOS_LOG_DIR=/var/log/mesos \
+		-e MESOS_WORK_DIR=/var/tmp/mesos \
+		-v "${HOME}/v/mesos/log/mesos:/var/log/mesos" \
+		-v "${HOME}/v/mesos/tmp/mesos:/var/tmp/mesos" \
+		-v /sys/fs/cgroup:/sys/fs/cgroup \
+		-v /var/run/docker.sock:/var/run/docker.sock \
+		-v "${HOME}/bin/docker/docker-Li386:/usr/local/bin/docker" \
+		--name mesos-slave \
+		mesosphere/mesos-slave:0.28.0-2.0.16.ubuntu1404
 }
 
 d_nexus() {
