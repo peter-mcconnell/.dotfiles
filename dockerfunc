@@ -72,39 +72,48 @@ d_mesosphere() {
 		-p 2181:2181 \
 		-p 2888:2888 \
 		-p 3888:3888 \
-		-p 8080:8080 \
 		--name zookeeper \
-		netflixoss/exhibitor:1.5.2 > /dev/null 2>&1
+		netflixoss/exhibitor:1.5.2 1>/dev/null
+
 	# master
 	docker run -d \
 		-p 5050:5050 \
-		--link zookeeper \
+		--link zookeeper:zk \
 		-e MESOS_PORT=5050 \
-		-e MESOS_ZK="zk://zookeeper:2181/mesos" \
+		-e MESOS_ZK="zk://zk:2181/mesos" \
 		-e MESOS_QUORUM=1 \
 		-e MESOS_REGISTRY=in_memory \
 		-e MESOS_LOG_DIR=/var/log/mesos \
-		-e MESOS_WORK_DIR=/var/tmp/mesos \
-		-v "${HOME}/v/mesos/log/mesos:/var/log/mesos" \
-		-v "${HOME}/v/mesos/tmp/mesos:/var/tmp/mesos" \
+		-e MESOS_WORK_DIR=/var/lib/mesos \
 		--name mesos-master \
-		mesosphere/mesos-master:0.28.0-2.0.16.ubuntu1404 > /dev/null 2>&1
+		mesosphere/mesos-master:0.28.0-2.0.16.ubuntu1404 1>/dev/null
+
 	# slave
 	docker run -d \
-		--link zookeeper \
-		-e MESOS_PORT=5051 \
-		-e MESOS_MASTER=zk://zookeeper:2181/mesos \
+		--restart always \
+		--link zookeeper:zk \
+		--link mesos-master:master \
+		-p 5051:5051 \
 		-e MESOS_SWITCH_USER=0 \
 		-e MESOS_CONTAINERIZERS=docker,mesos \
+		-e MESOS_PORT=5051 \
+		-e MESOS_HOSTNAME="${LOCALIP}" \
+		-e MESOS_MASTER=zk://zk:2181/mesos \
 		-e MESOS_LOG_DIR=/var/log/mesos \
-		-e MESOS_WORK_DIR=/var/tmp/mesos \
-		-v "${HOME}/v/mesos/log/mesos:/var/log/mesos" \
-		-v "${HOME}/v/mesos/tmp/mesos:/var/tmp/mesos" \
 		-v /sys/fs/cgroup:/sys/fs/cgroup \
 		-v /var/run/docker.sock:/var/run/docker.sock \
-		-v "${HOME}/bin/docker/docker-Li386:/usr/local/bin/docker" \
+		-v "${HOME}/bin/docker/docker-Li386:/usr/bin/docker" \
 		--name mesos-slave \
 		mesosphere/mesos-slave:0.28.0-2.0.16.ubuntu1404
+
+	# marathon
+	docker run \
+		-d \
+		--restart always \
+		-p 8787:8080 \
+		--link zookeeper:zk \
+		mesosphere/marathon:latest \
+		--master zk://zk:2181/mesos --zk zk://zk:2181/marathon 1>/dev/null
 }
 
 d_nexus() {
