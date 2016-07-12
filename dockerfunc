@@ -47,19 +47,35 @@ d_vim() {
 		-ti pemcconnell/vimothy:0.1 vim $vimargs
 }
 
+d_cid() {
+	d_registry
+	d_mesosphere
+	d_gitlab
+	d_jenkins
+}
+
+d_registry() {
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+	docker run \
+		-d \
+		-p 5000:5000 \
+		--restart=always \
+		--name registry \
+		registry:2
+}
+
 d_jenkins() {
 	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
-		--add-host gitlab:"${LOCALIP}" \
-		--add-host nexus:"${LOCALIP}" \
+		--add-host localhost:"${LOCALIP}" \
 		-p 8080:8080 \
 		-p 50000:50000 \
-		-v $(realpath /etc/passwd):/etc/passwd:ro \
-		-v $(realpath /etc/group):/etc/group:ro \
 		-v $HOME/v/jenkins_home:/var/jenkins_home \
-		-v $HOME/v/jenkins_user:$HOME \
-		-w $HOME \
-		-u $(id -u) \
+		-v $HOME/v/jenkins_user:/root \
+		-u 0 \
+		-w /root \
+		-v /var/run/docker.sock:/var/run/docker.sock \
+		-v "${HOME}/bin/docker/docker-Li386:/usr/bin/docker" \
 		--name jenkins \
 		-d \
 		jenkinsci/jenkins:latest
@@ -69,6 +85,7 @@ d_mesosphere() {
 	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	# zookeeper
 	docker run -d \
+		--restart always \
 		-p 2181:2181 \
 		-p 2888:2888 \
 		-p 3888:3888 \
@@ -77,6 +94,7 @@ d_mesosphere() {
 
 	# master
 	docker run -d \
+		--restart always \
 		-p 5050:5050 \
 		--link zookeeper:zk \
 		-e MESOS_PORT=5050 \
@@ -119,8 +137,8 @@ d_mesosphere() {
 d_nexus() {
 	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
-		--add-host gitlab:"${IP}" \
-		--add-host jenkins:"${IP}" \
+		--add-host gitlab:"${LOCALIP}" \
+		--add-host jenkins:"${LOCALIP}" \
 		-p 8081:8081 \
 		-v $HOME/v/nexus:/nexus-data \
 		--name nexus \
@@ -131,8 +149,8 @@ d_nexus() {
 d_gitlab() {
 	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
-		--add-host jenkins:"${IP}" \
-		--add-host nexus:"${IP}" \
+		--add-host jenkins:"${LOCALIP}" \
+		--add-host nexus:"${LOCALIP}" \
 		-p 80:80 \
 		-p 443:443 \
 		-p 22:22 \
