@@ -1,15 +1,15 @@
-initMyDir () {
+# some funcs to help with profile setup (not designed to be bash_funcs)
+_initMyDir () {
 	if [ ! -d "${1}" ]; then
 		echo "${1} missing, so I'm adding it"
 		mkdir -p "${1}"
 		echo "${2}" > "${1}/.info"
 	fi
 }
-
-initMyDir "${HOME}/p" "Playground area for messing around"
-initMyDir "${HOME}/s" "General webapps dir"
-initMyDir "${HOME}/go" "Golang directory"
-initMyDir "${HOME}/v" "A place to store common docker volumes"
+_initMyDir "${HOME}/p" "Playground area for messing around"
+_initMyDir "${HOME}/s" "General webapps dir"
+_initMyDir "${HOME}/go" "Golang directory"
+_initMyDir "${HOME}/v" "A place to store common docker volumes"
 
 # load in extra files
 test -f ~/.bash_aliases && source ~/.bash_aliases
