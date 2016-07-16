@@ -21,23 +21,12 @@ test -f /etc/bash_completion && source /etc/bash_completion
 test -f /usr/local/git/contrib/completion/git-completion.bash && source /usr/local/git/contrib/completion/git-completion.bash
 test -f /usr/local/git/contrib/completion/git-prompt.sh && source /usr/local/git/contrib/completion/git-prompt.sh
 test -f /usr/local/bin/virtualenvwrapper.sh && source /usr/local/bin/virtualenvwrapper.sh
-
-# mysql (osx)
-if [ -d /usr/local/mysql/bin ]; then
-	export PATH=/usr/local/mysql/bin:$PATH
-fi
+test -f /usr/local/bin/mysql/bin && export PATH=/usr/local/mysql/bin:$PATH
+test -d ~/go_appengine && export PATH=~/go_appengine:$PATH
+test -d ~/go && export GOPATH=~/go && PATH=$GOPATH/bin:$PATH
 
 # local ip
 LOCALIP=$(ipconfig getifaddr en0)
-
-# golang
-export GOPATH=~/go
-export PATH=$PATH:$GOPATH/bin
-
-# golang appengine sdk
-if [ -d ~/go_appengine ]; then
-	export PATH=~/go_appengine:$PATH
-fi
 
 export TERM=xterm-256color
 
