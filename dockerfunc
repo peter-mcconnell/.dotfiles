@@ -77,6 +77,7 @@ d_jenkins() {
 		-w /root \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-v "${HOME}/bin/docker/docker-Li386:/usr/bin/docker" \
+		-v /etc/localtime:/etc/localtime:ro \
 		--name jenkins \
 		-d \
 		jenkinsci/jenkins:latest
@@ -212,4 +213,12 @@ d_nginx() {
 		--name nginx \
 		-d \
 		nginx:1.11.1
+}
+
+d_http() {
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+	docker run \
+		--rm \
+		-ti \
+		clue/httpie:latest "$@"
 }
