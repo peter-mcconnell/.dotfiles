@@ -11,6 +11,10 @@ _initMyDir "${HOME}/s" "General webapps dir"
 _initMyDir "${HOME}/go" "Golang directory"
 _initMyDir "${HOME}/v" "A place to store common docker volumes"
 
+# set some useful exports
+export LOCALIP=$(ipconfig getifaddr en0)
+export OS=$(uname)
+
 # load in extra files
 test -f ~/.bash_aliases && source ~/.bash_aliases
 test -f ~/.bash_exports && source ~/.bash_exports
@@ -21,13 +25,11 @@ test -f /etc/bash_completion && source /etc/bash_completion
 test -f /usr/local/git/contrib/completion/git-completion.bash && source /usr/local/git/contrib/completion/git-completion.bash
 test -f /usr/local/git/contrib/completion/git-prompt.sh && source /usr/local/git/contrib/completion/git-prompt.sh
 test -f /usr/local/bin/virtualenvwrapper.sh && source /usr/local/bin/virtualenvwrapper.sh
+
+# set some exports, if paths exist
 test -f /usr/local/bin/mysql/bin && export PATH=/usr/local/mysql/bin:$PATH
 test -d ~/go_appengine && export PATH=~/go_appengine:$PATH
 test -d ~/go && export GOPATH=~/go && PATH=$GOPATH/bin:$PATH
-
-# set some useful exports
-export LOCALIP=$(ipconfig getifaddr en0)
-export OS=$(uname)
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
