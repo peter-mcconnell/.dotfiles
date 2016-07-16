@@ -27,6 +27,7 @@ test -d ~/go && export GOPATH=~/go && PATH=$GOPATH/bin:$PATH
 
 # local ip
 LOCALIP=$(ipconfig getifaddr en0)
+OS=$(uname)
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -38,10 +39,6 @@ LOCALIP=$(ipconfig getifaddr en0)
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
-
-export TERM=xterm-256color
-export CLICOLOR=1
-export LSCOLORS=ExFxBxDxCxegedabagacad
 
 # PS1
 export PS1="\T"'$(git branch &>/dev/null;\
@@ -61,8 +58,9 @@ fi)'
 
 if [ "$PS1" ]; then # if running interactively, then run till 'fi' at EOF:
 
-OS=$(uname)
-
+export TERM=xterm-256color
+export CLICOLOR=1
+export LSCOLORS=ExFxBxDxCxegedabagacad
 export BLOCKSIZE=K              # set blocksize size
 export BROWSER='chrome'            # set default browser
 export CDDIR="$HOME"                # for use with the function 'cd' and the alias 'cdd'
