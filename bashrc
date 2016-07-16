@@ -28,38 +28,18 @@ test -d ~/go && export GOPATH=~/go && PATH=$GOPATH/bin:$PATH
 # local ip
 LOCALIP=$(ipconfig getifaddr en0)
 
-export TERM=xterm-256color
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
-
-HISTCONTROL=ignoredups:ignorespace
-
-# append to the history file, don't overwrite it
-shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color) color_prompt=yes;;
-esac
-
-# OSX
+export TERM=xterm-256color
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 
@@ -81,7 +61,7 @@ fi)'
 
 if [ "$PS1" ]; then # if running interactively, then run till 'fi' at EOF:
 
-OS=$(uname)     # for resolving pesky os differing switches
+OS=$(uname)
 
 export BLOCKSIZE=K              # set blocksize size
 export BROWSER='chrome'            # set default browser
