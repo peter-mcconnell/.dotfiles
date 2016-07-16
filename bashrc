@@ -25,20 +25,15 @@ test -f /usr/local/bin/mysql/bin && export PATH=/usr/local/mysql/bin:$PATH
 test -d ~/go_appengine && export PATH=~/go_appengine:$PATH
 test -d ~/go && export GOPATH=~/go && PATH=$GOPATH/bin:$PATH
 
-# local ip
-LOCALIP=$(ipconfig getifaddr en0)
-OS=$(uname)
+# set some useful exports
+export LOCALIP=$(ipconfig getifaddr en0)
+export OS=$(uname)
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
-
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
 
 # PS1
 export PS1="\T"'$(git branch &>/dev/null;\
