@@ -1,34 +1,48 @@
+filetype plugin indent on
+
 set autochdir " make working directory same as open file
-
 set nocompatible              " be iMproved, required
-filetype off                  " required
-
 set colorcolumn=80
-
 set backspace=2
 set laststatus=2
-
-" enabling mouse
-set mouse=a
-
-" show line numbers
+set mouse=a " enabling mouse
 set nu
 set rnu
-
-" show whitespace
-set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+set list listchars=tab:\ \ ,trail:·
 set list
-
-" set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+set t_Co=256
+set history=1000
+set showmode
+set gcr=a:blinkon0
+set visualbell
+set autoread
+set hidden
+set noswapfile
+set nobackup
+set nowb
+set autoindent
+set smartindent
+set smarttab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set expandtab
+set linebreak
+set foldmethod=indent
+set foldnestmax=3
+set nofoldenable
+set scrolloff=8
+set sidescrolloff=15
+set sidescroll=1
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
 
 " Plugins
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'fatih/vim-go'
 Plugin 'plasticboy/vim-markdown'
@@ -43,20 +57,7 @@ Plugin 'mitchellh/vagrant'
 Plugin 'docker/docker'
 Bundle 'tomasr/molokai'
 
-" All of your Plugins must be added before the following line
 call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
 
 " golang settings
 let g:go_highlight_functions = 1
@@ -65,6 +66,8 @@ let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_fmt_command = "goimports"
+
+let g:rehash256 = 1
 
 " tab remaps
 nnoremap th  :tabfirst<CR>
@@ -76,22 +79,18 @@ nnoremap tn  :tabnext<Space>
 nnoremap tm  :tabm<Space>
 nnoremap td  :tabclose<CR>
 
-set t_Co=256
-
 " NERDTree
 let NERDTreeShowHidden=1
-" autoclose
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | e
 
 " MAPPINGS
 map <C-n> :NERDTreeToggle<CR>
 
 " APPEARANCE
-syntax enable
+syntax on
 set background=dark
 try
 	colorscheme molokai
 catch /^Vim\%((\a\+)\)\=:E185/
 	" colorscheme isnt installed
 endtry
-let g:rehash256 = 1
