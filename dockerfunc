@@ -147,6 +147,16 @@ d_elk() {
     sebp/elk
 }
 
+d_elasticsearch() {
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run -d \
+    -e ES_JAVA_OPTS="-Xms1g -Xmx1g" \
+    -p 9200:9200 \
+    -p 9300:9300 \
+		-v $HOME/v/elasticsearch:/usr/share/elasticsearch/data \
+    elasticsearch:5.0.0 -E bootstrap.ignore_system_bootstrap_checks=true
+}
+
 d_nexus() {
 	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
