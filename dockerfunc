@@ -136,6 +136,17 @@ d_mesosphere() {
 		--master zk://zk:2181/mesos --zk zk://zk:2181/marathon 1>/dev/null
 }
 
+d_elk() {
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run -d \
+    -p 5601:5601 \
+    -p 9200:9200 \
+    -p 5044:5044 \
+    -p 5000:5000 \
+    --name elk \
+    sebp/elk
+}
+
 d_nexus() {
 	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
