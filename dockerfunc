@@ -147,6 +147,16 @@ d_elk() {
     sebp/elk
 }
 
+d_rabbitmq() {
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run -d \
+    -e RABBITMQ_DEFAULT_USER=root \
+    -e RABBITMQ_DEFAULT_PASS=pass \
+    -p 15672:15672 \
+    --name rabbit \
+    rabbitmq:3-management
+}
+
 d_elasticsearch() {
 	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
   docker run -d \
