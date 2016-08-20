@@ -41,8 +41,10 @@ d_vim() {
 	docker run --rm \
 		-v /private/etc/passwd:/etc/passwd:ro \
 		-v /private/etc/group:/etc/group:ro \
-		-v $HOME:$HOME \
-		-w $HOME \
+		-v "${HOME}:${HOME}" \
+    -e "PATH=${PATH}" \
+    -e "GOPATH=${GOPATH}" \
+		-w "${HOME}" \
 		-u $(id -u) \
 		-ti pemcconnell/vimothy:0.1 vim $vimargs
 }
@@ -136,6 +138,26 @@ d_mesosphere() {
 		--master zk://zk:2181/mesos --zk zk://zk:2181/marathon 1>/dev/null
 }
 
+d_jmeter() {
+  # slave
+  docker run \
+    -P \
+    --name jmeterslave1 \
+    -v "${HOME}/v/jmeter/docker_mnt/":/jmeter_log \
+    -d \
+    cirit/jmeter:slave -j /jmeter_log/slave1.log
+
+  # master
+  docker run \
+    --name jmetermaster \
+    -v "${HOME}/v/jmeter/docker_mnt/":/jmeter_log \
+    --link jmeterslave1 \
+    -P \
+    -d \
+    cirit/jmeter:master -s -R jmeterslave1 -j /jmeter_log/master.log -l /jmeter_log/result.jtl -X
+
+}
+
 d_nexus() {
 	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
@@ -163,6 +185,15 @@ d_gitlab() {
 		--name gitlab \
 		-d \
 		gitlab/gitlab-ce:latest
+}
+
+d_spark() {
+  docker run \
+    -p 8088:8088 \
+    -p 8042:8042 \
+    -it \
+    -h sandbox \
+    sequenceiq/spark:1.6.0 bash
 }
 
 d_postgres() {
