@@ -155,7 +155,37 @@ d_jmeter() {
     -P \
     -d \
     cirit/jmeter:master -s -R jmeterslave1 -j /jmeter_log/master.log -l /jmeter_log/result.jtl -X
+}
 
+d_elk() {
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run -d \
+    -p 5601:5601 \
+    -p 9200:9200 \
+    -p 5044:5044 \
+    -p 5000:5000 \
+    --name elk \
+    sebp/elk
+}
+
+d_rabbitmq() {
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run -d \
+    -e RABBITMQ_DEFAULT_USER=root \
+    -e RABBITMQ_DEFAULT_PASS=pass \
+    -p 15672:15672 \
+    --name rabbit \
+    rabbitmq:3-management
+}
+
+d_elasticsearch() {
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run -d \
+    -e ES_JAVA_OPTS="-Xms1g -Xmx1g" \
+    -p 9200:9200 \
+    -p 9300:9300 \
+		-v $HOME/v/elasticsearch:/usr/share/elasticsearch/data \
+    elasticsearch:5.0.0 -E bootstrap.ignore_system_bootstrap_checks=true
 }
 
 d_nexus() {
