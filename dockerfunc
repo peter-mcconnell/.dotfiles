@@ -285,9 +285,17 @@ d_nginx() {
 }
 
 d_http() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
 		--rm \
 		-ti \
 		clue/httpie:latest "$@"
+}
+
+d_gerrit() {
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run \
+    -p 8080:8080 \
+    -p 29418:29418 \
+    -d \
+    openfrontier/gerrit
 }
