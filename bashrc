@@ -29,6 +29,7 @@ test -f /usr/local/bin/virtualenvwrapper.sh && source /usr/local/bin/virtualenvw
 
 # set some exports, if paths exist
 test -f /usr/local/bin/mysql/bin && export PATH=/usr/local/mysql/bin:$PATH
+test -f /usr/local/go/bin/go && export PATH=/usr/local/go/bin:$PATH
 test -d ~/go_appengine && export PATH=~/go_appengine:$PATH
 test -d ~/go && export GOPATH=~/go && PATH=$GOPATH/bin:$PATH
 
