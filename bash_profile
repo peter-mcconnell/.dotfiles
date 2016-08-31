@@ -1,12 +1,14 @@
 # load .bashrc if it exists
 test -f ~/.bashrc && source ~/.bashrc
 
+if hash brew 2>/dev/null; then
 # git completion
-if [ -f `brew --prefix`/etc/bash_completion.d/git-completion.bash ]; then
-. `brew --prefix`/etc/bash_completion.d/git-completion.bash
-fi
-if [ -f `brew --prefix`/etc/bash_completion.d/git-prompt.sh ]; then
-    . `brew --prefix`/etc/bash_completion.d/git-prompt.sh
+  if [ -f `brew --prefix`/etc/bash_completion.d/git-completion.bash ]; then
+  . `brew --prefix`/etc/bash_completion.d/git-completion.bash
+  fi
+  if [ -f `brew --prefix`/etc/bash_completion.d/git-prompt.sh ]; then
+      . `brew --prefix`/etc/bash_completion.d/git-prompt.sh
+  fi
 fi
 
 # apt engine

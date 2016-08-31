@@ -12,7 +12,8 @@ _initMyDir "${HOME}/go" "Golang directory"
 _initMyDir "${HOME}/v" "A place to store common docker volumes"
 
 # set some useful exports
-export LOCALIP=$(ipconfig getifaddr en0)
+#export LOCALIP=$(ipconfig getifaddr en0)
+export LOCALIP="127.0.0.1"
 export OS=$(uname)
 
 # load in extra files
@@ -69,7 +70,6 @@ export HISTSIZE=10000               # increase or decrease the size of the histo
 export HISTTIMEFORMAT='%H:%M > '
 export HISTTIMEFORMAT='%Y-%m-%d_%H:%M:%S_%a  '  # makes history display in YYYY-MM-DD_HH:MM:SS_3CharWeekdaySpaceSpace format
 export HOSTFILE=$HOME/.hosts            # put list of remote hosts in ~/.hosts ...
-export LC_COLLATE="en_CA.utf8"        # change sorting methods [a-Z] instead of [A-Z]
 export LESSCHARSET='latin1'
 export LESS='-i -N -w  -z-4 -g -e -M -X -F -R -P%t?f%f \'
 export LESSOPEN='|/usr/bin/lesspipe.sh %s 2>&-' # use this if lesspipe.sh exists
