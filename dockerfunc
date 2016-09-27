@@ -281,7 +281,7 @@ d_nginx() {
 		-p 80:80 \
 		--name nginx \
 		-d \
-		nginx:1.11.1
+		nginx:latest
 }
 
 d_http() {
