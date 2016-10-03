@@ -299,3 +299,13 @@ d_gerrit() {
     -d \
     openfrontier/gerrit
 }
+
+d_neo4j() {
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run \
+    -p 7474:7474 \
+    -p 7687:7687 \
+    -v $HOME/v/neo4j/data:/data \
+    -d \
+    neo4j:3.0
+}
