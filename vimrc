@@ -42,6 +42,7 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 set expandtab
+set switchbuf+=usetab,newtab
 set linebreak
 set foldmethod=indent
 set foldnestmax=3
@@ -80,8 +81,14 @@ Plugin 'millermedeiros/vim-esformatter'
 Plugin 'digitaltoad/vim-pug'
 Plugin 'node.js'
 Plugin 'SuperTab'
+Plugin 'rodjek/vim-puppet'
+Plugin 'hashivim/vim-terraform'
+Plugin 'hashivim/vim-packer'
 
 call vundle#end()            " required
+
+" terraform settings
+let g:terraform_align=1
 
 " golang settings
 let g:go_highlight_functions = 1
@@ -104,6 +111,7 @@ nnoremap td  :tabclose<CR>
 " NERDTree
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.DS_Store$']
+let NERDTreeMapOpenInTab='<ENTER>'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | e
 
 " MAPPINGS
