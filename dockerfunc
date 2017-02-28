@@ -26,6 +26,7 @@ _docker_relieson(){ # taken from: https://github.com/jfrazelle/dotfiles/blob/mas
 
 		if [[ "$state" == "false" ]] || [[ "$state" == "" ]]; then
 			echo "$container is not running, starting it for you."
+      container="d_${container}"
 			$container
 		fi
 	done
@@ -232,6 +233,24 @@ d_spark() {
     -it \
     -h sandbox \
     sequenceiq/spark:1.6.0 bash
+}
+
+d_cassandra() {
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+	docker run \
+		-p 7000:7000 \
+    -p 7001:7001 \
+    -p 7199:7199 \
+    -p 9042:9042 \
+    -p 9160:9160 \
+		--name cassandra \
+		-d \
+		cassandra:3
+}
+
+d_cqlsh() {
+  _docker_relieson "cassandra"
+  docker exec -ti cassandra cqlsh
 }
 
 d_postgres() {
