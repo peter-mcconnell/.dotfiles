@@ -1,3 +1,5 @@
+.PHONY: help install vim bash bashprofile bashaliases tmux vundle vundleplugins clean
+
 help:
 	@echo "install - installs dotfiles"
 
