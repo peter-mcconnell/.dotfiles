@@ -46,6 +46,7 @@ test -d ~/go && export GOPATH=~/go && PATH=$GOPATH/bin:$PATH
 [ -z "$PS1" ] && return
 
 # PS1
+source ~/.bash_git
 export PS1="\T"'$(git branch &>/dev/null;\
 if [ $? -eq 0 ]; then \
   echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1; \
