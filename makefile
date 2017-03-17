@@ -3,7 +3,7 @@
 help:
 	@echo "install - installs dotfiles"
 
-install: tmux vundle vim bashprofile bashaliases bash vundleplugins
+install: tmux vundle vim bashprofile bashaliases bashgit bash vundleplugins
 	@echo "installed"
 
 vim:
