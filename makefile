@@ -26,7 +26,7 @@ tmux:
 	@ln -fs `pwd`/tmux.conf ~/.tmux.conf
 
 vundle:
-	@if [ -d "~/.vim/bundle" ]; then git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim; fi
+	@if [ -d "~/.vim/bundle" ]; then git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim; fi
 
 vundleplugins:
 	@vim +PluginClean +PluginInstall +qall
