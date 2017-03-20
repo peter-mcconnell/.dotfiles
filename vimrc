@@ -87,6 +87,7 @@ Plugin 'rodjek/vim-puppet'
 Plugin 'hashivim/vim-terraform'
 Plugin 'hashivim/vim-packer'
 Plugin 'kien/ctrlp.vim'
+Plugin 'konfekt/fastfold'
 
 call vundle#end()            " required
 
