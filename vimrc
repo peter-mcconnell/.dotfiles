@@ -39,8 +39,8 @@ set autoindent
 set smartindent
 set smarttab
 set shiftwidth=2
-set softtabstop=2
-set tabstop=2
+set softtabstop=4
+set tabstop=4
 set expandtab
 set switchbuf+=usetab,newtab
 set linebreak
@@ -54,6 +54,8 @@ set incsearch
 set hlsearch
 set ignorecase
 set smartcase
+set showcmd
+set cursorline
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 set laststatus=2
 
@@ -84,6 +86,7 @@ Plugin 'SuperTab'
 Plugin 'rodjek/vim-puppet'
 Plugin 'hashivim/vim-terraform'
 Plugin 'hashivim/vim-packer'
+Plugin 'kien/ctrlp.vim'
 
 call vundle#end()            " required
 
@@ -181,6 +184,12 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" CtrlP settings
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 
 " other
 let g:sneak#streak = 1
