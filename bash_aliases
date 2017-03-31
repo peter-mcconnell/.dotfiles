@@ -5,6 +5,7 @@ source ~/.dockerfunc
 alias l='ls -al'
 alias c='clear'
 alias notes='vim ~/todo.md'
+alias refresh='exec bash -l'
 
 # vim on osx
 if [ -d /usr/local/Cellar/macvim/7.4-77/bin ]; then

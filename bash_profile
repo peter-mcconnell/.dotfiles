@@ -30,7 +30,7 @@ test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shel
 
 # maven
 export PATH=/opt/apache-maven-3.3.9/bin:$PATH
-alias antlr4='java -jar /usr/local/lib/antlr-4.5.3-complete.jar'
+alias antlr4='java -jar /usr/local/lib/antlr-4.6-complete.jar'
 alias grun='java org.antlr.v4.runtime.misc.TestRig'
 export CLASSPATH=".:/usr/local/lib/antlr-4.5.3-complete.jar:$CLASSPATH"
 
@@ -47,7 +47,7 @@ test -d ~/go && export GOPATH=~/go && PATH=$GOPATH/bin:$PATH
 
 # PS1
 source ~/.bash_git
-export PS1="\T"'$(git branch &>/dev/null;\
+export PS1="\T (\h)"'$(git branch &>/dev/null;\
 if [ $? -eq 0 ]; then \
   echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1; \
   if [ "$?" -eq "0" ]; then \
