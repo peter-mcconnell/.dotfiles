@@ -88,6 +88,7 @@ Plugin 'hashivim/vim-terraform'
 Plugin 'hashivim/vim-packer'
 Plugin 'kien/ctrlp.vim'
 Plugin 'konfekt/fastfold'
+Plugin 'junegunn/vim-github-dashboard'
 
 call vundle#end()            " required
 

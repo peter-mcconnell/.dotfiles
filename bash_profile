@@ -30,9 +30,8 @@ test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shel
 
 # maven
 export PATH=/opt/apache-maven-3.3.9/bin:$PATH
-alias antlr4='java -jar /usr/local/lib/antlr-4.6-complete.jar'
 alias grun='java org.antlr.v4.runtime.misc.TestRig'
-export CLASSPATH=".:/usr/local/lib/antlr-4.5.3-complete.jar:$CLASSPATH"
+export CLASSPATH=".:/usr/local/lib/antlr-4.7-complete.jar:$CLASSPATH"
 
 # set some exports, if paths exist
 test -f /usr/local/bin/mysql/bin && export PATH=/usr/local/mysql/bin:$PATH
