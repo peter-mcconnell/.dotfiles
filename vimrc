@@ -64,17 +64,17 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
 Plugin 'fatih/vim-go'
 Plugin 'shougo/neocomplete.vim'
 Plugin 'plasticboy/vim-markdown'
-Plugin 'docker/docker'
 Bundle 'tomasr/molokai'
+Plugin 'ekalinin/dockerfile.vim'
+Plugin 'tpope/vim-git'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-sensible'
-Plugin 'justinmk/vim-sneak'
 Plugin 'tpope/vim-surround'
+Plugin 'vim-airline/vim-airline'
+Plugin 'justinmk/vim-sneak'
 Plugin 'dkprice/vim-easygrep'
 Plugin 'suan/vim-instant-markdown'
 Plugin 'godlygeek/tabular'
@@ -89,6 +89,9 @@ Plugin 'hashivim/vim-packer'
 Plugin 'kien/ctrlp.vim'
 Plugin 'konfekt/fastfold'
 Plugin 'junegunn/vim-github-dashboard'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'thaerkh/vim-workspace'
+Plugin 'bash-support.vim'
 
 call vundle#end()            " required
 
@@ -116,7 +119,6 @@ nnoremap td  :tabclose<CR>
 " NERDTree
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.DS_Store$']
-let NERDTreeMapOpenInTab='<ENTER>'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | e
 
 " MAPPINGS
@@ -195,4 +197,3 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 
 " other
 let g:sneak#streak = 1
-let g:airline_theme='bubblegum'
