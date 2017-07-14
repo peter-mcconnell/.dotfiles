@@ -11,15 +11,10 @@ _initMyDir "${HOME}/s" "General webapps dir"
 _initMyDir "${HOME}/go" "Golang directory"
 _initMyDir "${HOME}/v" "A place to store common docker volumes"
 
-# set some useful exports
-#export LOCALIP=$(ipconfig getifaddr en0)
-export LOCALIP="127.0.0.1"
-export OS=$(uname)
-
 # load in extra files
-test -f ~/.bash_aliases && source ~/.bash_aliases
-test -f ~/.bash_exports && source ~/.bash_exports
-test -f ~/.bash_functions && source ~/.bash_functions
+test -f ~/.aliases && source ~/.aliases
+test -f ~/.exports && source ~/.exports
+test -f ~/.functions && source ~/.functions
 test -f ~/.bash_completion && source ~/.bash_completion
 test -f ~/.bash_completion && source ~/.bash_completion
 test -f /etc/bash_completion && source /etc/bash_completion
@@ -29,14 +24,7 @@ test -f /usr/local/bin/virtualenvwrapper.sh && source /usr/local/bin/virtualenvw
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
 # maven
-export PATH=/opt/apache-maven-3.3.9/bin:$PATH
 alias grun='java org.antlr.v4.runtime.misc.TestRig'
-export CLASSPATH=".:/usr/local/lib/antlr-4.7-complete.jar:$CLASSPATH"
-
-# set some exports, if paths exist
-test -f /usr/local/bin/mysql/bin && export PATH=/usr/local/mysql/bin:$PATH
-test -f /usr/local/go/bin/go && export PATH=/usr/local/go/bin:$PATH
-test -d ~/go && export GOPATH=~/go && PATH=$GOPATH/bin:$PATH
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -63,29 +51,6 @@ fi)'
 
 if [ "$PS1" ]; then # if running interactively, then run till 'fi' at EOF:
 
-export TERM=xterm-256color
-export CLICOLOR=1
-export LSCOLORS=ExFxBxDxCxegedabagacad
-export BLOCKSIZE=K              # set blocksize size
-export BROWSER='chrome'            # set default browser
-export CDDIR="$HOME"                # for use with the function 'cd' and the alias 'cdd'
-export EDITOR='vi'              # use default text editor
-export GREP_OPTIONS='-D skip --binary-files=without-match --ignore-case'      # most commonly used grep options
-export HISTCONTROL=ignoreboth:erasedups     # for 'ignoreboth': ignore duplicates and /^\s/
-export HISTIGNORE="&:ls:ll:la:l.:pwd:cd:exit:clear"
-export HISTSIZE=10000               # increase or decrease the size of the history to '10,000'
-export HISTTIMEFORMAT='%H:%M > '
-export HISTTIMEFORMAT='%Y-%m-%d_%H:%M:%S_%a  '  # makes history display in YYYY-MM-DD_HH:MM:SS_3CharWeekdaySpaceSpace format
-export HOSTFILE=$HOME/.hosts            # put list of remote hosts in ~/.hosts ...
-export LESSCHARSET='latin1'
-export LESS='-i -N -w  -z-4 -g -e -M -X -F -R -P%t?f%f \'
-export LESSOPEN='|/usr/bin/lesspipe.sh %s 2>&-' # use this if lesspipe.sh exists
-export PAGER='less -e'
-export TERM='xterm'
-export TIMEFORMAT=$'\nreal %3R\tuser %3U\tsys %3S\tpcpu %P\n'
-export TMOUT=0                # auto logout after n seconds of inactivity
-export VIDEO_FORMAT=NTSC            # for use with creating compatible DVDs ('dvdauthor -x dvdauthor.xml' will fail if this not here)
-export VISUAL='vi'
 set -b                      # causes output from background processes to be output right away, not on wait for next primary prompt
 set bell-style visible            # I hate noise
 set completion-ignore-case on         # complete things that have been typed in the wrong case

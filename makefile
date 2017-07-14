@@ -1,29 +1,22 @@
-.PHONY: help install vim bash bashprofile bashaliases tmux vundle vundleplugins clean
+.PHONY: help install mv_dotfiles vundle vundleplugins
 
 help:
 	@echo "install - installs dotfiles"
 
-install: tmux vundle vim bashprofile bashaliases bashgit bash vundleplugins
+install: mv_dotfiles vundle vundleplugins
 	@echo "installed"
 
-vim:
+mv_dotfiles:
 	@ln -fs `pwd`/vimrc ~/.vimrc
-
-bash: 
 	@ln -fs `pwd`/bashrc ~/.bashrc
-
-bashprofile:
 	@ln -fs `pwd`/bash_profile ~/.bash_profile
-
-bashaliases:
-	@ln -fs `pwd`/bash_aliases ~/.bash_aliases
+	@ln -fs `pwd`/exports ~/.exports
+	@ln -fs `pwd`/aliases ~/.aliases
+	@ln -fs `pwd`/functions ~/.functions
 	@ln -fs `pwd`/dockerfunc ~/.dockerfunc
-
-bashgit: 
 	@ln -fs `pwd`/bash_git ~/.bash_git
-
-tmux:
 	@ln -fs `pwd`/tmux.conf ~/.tmux.conf
+	@ln -fs `pwd`/zshrc ~/.zshrc
 
 vundle:
 	@if ! test -d ~/.vim/bundle; \
