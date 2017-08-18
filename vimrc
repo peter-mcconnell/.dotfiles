@@ -107,6 +107,9 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_fmt_command = "goimports"
 
+" markdown preview
+let vim_markdown_preview_github=1
+
 " tab remaps
 nnoremap th  :tabfirst<CR>
 nnoremap tj  :tabnext<CR>
