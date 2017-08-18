@@ -92,6 +92,7 @@ Plugin 'junegunn/vim-github-dashboard'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'thaerkh/vim-workspace'
 Plugin 'bash-support.vim'
+Plugin 'klen/python-mode'
 
 call vundle#end()            " required
 
