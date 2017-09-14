@@ -17,6 +17,7 @@ mv_dotfiles:
 	@ln -fs `pwd`/bash_git ~/.bash_git
 	@ln -fs `pwd`/tmux.conf ~/.tmux.conf
 	@ln -fs `pwd`/zshrc ~/.zshrc
+	@ln -fs `pwd`/config ~/.config
 
 vundle:
 	@if ! test -d ~/.vim/bundle; \
