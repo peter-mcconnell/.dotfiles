@@ -1,13 +1,16 @@
-.PHONY: help install mv_dotfiles vundle vundleplugins
+.PHONY: help install mv_dotfiles vundleplugins
 
 help:
 	@echo "install - installs dotfiles"
 
-install: mv_dotfiles vundle vundleplugins
+install: mv_dotfiles vundleplugins
 	@echo "installed"
 
 mv_dotfiles:
+	@mkdir -p `pwd`/config/nvim
+	@ln -fs `pwd`/config ~/.config
 	@ln -fs `pwd`/vimrc ~/.vimrc
+	@ln -fs `pwd`/vimrc ~/.config/nvim/init.vim
 	@ln -fs `pwd`/bashrc ~/.bashrc
 	@ln -fs `pwd`/bash_profile ~/.bash_profile
 	@ln -fs `pwd`/exports ~/.exports
@@ -18,12 +21,6 @@ mv_dotfiles:
 	@ln -fs `pwd`/tmux.conf ~/.tmux.conf
 	@ln -fs `pwd`/zshrc ~/.zshrc
 	@ln -fs `pwd`/fehbg ~/.fehbg
-	@ln -fs `pwd`/config ~/.config
-
-vundle:
-	@if ! test -d ~/.vim/bundle; \
-	then git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim; \
-	fi
 
 vundleplugins:
 	@vim +PluginClean +PluginInstall +qall

@@ -2,7 +2,7 @@
 source ~/.dockerfunc
 
 # neovim
-hash nvim 2>/dev/null && alias vim='nvim'
+alias vim='nvim'
 
 #lazy stuff
 alias l='ls -al'
