@@ -13,7 +13,6 @@ export BLOCKSIZE=K              # set blocksize size
 export BROWSER='chrome'            # set default browser
 export CDDIR="$HOME"                # for use with the function 'cd' and the alias 'cdd'
 export EDITOR='vi'              # use default text editor
-export GREP_OPTIONS='-D skip --binary-files=without-match --ignore-case'      # most commonly used grep options
 export HISTCONTROL=ignoreboth:erasedups     # for 'ignoreboth': ignore duplicates and /^\s/
 export HISTIGNORE="&:ls:ll:la:l.:pwd:cd:exit:clear"
 export HISTSIZE=10000               # increase or decrease the size of the history to '10,000'
