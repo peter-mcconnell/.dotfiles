@@ -29,8 +29,10 @@ bottom = false
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-module-margin-left = 1
-module-margin-right = 1
+module-margin-left = 2
+module-margin-right = 2
+padding-left = 12
+padding-right = 12
 
 font-0 = Input Mono:style=Regular:size=10;4
 font-1 = FontAwesome:style=Regular:size=10;4
@@ -40,7 +42,8 @@ modules-center = spotify
 modules-right = volume backlight wireless-network battery date powermenu
 
 tray-position = right
-tray-padding = 2
+tray-padding = 0
+tray-detached = true
 ;tray-transparent = true
 ;tray-background = #0063ff
 
@@ -260,11 +263,11 @@ type = custom/menu
 format-spacing = 1
 
 label-open = 
-label-open-foreground = ${colors.secondary}
+label-open-foreground = ${colors.foreground}
 label-close =  Cancel
-label-close-foreground = ${colors.secondary}
+label-close-foreground = ${colors.foreground}
 label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
+label-separator-foreground = ${colors.foreground}
 
 menu-0-0 = Logout
 menu-0-0-exec = exit

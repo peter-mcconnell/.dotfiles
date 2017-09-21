@@ -115,7 +115,7 @@ bindsym $mod+Shift+0 move container to workspace 10
 # assign programs to certain workspaces
 assign [class="Firefox"] 1
 assign [class="Terminator"] 3
-assign [class="Slack"] 3
+assign [class="Slack"] 5
 assign [class="Wireshark"] 6
 assign [class="Spotify"] 10
 
