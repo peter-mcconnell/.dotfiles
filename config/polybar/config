@@ -39,7 +39,7 @@ font-1 = FontAwesome:style=Regular:size=10;4
 
 modules-left = i3 xwindow
 modules-center = spotify
-modules-right = volume backlight wireless-network battery date powermenu
+modules-right = backlight wireless-network battery date powermenu
 
 tray-position = right
 tray-padding = 0
@@ -187,6 +187,7 @@ label = %date% %time%
 
 [module/volume]
 type = internal/volume
+master-mixer = IEC958
 
 format-volume = <label-volume> <bar-volume>
 label-volume = ""
