@@ -85,7 +85,7 @@ set $w1 "1 "
 set $w2 "2 "
 set $w3 "3 "
 set $w4 "4 "
-set $w5 "5 "
+set $w5 "5 "
 set $w10 "10 "
 
 # switch to workspace
@@ -115,6 +115,7 @@ bindsym $mod+Shift+0 move container to workspace 10
 # assign programs to certain workspaces
 assign [class="Firefox"] 1
 assign [class="Terminator"] 3
+assign [class="Slack"] 3
 assign [class="Wireshark"] 6
 assign [class="Spotify"] 10
 
@@ -173,10 +174,12 @@ mode "$mode_gaps_outer" {
 for_window [class="^.*"] border pixel 0
 
 # Floating
-#for_window [class="Steam"] floating enable, border none
-#for_window [class="itch"] floating enable, border none
-#for_window [class="xpad"] floating enable, border none
-#for_window [class="Skype"] floating enable, border none
+for_window [class="Steam"] floating enable, border none
+for_window [class="itch"] floating enable, border none
+for_window [class="xpad"] floating enable, border none
+for_window [class="Skype"] floating enable, border none
+for_window [class="^Spotify$"] border none
+for_window [class="^Spotify Premium$"] border none
 
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
@@ -206,6 +209,15 @@ bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+
+# Screenshots
+# Screenshot fullscreen
+bindsym Print exec "scrot -q 100 ${HOME}'/Pictures/Screenshots/%Y-%m-%d-%H-%M-%S_$wx$h.png' -e ${HOME}'/google-cloud-sdk/bin/gsutil cp -a public-read $f gs://misc.j3ss.co/screenshots/ && echo https://misc.j3ss.co/screenshots/$n | xclip -i -selection clipboard'"
+# Screenshot with selection
+bindsym $mod+Print exec "sleep 0.4; scrot -q 100 -s ${HOME}'/Pictures/Screenshots/%Y-%m-%d-%H-%M-%S_$wx$h.png' -e ${HOME}'/google-cloud-sdk/bin/gsutil cp -a public-read $f gs://misc.j3ss.co/screenshots/ && echo https://misc.j3ss.co/screenshots/$n | xclip -i -selection clipboard'"
+# Screenshot current focused window
+bindsym Shift+Print exec "scrot -q 100 -u ${HOME}'/Pictures/Screenshots/%Y-%m-%d-%H-%M-%S_$wx$h.png' -e ${HOME}'/google-cloud-sdk/bin/gsutil cp -a public-read $f gs://misc.j3ss.co/screenshots/ && echo https://misc.j3ss.co/screenshots/$n | xclip -i -selection clipboard'"
+
 
 # Create Log out, Reboot, Poweroff bindings
 mode "Exit (L)ogout, (R)eboot, (P)oweroff" {
