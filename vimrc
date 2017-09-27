@@ -1,3 +1,4 @@
+set shell=/bin/bash
 filetype off " required for vundle
 
 set enc=utf-8
@@ -24,7 +25,6 @@ set nu
 set rnu
 set list listchars=tab:\ \ ,trail:·
 set list
-set rtp+=~/.vim/bundle/Vundle.vim
 set t_Co=256
 set history=1000
 set showmode
@@ -61,6 +61,7 @@ set laststatus=2
 
 " Plugins
 let vundle_installed=1
+set rtp+=,~/.config/nvim/bundle/Vundle.vim
 call vundle#begin("~/.config/nvim/bundle")
 Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
@@ -96,6 +97,7 @@ Plugin 'bash-support.vim'
 Plugin 'klen/python-mode'
 
 call vundle#end()            " required
+filetype plugin indent on
 
 " terraform settings
 let g:terraform_align=1
