@@ -346,3 +346,26 @@ d_prometheus() {
     -d \
     prom/prometheus:master
 }
+
+d_vamp() {
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run -v /var/run/docker.sock:/var/run/docker.sock \
+    -v $(which docker):/bin/docker \
+    -v "/sys/fs/cgroup:/sys/fs/cgroup" \
+    -e "DOCKER_HOST_IP=192.168.65.2" \
+    -p 8080:8080 -p 5050:5050 \
+    -p 9090:9090 -p 8989:8989 \
+    -p 4400:4400 -p 9200:9200 \
+    -p 5601:5601 -p 2181:2181 \
+    -d \
+    magneticio/vamp-docker:0.9.5
+}
+
+d_rundeck() {
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run \
+    -p 4440:4440 \
+    -e EXTERNAL_SERVER_URL=http://localhost:4440 \
+    -d \
+    jordan/rundeck:latest
+}
