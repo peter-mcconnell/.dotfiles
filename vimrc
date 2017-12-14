@@ -61,8 +61,8 @@ set laststatus=2
 
 " Plugins
 let vundle_installed=1
-set rtp+=,~/.config/nvim/bundle/Vundle.vim
-call vundle#begin("~/.config/nvim/bundle")
+set rtp+=~/.config/nvim/bundle/vundle/
+call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
