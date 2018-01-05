@@ -95,6 +95,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'thaerkh/vim-workspace'
 Plugin 'bash-support.vim'
 Plugin 'klen/python-mode'
+Plugin 'groovy.vim'
 
 call vundle#end()            " required
 filetype plugin indent on
@@ -201,6 +202,9 @@ let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+
+" support for Jenkinsfiles
+au BufNewFile,BufRead Jenkinsfile setf groovy
 
 " other
 let g:sneak#streak = 1
