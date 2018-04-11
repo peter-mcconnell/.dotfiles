@@ -372,7 +372,7 @@ d_rundeck() {
 }
 
 d_jupyter() {
-  notebookroot="/notebooks/"
+  notebookroot="/home/jovyan/work/"
   vol=""
   if [ -f "$1" ]; then
     vol=" -v $(cd "$(dirname "$1")" || exit; pwd)/$(basename "$1"):${notebookroot}$(basename "$1")"
@@ -380,7 +380,7 @@ d_jupyter() {
     vol=" -v $(cd "$(dirname "$1")" || exit; pwd)/:${notebookroot}$(dirname "$1")/"
   fi
   docker run -d -p 8888:8888 $vol \
-    jupyter/minimal-notebook start-notebook.sh \
+    jupyter/minimal-notebook sh -c "mkdir -p $notebookroot && start-notebook.sh \
     --NotebookApp.token= \
-    --NotebookApp.notebook_dir=$notebookroot
+    --NotebookApp.notebook_dir=$notebookroot"
 }
