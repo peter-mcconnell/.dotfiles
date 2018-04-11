@@ -3,20 +3,21 @@
 # inspired by @jfrazelle
 
 ### docker client aliases
+
 d_p() {
 	docker ps "${@}"
 }
 
 d_c() {
-	docker rm -f `docker ps -aq` 2> /dev/null
-	docker rm -v `docker ps --filter status=exited -q 2>/dev/null` 2>/dev/null
-	docker rmi `docker images --filter dangling=true -q 2>/dev/null` 2>/dev/null
+	docker rm -f $(docker ps -aq) 2> /dev/null
+	docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null
+	docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
 	echo "cleaned"
 }
 
 # simple wrapping method that follows a containers logs
 _docker_logwrap() {
-	docker logs -f `$1`
+  docker logs -f $($1)
 }
 _docker_relieson(){ # taken from: https://github.com/jfrazelle/dotfiles/blob/master/.dockerfunc
 	local containers=$@
@@ -37,7 +38,7 @@ _docker_relieson(){ # taken from: https://github.com/jfrazelle/dotfiles/blob/mas
 d_vim() {
 	vimargs=""
 	if [ "${1}" != "" ]; then
-		vimargs=`echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"`
+		vimargs=$(echo "$(cd "$(dirname "$1")" || exit; pwd)/$(basename "$1")")
 	fi
 	docker run --rm \
 		-v /private/etc/passwd:/etc/passwd:ro \
@@ -51,10 +52,10 @@ d_vim() {
 }
 
 d_cid() {
-	d_registry
-	d_mesosphere
-	d_gitlab
-	d_jenkins
+	d_registry "$@"
+	d_mesosphere "$@"
+	d_gitlab "$@"
+	d_jenkins "$@"
 }
 
 d_registry() {
@@ -78,12 +79,12 @@ d_jenkins() {
 		-v $HOME/v/jenkins_user:/root \
 		-u 0 \
 		-w /root \
+        -e PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin/docker \
 		-v /var/run/docker.sock:/var/run/docker.sock \
-		-v "${HOME}/bin/docker/docker-Li386:/usr/bin/docker" \
-		-v /etc/localtime:/etc/localtime:ro \
+		-v "${HOME}/bin/docker/docker-Li386:/usr/local/bin/docker" \
 		--name jenkins \
 		-d \
-		jenkinsci/jenkins:latest
+		jenkins/jenkins:latest
 }
 
 d_mesosphere() {
@@ -368,4 +369,18 @@ d_rundeck() {
     -e EXTERNAL_SERVER_URL=http://localhost:4440 \
     -d \
     jordan/rundeck:latest
+}
+
+d_jupyter() {
+  notebookroot="/notebooks/"
+  vol=""
+  if [ -f "$1" ]; then
+    vol=" -v $(cd "$(dirname "$1")" || exit; pwd)/$(basename "$1"):${notebookroot}$(basename "$1")"
+  elif [ -d "$1" ]; then
+    vol=" -v $(cd "$(dirname "$1")" || exit; pwd)/:${notebookroot}$(dirname "$1")/"
+  fi
+  docker run -d -p 8888:8888 $vol \
+    jupyter/minimal-notebook start-notebook.sh \
+    --NotebookApp.token= \
+    --NotebookApp.notebook_dir=$notebookroot
 }
