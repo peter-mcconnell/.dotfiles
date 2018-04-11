@@ -383,4 +383,7 @@ d_jupyter() {
     jupyter/minimal-notebook sh -c "mkdir -p $notebookroot && start-notebook.sh \
     --NotebookApp.token= \
     --NotebookApp.notebook_dir=$notebookroot"
+
+  sleep 1
+  open http://localhost:8888
 }
