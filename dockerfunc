@@ -388,7 +388,6 @@ d_jupyter() {
   open http://localhost:8888
 }
 
-
 d_jupytergo() {
   notebookroot="/home/gopher/work/"
   vol=""
@@ -404,4 +403,34 @@ d_jupytergo() {
 
   sleep 1
   open http://localhost:8888
+}
+
+d_nikto() {
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+	docker run \
+      --rm \
+      -ti \
+      pemcconnell/docker-nikto2:alpine
+}
+
+d_arachni() {
+    _docker_relieson "postgres"
+    docker exec -ti postgres sh -c "psql -lqt | cut -d \| -f 1 | grep -qw arachni_production" > /dev/null 2>&1
+    if [[ $? != 0 ]]; then
+      echo "database doesn't exist. creating"
+      docker run \
+        --rm \
+        --link postgres \
+        -e POSTGRES_PASSWORD=pass -e POSTGRES_USERNAME=root -e POSTGRES_DATABASE=arachni_production \
+        -ti \
+        treadie/arachni sh -c "/opt/arachni/bin/arachni_web_task db:setup arachni"
+    fi
+	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+	docker run \
+      --rm \
+      --link postgres \
+      -p 9292:9292 \
+      -e POSTGRES_PASSWORD=pass -e POSTGRES_USERNAME=root -e POSTGRES_DATABASE=arachni_production \
+      -ti \
+      treadie/arachni
 }
