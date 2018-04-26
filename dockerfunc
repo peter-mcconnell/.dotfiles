@@ -44,8 +44,8 @@ d_vim() {
 		-v /private/etc/passwd:/etc/passwd:ro \
 		-v /private/etc/group:/etc/group:ro \
 		-v "${HOME}:${HOME}" \
-    -e "PATH=${PATH}" \
-    -e "GOPATH=${GOPATH}" \
+        -e "PATH=${PATH}" \
+        -e "GOPATH=${GOPATH}" \
 		-w "${HOME}" \
 		-u $(id -u) \
 		-ti pemcconnell/vimothy:0.1 vim $vimargs
@@ -381,6 +381,24 @@ d_jupyter() {
   fi
   docker run -d -p 8888:8888 $vol \
     jupyter/minimal-notebook sh -c "mkdir -p $notebookroot && start-notebook.sh \
+    --NotebookApp.token= \
+    --NotebookApp.notebook_dir=$notebookroot"
+
+  sleep 1
+  open http://localhost:8888
+}
+
+
+d_jupytergo() {
+  notebookroot="/home/gopher/work/"
+  vol=""
+  if [ -f "$1" ]; then
+    vol=" -v $(cd "$(dirname "$1")" || exit; pwd)/$(basename "$1"):${notebookroot}$(basename "$1")"
+  elif [ -d "$1" ]; then
+    vol=" -v $(cd "$(dirname "$1")" || exit; pwd)/:${notebookroot}$(dirname "$1")/"
+  fi
+  docker run -d -p 8888:8888 $vol \
+    yunabe/lgo sh -c "mkdir -p $notebookroot && jupyter notebook --ip=0.0.0.0 \
     --NotebookApp.token= \
     --NotebookApp.notebook_dir=$notebookroot"
 
