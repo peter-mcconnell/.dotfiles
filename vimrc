@@ -4,6 +4,8 @@ filetype off " required for vundle
 set enc=utf-8
 set fenc=utf-8
 set termencoding=utf-8
+set splitbelow
+set splitright
 set cf
 set lsp=0
 set wildmenu
