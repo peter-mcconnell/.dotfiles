@@ -103,6 +103,9 @@ filetype plugin indent on
 " terraform settings
 let g:terraform_align=1
 
+" python settings
+let g:python3_host_prog = '/usr/local/bin/python3'
+
 " golang settings
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
