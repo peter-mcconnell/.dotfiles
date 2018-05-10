@@ -345,7 +345,12 @@ d_prometheus() {
     -p 9090:9090 \
     -v $HOME/v/prometheus:/prometheus \
     -d \
-    prom/prometheus:master
+    prom/prometheus:master \
+      --config.file=/etc/prometheus/prometheus.yml \
+      --storage.tsdb.path=/prometheus \
+      --web.console.libraries=/usr/share/prometheus/console_libraries \
+      --web.console.templates=/usr/share/prometheus/consoles \
+      --web.enable-lifecycle
 }
 
 d_vamp() {
