@@ -7,8 +7,6 @@ install: mv_dotfiles vundleplugins
 	@echo "installed"
 
 mv_dotfiles:
-	@mv ~/.vim/ ~/.config/nvim
-	@ln -fs `pwd`/config/nvim/ ~/.vim/
 	@ln -fs `pwd`/config ~/.config
 	@ln -fs `pwd`/vimrc ~/.vimrc
 	@ln -fs `pwd`/vimrc ~/.config/nvim/init.vim
