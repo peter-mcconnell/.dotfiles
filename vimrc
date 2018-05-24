@@ -72,23 +72,19 @@ Plugin 'fatih/vim-go'
 Plugin 'shougo/deoplete.nvim'
 Plugin 'zchee/deoplete-go'
 Plugin 'plasticboy/vim-markdown'
-Plugin 'JamshedVesuna/vim-markdown-preview'
-Bundle 'tomasr/molokai'
-Plugin 'ekalinin/dockerfile.vim'
+Plugin 'tomasr/molokai'
+Plugin 'docker/docker'
 Plugin 'tpope/vim-git'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'vim-airline/vim-airline'
 Plugin 'justinmk/vim-sneak'
-Plugin 'dkprice/vim-easygrep'
 Plugin 'godlygeek/tabular'
 Plugin 'scrooloose/syntastic'
-Plugin 'millermedeiros/vim-esformatter'
-Plugin 'digitaltoad/vim-pug'
-Plugin 'node.js'
-Plugin 'SuperTab'
+Plugin 'ervandew/supertab'
 Plugin 'rodjek/vim-puppet'
+Plugin 'pearofducks/ansible-vim'
 Plugin 'hashivim/vim-terraform'
 Plugin 'hashivim/vim-packer'
 Plugin 'hashivim/vim-vagrant'
@@ -96,13 +92,14 @@ Plugin 'hashivim/vim-consul'
 Plugin 'hashivim/vim-vaultproject'
 Plugin 'hashivim/vim-nomadproject'
 Plugin 'kien/ctrlp.vim'
+Plugin 'mhinz/vim-grepper'
 Plugin 'konfekt/fastfold'
 Plugin 'junegunn/vim-github-dashboard'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'thaerkh/vim-workspace'
 Plugin 'bash-support.vim'
+Plugin 'bats.vim'
 Plugin 'klen/python-mode'
-Plugin 'groovy.vim'
 
 call vundle#end()            " required
 filetype plugin indent on
@@ -178,6 +175,21 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_eslint_checker = 1
 let g:syntastic_javascript_checkers = ['eslint']
+
+" vim-grepper
+nnoremap <leader>g :Grepper -tool git<cr>
+nnoremap <leader>G :Grepper -tool ag<cr>
+
+nmap gs <plug>(GrepperOperator)
+xmap gs <plug>(GrepperOperator)
+
+" Optional. The default behaviour should work for most users.
+let g:grepper               = {}
+let g:grepper.tools         = ['git', 'ag', 'rg']
+let g:grepper.jump          = 1
+let g:grepper.next_tool     = '<leader>g'
+let g:grepper.simple_prompt = 1
+let g:grepper.quickfix      = 0
 
 " Use deoplete.
 set runtimepath+=~/.vim/bundle/deoplete.nvim/
