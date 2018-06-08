@@ -1,4 +1,7 @@
 export LOCALIP="127.0.0.1"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  export LOCALIP="$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | head -n 1)"
+fi
 export OS=$(uname)
 export PATH=/opt/apache-maven-3.3.9/bin:$PATH
 export CLASSPATH=".:/usr/local/lib/antlr-4.7-complete.jar:$CLASSPATH"
