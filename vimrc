@@ -100,6 +100,7 @@ Plugin 'thaerkh/vim-workspace'
 Plugin 'bash-support.vim'
 Plugin 'bats.vim'
 Plugin 'klen/python-mode'
+Plugin 'nvie/vim-flake8'
 
 call vundle#end()            " required
 filetype plugin indent on
@@ -161,6 +162,9 @@ au FileType html set omnifunc=htmlcomplete#CompleteTags
 au FileType css set omnifunc=csscomplete#CompleteCSS
 au FileType xml set omnifunc=xmlcomplete#CompleteTags
 au FileType c set omnifunc=ccomplete#Complete
+
+" vim-flake8
+autocmd BufWritePost *.py call Flake8()
 
 " vim-go
 let g:go_fmt_fail_silently = 0
