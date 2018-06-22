@@ -81,7 +81,6 @@ Plugin 'tpope/vim-surround'
 Plugin 'vim-airline/vim-airline'
 Plugin 'justinmk/vim-sneak'
 Plugin 'godlygeek/tabular'
-Plugin 'scrooloose/syntastic'
 Plugin 'ervandew/supertab'
 Plugin 'rodjek/vim-puppet'
 Plugin 'pearofducks/ansible-vim'
@@ -99,7 +98,6 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'thaerkh/vim-workspace'
 Plugin 'bash-support.vim'
 Plugin 'bats.vim'
-Plugin 'klen/python-mode'
 Plugin 'nvie/vim-flake8'
 
 call vundle#end()            " required
@@ -110,6 +108,7 @@ let g:terraform_align=1
 
 " python settings
 let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python2_host_prog = '/usr/local/bin/python2'
 
 " golang settings
 let g:go_highlight_functions = 1
