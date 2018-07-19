@@ -1,4 +1,7 @@
+#!/usr/bin/env bash
+
 # load in main config
+# shellcheck source=/dev/null
 test -f ~/.bashrc && source ~/.bashrc
 
 # arch-specific settings
