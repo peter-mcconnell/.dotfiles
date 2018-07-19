@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eou
+set -eu
 
 if [ "$(playerctl status 2>&1)" = "Playing" ]; then
   title="$(exec playerctl metadata xesam:title)"
