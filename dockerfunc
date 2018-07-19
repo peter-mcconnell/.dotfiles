@@ -290,11 +290,11 @@ d_mongo() {
 }
 
 d_mongouser() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
-	docker exec \
-		-ti \
-		mongodb \
-		mongo admin --eval "db.createUser({user: 'root', pwd: 'pass', roles:[{role:'root',db:'admin'}]});";
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker exec \
+-ti \
+    mongodb \
+    mongo admin --eval "db.createUser({user: 'root', pwd: 'pass', roles:[{role:'root',db:'admin'}]});";
 }
 
 d_nginx() {
