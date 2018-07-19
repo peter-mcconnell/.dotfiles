@@ -1,2 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env sh
+
+set -eu
+
 feh  --bg-scale '/home/gizmo/Pictures/default.jpg' 
