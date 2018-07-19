@@ -5,7 +5,7 @@ source ~/.dockerfunc
 alias vim='nvim'
 
 #lazy stuff
-alias l='ls -al'
+alias l='ls -al --color'
 alias c='clear'
 alias notes='vim ~/todo.md'
 alias refresh='exec bash -l'
