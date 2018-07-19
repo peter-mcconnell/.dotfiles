@@ -10,8 +10,6 @@ alias vim='nvim'
 #lazy stuff
 alias l='ls -al -color'
 alias c='clear'
-alias notes='vim ~/todo.md'
-alias refresh='exec bash -l'
 
 # vim on osx
 if [ -d /usr/local/Cellar/macvim/7.4-77/bin ]; then
@@ -26,7 +24,5 @@ if [ -x /usr/bin/dircolors ]; then
   alias fgrep='fgrep --color=auto'
   alias egrep='egrep --color=auto'
 fi
-
-alias ls='ls -GFh'
 
 alias tmux="TERM=screen-256color-bce tmux"
