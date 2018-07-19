@@ -1,143 +1,145 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -u
 
 # inspired by @jfrazelle
 
 ### docker client aliases
 
 d_p() {
-	docker ps "${@}"
+  docker ps "${@}"
 }
 
 d_c() {
-	docker rm -f $(docker ps -aq) 2> /dev/null
-	docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null
-	docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
-	echo "cleaned"
+  docker rm -f "$(docker ps -aq)" 2> /dev/null
+  docker rm -v "$(docker ps --filter status=exited -q 2>/dev/null)" 2>/dev/null
+  docker rmi "$(docker images --filter dangling=true -q 2>/dev/null)" 2>/dev/null
+  echo "cleaned"
 }
 
 # simple wrapping method that follows a containers logs
 _docker_logwrap() {
-  docker logs -f $($1)
+  docker logs -f "$($1)"
 }
 _docker_relieson(){ # taken from: https://github.com/jfrazelle/dotfiles/blob/master/.dockerfunc
-	local containers=$@
+  local containers=( "$@" )
 
-	for container in $containers; do
-		local state=$(docker inspect --format "{{.State.Running}}" $container 2>/dev/null)
+  for container in "${containers[@]}"; do
+      state=$(docker inspect --format "{{.State.Running}}" "$container" 2>/dev/null)
 
-		if [[ "$state" == "false" ]] || [[ "$state" == "" ]]; then
-			echo "$container is not running, starting it for you."
-      container="d_${container}"
-			$container
-		fi
-	done
+    if [[ "$state" == "false" ]] || [[ "$state" == "" ]]; then
+      echo "$container is not running, starting it for you."
+  container="d_${container}"
+        $container
+    fi
+  done
 }
 
 ### container aliases
 # Usage: d_vim ~/path/to/file (just make sure this is mounted, obvs)
 d_vim() {
-	vimargs=""
-	if [ "${1}" != "" ]; then
-		vimargs=$(echo "$(cd "$(dirname "$1")" || exit; pwd)/$(basename "$1")")
-	fi
-	docker run --rm \
-		-v /private/etc/passwd:/etc/passwd:ro \
-		-v /private/etc/group:/etc/group:ro \
-		-v "${HOME}:${HOME}" \
-        -e "PATH=${PATH}" \
-        -e "GOPATH=${GOPATH}" \
-		-w "${HOME}" \
-		-u $(id -u) \
-		-ti pemcconnell/vimothy:0.1 vim $vimargs
+  vimargs=""
+  if [ "${1}" != "" ]; then
+      vimargs="$(cd "$(dirname "$1")" || exit; pwd)/$(basename "$1")"
+  fi
+  docker run --rm \
+    -v /private/etc/passwd:/etc/passwd:ro \
+    -v /private/etc/group:/etc/group:ro \
+    -v "${HOME}:${HOME}" \
+    -e "PATH=${PATH}" \
+    -e "GOPATH=${GOPATH}" \
+    -w "${HOME}" \
+    -u "$(id -u)" \
+    -ti pemcconnell/vimothy:0.1 vim "$vimargs"
 }
 
 d_cid() {
-	d_registry "$@"
-	d_mesosphere "$@"
-	d_gitlab "$@"
-	d_jenkins "$@"
+  d_registry "$@"
+  d_mesosphere "$@"
+  d_gitlab "$@"
+  d_jenkins "$@"
 }
 
 d_registry() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
-	docker run \
-		-d \
-		-p 5000:5000 \
-		--restart=always \
-		--name registry \
-		registry:2
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run \
+    -d \
+    -p 5000:5000 \
+    --restart=always \
+    --name registry \
+    registry:2
 }
 
 d_jenkins() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
-	docker run \
-		--add-host localhost:"${LOCALIP}" \
-		--add-host marathon:"${LOCALIP}" \
-		-p 8080:8080 \
-		-p 50000:50000 \
-		-v $HOME/v/jenkins_home:/var/jenkins_home \
-		-v $HOME/v/jenkins_user:/root \
-		-u 0 \
-		-w /root \
-        -e PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin/docker \
-		-v /var/run/docker.sock:/var/run/docker.sock \
-		-v "${HOME}/bin/docker/docker-Li386:/usr/local/bin/docker" \
-		--name jenkins \
-		-d \
-		jenkins/jenkins:latest
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run \
+    --add-host localhost:"${LOCALIP}" \
+    --add-host marathon:"${LOCALIP}" \
+    -p 8080:8080 \
+    -p 50000:50000 \
+    -v "$HOME/v/jenkins_home:/var/jenkins_home" \
+    -v "$HOME/v/jenkins_user:/root" \
+    -u 0 \
+    -w /root \
+    -e PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin/docker \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v "${HOME}/bin/docker/docker-Li386:/usr/local/bin/docker" \
+    --name jenkins \
+    -d \
+    jenkins/jenkins:latest
 }
 
 d_mesosphere() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
-	# zookeeper
-	docker run -d \
-		--restart always \
-		-p 2181:2181 \
-		-p 2888:2888 \
-		-p 3888:3888 \
-		--name zookeeper \
-		netflixoss/exhibitor:1.5.2 1>/dev/null
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  # zookeeper
+  docker run -d \
+    --restart always \
+    -p 2181:2181 \
+    -p 2888:2888 \
+    -p 3888:3888 \
+    --name zookeeper \
+    netflixoss/exhibitor:1.5.2 1>/dev/null
 
-	# master
-	docker run -d \
-		--restart always \
-		-p 5050:5050 \
-		--link zookeeper:zk \
-		-e MESOS_PORT=5050 \
-		-e MESOS_ZK="zk://zk:2181/mesos" \
-		-e MESOS_QUORUM=1 \
-		-e MESOS_REGISTRY=in_memory \
-		-e MESOS_LOG_DIR=/var/log/mesos \
-		-e MESOS_WORK_DIR=/var/lib/mesos \
-		--name mesos-master \
-		mesosphere/mesos-master:0.28.0-2.0.16.ubuntu1404 1>/dev/null
+  # master
+  docker run -d \
+    --restart always \
+    -p 5050:5050 \
+    --link zookeeper:zk \
+    -e MESOS_PORT=5050 \
+    -e MESOS_ZK="zk://zk:2181/mesos" \
+    -e MESOS_QUORUM=1 \
+    -e MESOS_REGISTRY=in_memory \
+    -e MESOS_LOG_DIR=/var/log/mesos \
+    -e MESOS_WORK_DIR=/var/lib/mesos \
+    --name mesos-master \
+    mesosphere/mesos-master:0.28.0-2.0.16.ubuntu1404 1>/dev/null
 
-	# slave
-	docker run -d \
-		--restart always \
-		--link zookeeper:zk \
-		--link mesos-master:master \
-		-p 5051:5051 \
-		-e MESOS_SWITCH_USER=0 \
-		-e MESOS_CONTAINERIZERS=docker,mesos \
-		-e MESOS_PORT=5051 \
-		-e MESOS_HOSTNAME="${LOCALIP}" \
-		-e MESOS_MASTER=zk://zk:2181/mesos \
-		-e MESOS_LOG_DIR=/var/log/mesos \
-		-v /sys/fs/cgroup:/sys/fs/cgroup \
-		-v /var/run/docker.sock:/var/run/docker.sock \
-		-v "${HOME}/bin/docker/docker-Li386:/usr/bin/docker" \
-		--name mesos-slave \
-		mesosphere/mesos-slave:0.28.0-2.0.16.ubuntu1404
+  # slave
+  docker run -d \
+    --restart always \
+    --link zookeeper:zk \
+    --link mesos-master:master \
+    -p 5051:5051 \
+    -e MESOS_SWITCH_USER=0 \
+    -e MESOS_CONTAINERIZERS=docker,mesos \
+    -e MESOS_PORT=5051 \
+    -e MESOS_HOSTNAME="${LOCALIP}" \
+    -e MESOS_MASTER=zk://zk:2181/mesos \
+    -e MESOS_LOG_DIR=/var/log/mesos \
+    -v /sys/fs/cgroup:/sys/fs/cgroup \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v "${HOME}/bin/docker/docker-Li386:/usr/bin/docker" \
+    --name mesos-slave \
+    mesosphere/mesos-slave:0.28.0-2.0.16.ubuntu1404
 
-	# marathon
-	docker run \
-		-d \
-		--restart always \
-		-p 8787:8080 \
-		--link zookeeper:zk \
-		mesosphere/marathon:latest \
-		--master zk://zk:2181/mesos --zk zk://zk:2181/marathon 1>/dev/null
+  # marathon
+  docker run \
+    -d \
+    --restart always \
+    -p 8787:8080 \
+    --link zookeeper:zk \
+    mesosphere/marathon:latest \
+    --master zk://zk:2181/mesos --zk zk://zk:2181/marathon 1>/dev/null
 }
 
 d_jmeter() {
@@ -160,7 +162,7 @@ d_jmeter() {
 }
 
 d_elk() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
   docker run -d \
     -p 5601:5601 \
     -p 9200:9200 \
@@ -171,7 +173,7 @@ d_elk() {
 }
 
 d_rabbitmq() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
   docker run -d \
     -e RABBITMQ_DEFAULT_USER=root \
     -e RABBITMQ_DEFAULT_PASS=pass \
@@ -181,42 +183,42 @@ d_rabbitmq() {
 }
 
 d_elasticsearch() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
   docker run -d \
     -e ES_JAVA_OPTS="-Xms1g -Xmx1g" \
     -p 9200:9200 \
     -p 9300:9300 \
-		-v $HOME/v/elasticsearch:/usr/share/elasticsearch/data \
+    -v "$HOME/v/elasticsearch:/usr/share/elasticsearch/data" \
     elasticsearch:5.0.0 -E bootstrap.ignore_system_bootstrap_checks=true
 }
 
 d_nexus() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
-	docker run \
-		--add-host gitlab:"${LOCALIP}" \
-		--add-host jenkins:"${LOCALIP}" \
-		-p 8081:8081 \
-		-v $HOME/v/nexus:/nexus-data \
-		--name nexus \
-		-d \
-		sonatype/nexus3:latest
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run \
+    --add-host gitlab:"${LOCALIP}" \
+    --add-host jenkins:"${LOCALIP}" \
+    -p 8081:8081 \
+    -v "$HOME/v/nexus:/nexus-data" \
+    --name nexus \
+    -d \
+    sonatype/nexus3:latest
 }
 
 d_gitlab() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
-	docker run \
-		--add-host jenkins:"${LOCALIP}" \
-		--add-host nexus:"${LOCALIP}" \
-		-p 80:80 \
-		-p 443:443 \
-		-p 22:22 \
-		-v $HOME/v/gitlab/config:/etc/gitlab \
-		-v $HOME/v/gitlab/logs:/var/log/gitlab \
-		-v $HOME/v/gitlab/data:/var/opt/gitlab \
-		-e GITLAB_OMNIBUS_CONFIG="external_url 'http://gitlab'" \
-		--name gitlab \
-		-d \
-		gitlab/gitlab-ce:latest
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run \
+    --add-host jenkins:"${LOCALIP}" \
+    --add-host nexus:"${LOCALIP}" \
+    -p 80:80 \
+    -p 443:443 \
+    -p 22:22 \
+    -v "$HOME/v/gitlab/config:/etc/gitlab" \
+    -v "$HOME/v/gitlab/logs:/var/log/gitlab" \
+    -v "$HOME/v/gitlab/data:/var/opt/gitlab" \
+    -e GITLAB_OMNIBUS_CONFIG="external_url 'http://gitlab'" \
+    --name gitlab \
+    -d \
+    gitlab/gitlab-ce:latest
 }
 
 d_sentry() {
@@ -239,14 +241,14 @@ d_spark() {
 d_cassandra() {
 	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
 	docker run \
-		-p 7000:7000 \
-    -p 7001:7001 \
-    -p 7199:7199 \
-    -p 9042:9042 \
-    -p 9160:9160 \
-		--name cassandra \
-		-d \
-		cassandra:3
+      -p 7000:7000 \
+      -p 7001:7001 \
+      -p 7199:7199 \
+      -p 9042:9042 \
+      -p 9160:9160 \
+      --name cassandra \
+      -d \
+      cassandra:3
 }
 
 d_cqlsh() {
@@ -255,36 +257,36 @@ d_cqlsh() {
 }
 
 d_postgres() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
-	docker run \
-		-p 5432:5432 \
-		-e POSTGRES_USER=root \
-		-e POSTGRES_PASSWORD=pass \
-		--name postgres \
-		-d \
-		postgres:9.6
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run \
+    -p 5432:5432 \
+    -e POSTGRES_USER=root \
+    -e POSTGRES_PASSWORD=pass \
+    --name postgres \
+    -d \
+    postgres:9.6
 }
 
 d_mysql() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
-	docker run \
-		-p 3306:3306 \
-		-e MYSQL_USER=root \
-		-e MYSQL_ROOT_PASSWORD=pass \
-		-v $HOME/v/mysql:/var/lib/mysql \
-		--name mysql \
-		-d \
-		mysql:5.7
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run \
+    -p 3306:3306 \
+    -e MYSQL_USER=root \
+    -e MYSQL_ROOT_PASSWORD=pass \
+    -v "$HOME/v/mysql:/var/lib/mysql" \
+    --name mysql \
+    -d \
+    mysql:5.7
 }
 
 d_mongo() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
-	docker run \
-		-p 27017:27017 \
-		-v $HOME/v/mongodb:/data/db \
-		--name mongodb \
-		-d \
-		mongo:3.3.8;
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run \
+    -p 27017:27017 \
+    -v "$HOME/v/mongodb:/data/db" \
+    --name mongodb \
+    -d \
+    mongo:3.3.8;
 }
 
 d_mongouser() {
@@ -296,23 +298,23 @@ d_mongouser() {
 }
 
 d_nginx() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
-	docker run \
-		-p 80:80 \
-		--name nginx \
-		-d \
-		nginx:latest
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run \
+    -p 80:80 \
+    --name nginx \
+    -d \
+    nginx:latest
 }
 
 d_http() {
-	docker run \
-		--rm \
-		-ti \
-		clue/httpie:latest "$@"
+  docker run \
+    --rm \
+    -ti \
+    clue/httpie:latest "$@"
 }
 
 d_gerrit() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
   docker run \
     -p 8080:8080 \
     -p 29418:29418 \
@@ -325,7 +327,7 @@ d_neo4j() {
   docker run \
     -p 7474:7474 \
     -p 7687:7687 \
-    -v $HOME/v/neo4j/data:/data \
+    -v "$HOME/v/neo4j/data:/data" \
     -d \
     neo4j:3.0
 }
@@ -343,7 +345,7 @@ d_prometheus() {
   if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
   docker run \
     -p 9090:9090 \
-    -v $HOME/v/prometheus:/prometheus \
+    -v "$HOME/v/prometheus:/prometheus" \
     -d \
     prom/prometheus:master \
       --config.file=/etc/prometheus/prometheus.yml \
@@ -356,7 +358,7 @@ d_prometheus() {
 d_vamp() {
   if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
   docker run -v /var/run/docker.sock:/var/run/docker.sock \
-    -v $(which docker):/bin/docker \
+    -v "$(command -v docker):/bin/docker" \
     -v "/sys/fs/cgroup:/sys/fs/cgroup" \
     -e "DOCKER_HOST_IP=192.168.65.2" \
     -p 8080:8080 -p 5050:5050 \
@@ -384,7 +386,7 @@ d_jupyter() {
   elif [ -d "$1" ]; then
     vol=" -v $(cd "$(dirname "$1")" || exit; pwd)/:${notebookroot}$(dirname "$1")/"
   fi
-  docker run -d -p 8888:8888 $vol \
+  docker run -d -p 8888:8888 "$vol" \
     jupyter/minimal-notebook sh -c "mkdir -p $notebookroot && start-notebook.sh \
     --NotebookApp.token= \
     --NotebookApp.notebook_dir=$notebookroot"
@@ -401,7 +403,7 @@ d_jupytergo() {
   elif [ -d "$1" ]; then
     vol=" -v $(cd "$(dirname "$1")" || exit; pwd)/:${notebookroot}$(dirname "$1")/"
   fi
-  docker run -d -p 8888:8888 $vol \
+  docker run -d -p 8888:8888 "$vol" \
     yunabe/lgo sh -c "mkdir -p $notebookroot && jupyter notebook --ip=0.0.0.0 \
     --NotebookApp.token= \
     --NotebookApp.notebook_dir=$notebookroot"
@@ -411,37 +413,33 @@ d_jupytergo() {
 }
 
 d_nikto() {
-	if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
-	docker run \
-      --rm \
-      -ti \
-      pemcconnell/docker-nikto2:alpine
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run \
+    --rm \
+    -ti \
+    pemcconnell/docker-nikto2:alpine
 }
 
 d_arachni() {
-    _docker_relieson "postgres"
-    sleep 1
-    docker exec -ti postgres sh -c "psql -lqt | cut -d \| -f 1 | grep -qw arachni_production" > /dev/null 2>&1
-    if [[ $? -ne 0 ]]; then
-      echo "database doesn't exist. creating"
-      docker run \
-        --rm \
-        --link postgres \
-        -e POSTGRES_PASSWORD=pass -e POSTGRES_USERNAME=root -e POSTGRES_DATABASE=arachni_production \
-        -ti \
-        treadie/arachni sh -c "/opt/arachni/bin/arachni_web_task db:setup"
-    fi
-    if [[ $? -eq 0 ]]; then
-      if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
-      echo "default creds: admin@admin.admin / administrator"
-      docker run \
-        --rm \
-        --link postgres \
-        -p 9292:9292 \
-        -e POSTGRES_PASSWORD=pass -e POSTGRES_USERNAME=root -e POSTGRES_DATABASE=arachni_production \
-        -ti \
-        treadie/arachni
-    else
-      echo "Encountered an error (presumably with the DB). Did not attempt to run app"
-    fi
+  _docker_relieson "postgres"
+  sleep 1
+  if docker exec -ti postgres sh -c "psql -lqt | cut -d \\| -f 1 | grep -qw arachni_production" > /dev/null 2>&1 -ne 0; then
+    echo "database doesn't exist. creating"
+    docker run \
+      --rm \
+      --link postgres \
+      -e POSTGRES_PASSWORD=pass -e POSTGRES_USERNAME=root -e POSTGRES_DATABASE=arachni_production \
+      -ti \
+      treadie/arachni sh -c "/opt/arachni/bin/arachni_web_task db:setup"
+  else
+    if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+    echo "default creds: admin@admin.admin / administrator"
+    docker run \
+      --rm \
+      --link postgres \
+      -p 9292:9292 \
+      -e POSTGRES_PASSWORD=pass -e POSTGRES_USERNAME=root -e POSTGRES_DATABASE=arachni_production \
+      -ti \
+      treadie/arachni
+  fi
 }
