@@ -4,11 +4,11 @@ set -u
 
 # some funcs to help with profile setup (not designed to be bash_funcs)
 _initMyDir () {
-	if [ ! -d "${1}" ]; then
-		echo "${1} missing, so I'm adding it"
-		mkdir -p "${1}"
-		echo "${2}" > "${1}/.info"
-	fi
+  if [ ! -d "${1}" ]; then
+    echo "${1} missing, so I'm adding it"
+    mkdir -p "${1}"
+    echo "${2}" > "${1}/.info"
+  fi
 }
 _initMyDir "${HOME}/p" "Playground area for messing around"
 _initMyDir "${HOME}/s" "General webapps dir"
@@ -66,28 +66,24 @@ else
 fi)'
 
 if [ "$PS1" ]; then # if running interactively, then run till 'fi' at EOF:
-
-set -b                      # causes output from background processes to be output right away, not on wait for next primary prompt
-set bell-style visible            # I hate noise
-set completion-ignore-case on         # complete things that have been typed in the wrong case
-set -o notify                   # notify when jobs running in background terminate
-shopt -s cdable_vars                # set the bash option so that no '$' is required (disallow write access to terminal)
-shopt -s cdspell                # this will correct minor spelling errors in a cd command
-shopt -s checkhash
-shopt -s checkwinsize               # update windows size on command
-shopt -s cmdhist                    # save multi-line commands in history as single line
-shopt -s extglob                # necessary for bash completion (programmable completion)
-shopt -s histappend histreedit histverify
-shopt -s mailwarn               # keep an eye on the mail file (access time)
-shopt -s nocaseglob                 # pathname expansion will be treated as case-insensitive (auto-corrects the case)
-shopt -s no_empty_cmd_completion        # no empty completion (bash>=2.04 only)
-shopt -s sourcepath
-stty start undef
-stty stop undef
-ulimit -S -c 0                      # (core file size) don't want any coredumps
-
-# completion
-COMP_WORDBREAKS=${COMP_WORDBREAKS/=/}
-complete -cf sudo
-
+  set -b
+  set -o notify
+  set bell-style visible
+  set completion-ignore-case on
+  shopt -s cdable_vars
+  shopt -s cdspell
+  shopt -s checkhash
+  shopt -s checkwinsize
+  shopt -s cmdhist
+  shopt -s extglob
+  shopt -s histappend histreedit histverify
+  shopt -s mailwarn
+  shopt -s nocaseglob
+  shopt -s no_empty_cmd_completion
+  shopt -s sourcepath
+  stty start undef
+  stty stop undef
+  ulimit -S -c 0
+  COMP_WORDBREAKS=${COMP_WORDBREAKS/=/}
+  complete -cf sudo
 fi
