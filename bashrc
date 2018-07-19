@@ -13,15 +13,25 @@ _initMyDir "${HOME}/v" "A place to store common docker volumes"
 _initMyDir "${HOME}/.config" "A place to store various configs - mostly Arch stuff"
 
 # load in extra files
+# shellcheck source=/dev/null
 test -f ~/.aliases && source ~/.aliases
+# shellcheck source=/dev/null
 test -f ~/.exports && source ~/.exports
+# shellcheck source=/dev/null
 test -f ~/.functions && source ~/.functions
+# shellcheck source=/dev/null
 test -f ~/.bash_completion && source ~/.bash_completion
+# shellcheck source=/dev/null
 test -f ~/.bash_completion && source ~/.bash_completion
+# shellcheck source=/dev/null
 test -f /etc/bash_completion && source /etc/bash_completion
+# shellcheck source=/dev/null
 test -f /usr/local/git/contrib/completion/git-completion.bash && source /usr/local/git/contrib/completion/git-completion.bash
+# shellcheck source=/dev/null
 test -f /usr/local/git/contrib/completion/git-prompt.sh && source /usr/local/git/contrib/completion/git-prompt.sh
+# shellcheck source=/dev/null
 test -f /usr/local/bin/virtualenvwrapper.sh && source /usr/local/bin/virtualenvwrapper.sh
+# shellcheck source=/dev/null
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
 # maven
@@ -34,8 +44,9 @@ alias grun='java org.antlr.v4.runtime.misc.TestRig'
 [ -z "$PS1" ] && return
 
 # PS1
+# shellcheck source=/dev/null
 source ~/.bash_git
-export PS1="\T (\h)"'$(git branch &>/dev/null;\
+export PS1="\\T (\\h)"'$(git branch &>/dev/null;\
 if [ $? -eq 0 ]; then \
   echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1; \
   if [ "$?" -eq "0" ]; then \
