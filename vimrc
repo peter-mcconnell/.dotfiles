@@ -213,7 +213,7 @@ set runtimepath+=~/.vim/bundle/deoplete.nvim/
 let g:deoplete#enable_at_startup = 1
 
 " editorconfig
-let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
 " CtrlP settings
 let g:ctrlp_match_window = 'bottom,order:ttb'
