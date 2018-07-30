@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -u
-
 export PATH="/opt/apache-maven-3.3.9/bin:$PATH"
 test -f /usr/local/bin/mysql/bin && export PATH=/usr/local/mysql/bin:$PATH
 test -f /usr/local/go/bin/go && export PATH=/usr/local/go/bin:$PATH

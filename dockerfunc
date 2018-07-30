@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -u
-
 # inspired by @jfrazelle
 
 ### docker client aliases

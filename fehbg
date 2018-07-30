@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 
-set -eu
+set -e
 
 feh  --bg-scale "$HOME/Pictures/default.jpg"

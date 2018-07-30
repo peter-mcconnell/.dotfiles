@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -u
-
 # some funcs to help with profile setup (not designed to be bash_funcs)
 _initMyDir () {
   if [ ! -d "${1}" ]; then
