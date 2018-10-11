@@ -2,6 +2,8 @@
 
 # inspired by @jfrazelle
 
+LOCALIP=$(ipconfig getifaddr en0)
+
 ### docker client aliases
 
 d_p() {
