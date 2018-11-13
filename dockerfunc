@@ -53,6 +53,18 @@ d_vim() {
     -ti pemcconnell/vimothy:0.1 vim "$vimargs"
 }
 
+d_openstack() {
+  if [ ! -f ./creds.sh ]; then
+    echo "./creds.sh not found"
+  else
+    if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+    docker run \
+        --rm \
+        -v "$(pwd)/creds.sh:/creds.sh" \
+        -ti pemcconnell/docker-openstack:latest
+  fi
+}
+
 d_cid() {
   d_registry "$@"
   d_mesosphere "$@"
