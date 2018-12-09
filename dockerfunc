@@ -34,11 +34,11 @@ _docker_relieson(){ # taken from: https://github.com/jfrazelle/dotfiles/blob/mas
     fi
   done
 }
+# specifically for GUI containers on OSX
 _require_socat() {
   cmd=$(lsof -nP -i4TCP:6000 | tail -n1 | awk '{ print $1 }')
   if [ "$cmd" != "socat" ]; then
     echo "running socat in background"
-    echo ">> $DISPLAY"
     socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\""$DISPLAY"\" &
   else
     echo "socat already running"
