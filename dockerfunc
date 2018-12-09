@@ -2,7 +2,7 @@
 
 # inspired by @jfrazelle
 
-LOCALIP=$(ipconfig getifaddr en0)
+LOCALIP=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
 
 ### docker client aliases
 
@@ -470,7 +470,7 @@ d_ettercap() {
   _require_socat
   docker run \
     --rm \
-    -e "DISPLAY=$IP:0" \
+    -e "DISPLAY=$LOCALIP:0" \
     -ti \
     pemcconnell/ettercap-graphical:latest
 }
