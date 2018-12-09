@@ -34,6 +34,16 @@ _docker_relieson(){ # taken from: https://github.com/jfrazelle/dotfiles/blob/mas
     fi
   done
 }
+_require_socat() {
+  cmd=$(lsof -nP -i4TCP:6000 | tail -n1 | awk '{ print $1 }')
+  if [ "$cmd" != "socat" ]; then
+    echo "running socat in background"
+    echo ">> $DISPLAY"
+    socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\""$DISPLAY"\" &
+  else
+    echo "socat already running"
+  fi
+}
 
 ### container aliases
 # Usage: d_vim ~/path/to/file (just make sure this is mounted, obvs)
@@ -444,7 +454,6 @@ d_arachni() {
       -ti \
       treadie/arachni sh -c "/opt/arachni/bin/arachni_web_task db:setup"
   else
-    if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
     echo "default creds: admin@admin.admin / administrator"
     docker run \
       --rm \
@@ -454,4 +463,14 @@ d_arachni() {
       -ti \
       treadie/arachni
   fi
+}
+
+d_ettercap() {
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  _require_socat
+  docker run \
+    --rm \
+    -e "DISPLAY=$IP:0" \
+    -ti \
+    pemcconnell/ettercap-graphical:latest
 }
