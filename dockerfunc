@@ -106,9 +106,10 @@ d_jenkins() {
     -e PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin/docker \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v "${HOME}/bin/docker/docker-Li386:/usr/local/bin/docker" \
+    -v "${HOME}/.netrc:/root/.netrc" \
     --name jenkins \
     -d \
-    jenkins/jenkins:latest
+      "${JENKINS_IMAGE:-jenkins/jenkins:latest}"
 }
 
 d_mesosphere() {
