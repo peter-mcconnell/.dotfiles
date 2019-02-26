@@ -480,9 +480,49 @@ d_grafana() {
   if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
   docker run \
     -d \
-    -p 3000:3000 \
-    --name=grafana \
+    -v "$HOME/v/grafana:/usr/share/grafana" \
     -e "GF_SERVER_ROOT_URL=http://localhost:3000/" \
     -e "GF_SECURITY_ADMIN_PASSWORD=secret" \
+    -p 3000:3000 \
+    --name=grafana \
     grafana/grafana
 }
+
+d_sonarqube() {
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker run \
+    -d \
+    -v "$HOME/v/sonarqube:/opt/sonarqube/" \
+    -p 9000:9000 \
+    --name=sonarqube \
+    sonarqube
+}
+
+d_concourse() {
+  if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
+  docker network create concourse-net
+  docker run --name concourse-db \
+    --net=concourse-net \
+    -h concourse-postgres \
+    -p 5432:5432 \
+    -e POSTGRES_USER=admin \
+    -e POSTGRES_PASSWORD=password \
+    -e POSTGRES_DB=atc \
+    -d postgres
+  docker run  --name concourse \
+    -h concourse \
+    -p 8080:8080 \
+    -d \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    --privileged \
+    --net=concourse-net \
+    concourse/concourse quickstart \
+    --add-local-user=admin:password \
+    --main-team-local-user=admin \
+    --external-url=http://localhost:8080 \
+    --postgres-user=admin \
+    --postgres-password=password \
+    --postgres-host=concourse-db \
+    --worker-garden-dns-server 8.8.8.8
+}
+
