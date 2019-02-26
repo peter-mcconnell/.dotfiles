@@ -70,37 +70,26 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'fatih/vim-go'
-Plugin 'shougo/deoplete.nvim'
-Plugin 'zchee/deoplete-go'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'tomasr/molokai'
 Plugin 'docker/docker'
 Plugin 'tpope/vim-git'
 Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-sensible'
-Plugin 'tpope/vim-surround'
 Plugin 'vim-airline/vim-airline'
-Plugin 'justinmk/vim-sneak'
-Plugin 'godlygeek/tabular'
-Plugin 'ervandew/supertab'
-Plugin 'rodjek/vim-puppet'
 Plugin 'pearofducks/ansible-vim'
 Plugin 'hashivim/vim-terraform'
 Plugin 'hashivim/vim-packer'
 Plugin 'hashivim/vim-vagrant'
-Plugin 'hashivim/vim-consul'
 Plugin 'hashivim/vim-vaultproject'
 Plugin 'hashivim/vim-nomadproject'
 Plugin 'kien/ctrlp.vim'
 Plugin 'mhinz/vim-grepper'
 Plugin 'konfekt/fastfold'
-Plugin 'junegunn/vim-github-dashboard'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'thaerkh/vim-workspace'
 Plugin 'bats.vim'
-Plugin 'nvie/vim-flake8'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'w0rp/ale'
+Plugin 'ambv/black'
 
 call vundle#end()            " required
 filetype plugin indent on
@@ -109,8 +98,9 @@ filetype plugin indent on
 let g:terraform_align=1
 
 " python settings
-let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python3_host_prog = '/Library/Frameworks/Python.framework/Versions/3.6/bin/python3'
 let g:python2_host_prog = '/usr/local/bin/python2'
+let g:black_linelength = 80
 
 " golang settings
 let g:go_highlight_functions = 1
@@ -132,6 +122,10 @@ nnoremap tt  :tabedit<Space>
 nnoremap tn  :tabnext<Space>
 nnoremap tm  :tabm<Space>
 nnoremap td  :tabclose<CR>
+nnoremap pj  <C-W><C-J>
+nnoremap pk  <C-W><C-K>
+nnoremap pl  <C-W><C-L>
+nnoremap ph  <C-W><C-H>
 
 " NERDTree
 let NERDTreeShowHidden=1
@@ -164,9 +158,6 @@ au FileType css set omnifunc=csscomplete#CompleteCSS
 au FileType xml set omnifunc=xmlcomplete#CompleteTags
 au FileType c set omnifunc=ccomplete#Complete
 
-" vim-flake8
-autocmd BufWritePost *.py call Flake8()
-
 " vim-go
 let g:go_fmt_fail_silently = 0
 let g:go_fmt_command = "goimports"
@@ -182,17 +173,6 @@ let g:go_highlight_build_constraints = 1
 " vim-terraform
 let g:terraform_fmt_on_save = 1
 
-" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_eslint_checker = 1
-let g:syntastic_javascript_checkers = ['eslint']
-
 " vim-grepper
 nnoremap <leader>g :Grepper -tool git<cr>
 nnoremap <leader>G :Grepper -tool ag<cr>
@@ -207,10 +187,6 @@ let g:grepper.jump          = 1
 let g:grepper.next_tool     = '<leader>g'
 let g:grepper.simple_prompt = 1
 let g:grepper.quickfix      = 0
-
-" Use deoplete.
-set runtimepath+=~/.vim/bundle/deoplete.nvim/
-let g:deoplete#enable_at_startup = 1
 
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
@@ -242,7 +218,7 @@ let g:ale_linters = {
         \   'css': ['csslint', 'stylelint'],
         \   'nim': ['nim', 'nimsuggest'],
         \   'vim': ['vint'],
-        \   'python': ['python', 'pyflakes', 'flake8'],
+        \   'python': ['python', 'black'],
         \   'shell': ['sh', 'shellcheck'],
         \   'zsh': ['zsh'],
         \   'swift': ['swiftc'],
@@ -264,5 +240,6 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " support for Jenkinsfiles
 au BufNewFile,BufRead Jenkinsfile setf groovy
 
-" other
-let g:sneak#streak = 1
+" panes
+set splitbelow
+set splitright
