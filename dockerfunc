@@ -409,10 +409,10 @@ d_jupyter() {
   elif [ -d "$1" ]; then
     vol=" -v $(cd "$(dirname "$1")" || exit; pwd)/:${notebookroot}$(dirname "$1")/"
   fi
-  docker run -d -p 8888:8888 "$vol" \
+  docker run -d -p 8888:8888 $vol \
     jupyter/minimal-notebook sh -c "mkdir -p $notebookroot && start-notebook.sh \
-    --NotebookApp.token= \
-    --NotebookApp.notebook_dir=$notebookroot"
+      --NotebookApp.token= \
+      --NotebookApp.notebook_dir=$notebookroot"
 
   sleep 1
   open http://localhost:8888
@@ -426,7 +426,7 @@ d_jupytergo() {
   elif [ -d "$1" ]; then
     vol=" -v $(cd "$(dirname "$1")" || exit; pwd)/:${notebookroot}$(dirname "$1")/"
   fi
-  docker run -d -p 8888:8888 "$vol" \
+  docker run -d -p 8888:8888 $vol \
     yunabe/lgo sh -c "mkdir -p $notebookroot && jupyter notebook --ip=0.0.0.0 \
     --NotebookApp.token= \
     --NotebookApp.notebook_dir=$notebookroot"
