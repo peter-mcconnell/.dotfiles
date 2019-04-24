@@ -6,6 +6,20 @@ LOCALIP=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
 
 ### docker client aliases
 
+d_a() {
+  # delete all running containers
+  docker rm -f $(docker ps -q) 2&>1 /dev/null;
+}
+
+d_l() {
+  # follows the logs of the last container
+  docker logs -f $(docker ps -q | tail -n1)
+}
+
+d_l_watch() {
+  watch 'docker logs $(docker ps -q | tail -n1)'
+}
+
 d_p() {
   docker ps "${@}"
 }
@@ -526,3 +540,25 @@ d_concourse() {
     --worker-garden-dns-server 8.8.8.8
 }
 
+d_mpsyt() {
+  docker run --rm \
+  -e PULSE_SERVER=docker.for.mac.localhost \
+  -e http_proxy=$HTTP_PROXY \
+  -e https_proxy=$HTTPS_PROXY \
+  -v ~/.config/pulse:/home/pulseaudio/.config/pulse \
+  -it \
+  --name player \
+  pemcconnell/mpsyt:0.1 "$@"
+}
+
+d_player() {
+  docker run --rm \
+    -e PULSE_SERVER=docker.for.mac.localhost \
+    -e http_proxy=$HTTP_PROXY \
+    -e https_proxy=$HTTPS_PROXY \
+    -v ~/.config/pulse:/home/tizonia/.config/pulse \
+    -v ~/.config/tizonia:/home/tizonia/.config/tizonia \
+    -ti \
+    --name tizonia \
+    pemcconnell/tizonia:latest "$@"
+}
