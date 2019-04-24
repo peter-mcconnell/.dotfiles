@@ -90,6 +90,7 @@ Plugin 'bats.vim'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'w0rp/ale'
 Plugin 'ambv/black'
+Plugin 'davidhalter/jedi-vim'
 
 call vundle#end()            " required
 filetype plugin indent on
@@ -122,10 +123,13 @@ nnoremap tt  :tabedit<Space>
 nnoremap tn  :tabnext<Space>
 nnoremap tm  :tabm<Space>
 nnoremap td  :tabclose<CR>
+" pane remaps
 nnoremap pj  <C-W><C-J>
 nnoremap pk  <C-W><C-K>
 nnoremap pl  <C-W><C-L>
 nnoremap ph  <C-W><C-H>
+" go to file
+nnoremap gf :vertical wincmd f<CR>
 
 " NERDTree
 let NERDTreeShowHidden=1
@@ -151,7 +155,6 @@ au BufRead,BufNewFile *.rb,*.rhtml set shiftwidth=2
 au BufRead,BufNewFile *.rb,*.rhtml set softtabstop=2
 au BufRead,BufNewFile *.otl set syntax=blockhl
 au BufRead,BufNewFile *.json set syntax=javascript
-au FileType python set omnifunc=pythoncomplete#Complete
 au FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 au FileType html set omnifunc=htmlcomplete#CompleteTags
 au FileType css set omnifunc=csscomplete#CompleteCSS
@@ -236,6 +239,9 @@ let g:ale_echo_cursor = 1
 let g:ale_echo_msg_error_str = 'ERROR'
 let g:ale_echo_msg_warning_str = 'WARNING'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+" jedi-vim
+let g:jedi#force_py_version=3
 
 " support for Jenkinsfiles
 au BufNewFile,BufRead Jenkinsfile setf groovy
