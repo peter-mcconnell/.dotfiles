@@ -1,3 +1,9 @@
 #!/usr/bin/env bash
 
-
+function wiremock() {
+  if ! [ -f ~/wiremock.jar ]; then
+    echo 'wiremock not found!'
+    exit 1
+  fi
+  java -jar ~/wiremock.jar --port 9000 --proxy-all="$1" --record-mappings
+}
