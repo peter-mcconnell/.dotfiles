@@ -562,3 +562,15 @@ d_player() {
     --name tizonia \
     pemcconnell/tizonia:latest "$@"
 }
+
+d_rev() {\
+  local vol
+  vol="${VOL:-$(pwd)}"
+  docker run --rm \
+    --cap-add SYS_PTRACE \
+    --security-opt seccomp=unconfined \
+    -v "$vol:/src" \
+    -w /src \
+    -ti \
+    pemcconnell/binutils:0.1
+}
