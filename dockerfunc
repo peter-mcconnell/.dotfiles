@@ -540,7 +540,10 @@ d_concourse() {
     --worker-garden-dns-server 8.8.8.8
 }
 
-d_mpsyt() {
+d_player() {
+  if ! pgrep -x "pulseaudio" > /dev/null; then
+    pulseaudio --load=module-native-protocol-tcp --exit-idle-time=-1 --daemon
+  fi
   docker run --rm \
   -e PULSE_SERVER=docker.for.mac.localhost \
   -e http_proxy=$HTTP_PROXY \
@@ -551,7 +554,7 @@ d_mpsyt() {
   pemcconnell/mpsyt:0.1 "$@"
 }
 
-d_player() {
+d_tizonia() {
   docker run --rm \
     -e PULSE_SERVER=docker.for.mac.localhost \
     -e http_proxy=$HTTP_PROXY \
