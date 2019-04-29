@@ -540,10 +540,14 @@ d_concourse() {
     --worker-garden-dns-server 8.8.8.8
 }
 
-d_player() {
+_init_pulsedaemon() {
   if ! pgrep -x "pulseaudio" > /dev/null; then
     pulseaudio --load=module-native-protocol-tcp --exit-idle-time=-1 --daemon
   fi
+}
+
+d_player() {
+  _init_pulsedaemon
   docker run --rm \
   -e PULSE_SERVER=docker.for.mac.localhost \
   -e http_proxy=$HTTP_PROXY \
@@ -555,6 +559,7 @@ d_player() {
 }
 
 d_tizonia() {
+  _init_pulsedaemon
   docker run --rm \
     -e PULSE_SERVER=docker.for.mac.localhost \
     -e http_proxy=$HTTP_PROXY \
