@@ -571,7 +571,7 @@ d_tizonia() {
     pemcconnell/tizonia:latest "$@"
 }
 
-d_rev() {\
+d_rev() {
   local vol
   vol="${VOL:-$(pwd)}"
   docker run --rm \
@@ -581,4 +581,13 @@ d_rev() {\
     -w /src \
     -ti \
     pemcconnell/binutils:0.1
+}
+
+d_wetty() {
+  docker run --rm \
+    --name term \
+    -e WETTY_USER=term \
+    -e WETTY_HASH='' \
+    -p 3000:3000 \
+    -dt freeflyer/wetty
 }
