@@ -591,3 +591,12 @@ d_wetty() {
     -p 3000:3000 \
     -dt freeflyer/wetty
 }
+
+d_bats() {
+  docker run --rm \
+    --name bats \
+    -v "$(pwd):/src" \
+    -w /src \
+    -ti \
+    bats/bats:v1.1.0 "$@"
+}
