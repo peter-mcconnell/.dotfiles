@@ -19,7 +19,7 @@ if ! [ -x "$(command -v docker)" ]; then
   brew cask install docker
 fi
 brew cask install iterm2
-fi
+
 pip3 install neovim
 
 # upgrade ?
