@@ -23,8 +23,8 @@ set laststatus=2
 set mouse=a " enabling mouse
 set showmatch
 set mat=5
-set nu
-set rnu
+"set nu
+"set rnu
 set list listchars=tab:\ \ ,trail:·
 set list
 set t_Co=256
@@ -58,7 +58,7 @@ set ignorecase
 set smartcase
 set showcmd
 set cursorline
-set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
+"set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 set laststatus=2
 set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
 
@@ -75,7 +75,7 @@ Plugin 'tomasr/molokai'
 Plugin 'docker/docker'
 Plugin 'tpope/vim-git'
 Plugin 'tpope/vim-fugitive'
-Plugin 'vim-airline/vim-airline'
+"Plugin 'vim-airline/vim-airline'
 Plugin 'pearofducks/ansible-vim'
 Plugin 'hashivim/vim-terraform'
 Plugin 'hashivim/vim-packer'
