@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export AMI="ami-030dbca661d402413"
+
 # some funcs to help with profile setup (not designed to be bash_funcs)
 _initMyDir () {
   if [ ! -d "${1}" ]; then

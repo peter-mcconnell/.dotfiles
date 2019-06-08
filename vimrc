@@ -11,7 +11,7 @@ set lsp=0
 set wildmenu
 set wildmode=list:longest
 set wildignore=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,*.swp,*.jpg,*.gif,*.png
-set ruler
+"set ruler
 set cmdheight=1
 set lz
 set whichwrap+=<,>,h,l
@@ -56,11 +56,17 @@ set incsearch
 set hlsearch
 set ignorecase
 set smartcase
-set showcmd
+"set showcmd
 set cursorline
 "set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 set laststatus=2
 set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+
+let s:hidden_all = 1
+set noshowmode
+set noruler
+set laststatus=0
+set noshowcmd
 
 " Plugins
 let vundle_installed=1
@@ -71,17 +77,20 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'fatih/vim-go'
 Plugin 'plasticboy/vim-markdown'
-Plugin 'tomasr/molokai'
+"Plugin 'nlknguyen/papercolor-theme'
+Plugin 'nightsense/stellarized'
+"Plugin 'tomasr/molokai'
 Plugin 'docker/docker'
 Plugin 'tpope/vim-git'
 Plugin 'tpope/vim-fugitive'
 "Plugin 'vim-airline/vim-airline'
 Plugin 'pearofducks/ansible-vim'
-Plugin 'hashivim/vim-terraform'
-Plugin 'hashivim/vim-packer'
-Plugin 'hashivim/vim-vagrant'
-Plugin 'hashivim/vim-vaultproject'
-Plugin 'hashivim/vim-nomadproject'
+"Plugin 'hashivim/vim-terraform'
+"Plugin 'hashivim/vim-packer'
+"Plugin 'hashivim/vim-vagrant'
+"Plugin 'hashivim/vim-vaultproject'
+"Plugin 'hashivim/vim-nomadproject'
+Plugin 'hashivim/vim-hashicorp-tools'
 Plugin 'kien/ctrlp.vim'
 Plugin 'mhinz/vim-grepper'
 Plugin 'konfekt/fastfold'
@@ -94,6 +103,10 @@ Plugin 'davidhalter/jedi-vim'
 
 call vundle#end()            " required
 filetype plugin indent on
+
+set background=light
+colorscheme stellarized
+set termguicolors
 
 " terraform settings
 let g:terraform_align=1
@@ -141,7 +154,6 @@ map <C-n> :NERDTreeToggle<CR>
 
 " APPEARANCE
 syntax on
-set background=dark
 try
 	colorscheme molokai
 catch /^Vim\%((\a\+)\)\=:E185/
@@ -174,7 +186,7 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
 " vim-terraform
-let g:terraform_fmt_on_save = 1
+"let g:terraform_fmt_on_save = 1
 
 " vim-grepper
 nnoremap <leader>g :Grepper -tool git<cr>
