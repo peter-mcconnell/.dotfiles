@@ -9,7 +9,7 @@ test -f /usr/local/bin/mysql/bin && export PATH=/usr/local/mysql/bin:$PATH
 test -f /usr/local/go/bin/go && export PATH=/usr/local/go/bin:$PATH
 test -d ~/go && export GOPATH=~/go && PATH=$GOPATH/bin:$PATH
 test -d ~/.local/bin && PATH=~/.local/bin:$PATH
-export TERM=xterm-256color
+export TERM='xterm-256color'
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 export BLOCKSIZE=K            # set blocksize size
@@ -26,7 +26,6 @@ export LESSCHARSET='latin1'
 export LESS="-i -N -w  -z-4 -g -e -M -X -F -R -P%t?f%f \\"
 export LESSOPEN='|/usr/bin/lesspipe.sh %s 2>&-' # use this if lesspipe.sh exists
 export PAGER='less -e'
-export TERM='xterm'
 export TIMEFORMAT=$'\nreal %3R\tuser %3U\tsys %3S\tpcpu %P\n'
 export TMOUT=0                # auto logout after n seconds of inactivity
 export VIDEO_FORMAT=NTSC      # for use with creating compatible DVDs ('dvdauthor -x dvdauthor.xml' will fail if this not here)
