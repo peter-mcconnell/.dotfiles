@@ -1,5 +1,28 @@
 #!/usr/bin/env bash
 
+. ~/.dockerfunc
+
+man() {
+    LESS_TERMCAP_md=$'\e[01;31m' \
+    LESS_TERMCAP_me=$'\e[0m' \
+    LESS_TERMCAP_se=$'\e[0m' \
+    LESS_TERMCAP_so=$'\e[01;44;33m' \
+    LESS_TERMCAP_ue=$'\e[0m' \
+    LESS_TERMCAP_us=$'\e[01;32m' \
+    command man "$@"
+}
+
+cdls()
+{
+  if [ "$#" = 0 ]; then
+    cd ~ && ls -alt
+  elif [ -d "$@" ]; then
+    cd "$@" && ls -alt
+  else
+    >&2 echo "$@" directory not found!!!
+  fi
+}
+
 function validate_terraform() {
   find . -type f -name "*.tf" -exec dirname {} \;|sort -u | while read m; do (terraform validate -check-variables=false "$m" && echo "√ $m") || exit 1 ; done
 }
@@ -42,4 +65,9 @@ function __wget() {
     fi
   done <&3
   exec 3>&-
+}
+
+scrape_yt() {
+  name="$(curl --silent https://www.youtube.com/watch?v=Ha6SUtaXux0 | grep -o "<title>.*</title>" | sed -e "s/<title//g" | sed -e "s@</\?title>@@g" -e "s@\&amp;@and@g" -e "s@[^a-zA-Z0-9]@-@g" -e "s@[\-]\+@-@g").mp3"
+  youtube-dl --extract-audio --audio-format mp3 "$1" -o "$name"
 }
