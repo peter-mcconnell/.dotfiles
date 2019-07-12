@@ -21,6 +21,11 @@ mv_dotfiles:
 	@ln -fs `pwd`/tmux.conf ~/.tmux.conf
 	@ln -fs `pwd`/zshrc ~/.zshrc
 	@ln -fs `pwd`/fehbg ~/.fehbg
+	@ln -fs `pwd`/Xresources ~/.Xresources
+	@ln -fs `pwd`/dircolors ~/.dircolors
+	@ln -fs `pwd`/tmux.conf ~/.tmux.conf
+	@-ln -s `pwd`/gitconfig ~/.gitconfig
+	@touch ~/.machine.specific.aliases
 
 vundleplugins: vundleinstall
 	@vim +PluginClean +PluginInstall +GoInstallBinaries +UpdateRemotePlugins +qall

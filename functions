@@ -1,7 +1,31 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC1090
+. ~/.dockerfunc
+
+man() {
+    LESS_TERMCAP_md=$'\e[01;31m' \
+    LESS_TERMCAP_me=$'\e[0m' \
+    LESS_TERMCAP_se=$'\e[0m' \
+    LESS_TERMCAP_so=$'\e[01;44;33m' \
+    LESS_TERMCAP_ue=$'\e[0m' \
+    LESS_TERMCAP_us=$'\e[01;32m' \
+    command man "$@"
+}
+
+cdls()
+{
+  if [ "$#" = 0 ]; then
+    cd ~ && ls -alt
+  elif [ -d "$*" ]; then
+    cd "$*" && ls -alt
+  else
+    >&2 echo "$*" directory not found!!!
+  fi
+}
+
 function validate_terraform() {
-  find . -type f -name "*.tf" -exec dirname {} \;|sort -u | while read m; do (terraform validate -check-variables=false "$m" && echo "√ $m") || exit 1 ; done
+  find . -type f -name "*.tf" -exec dirname {} \;|sort -u | while read -r m; do (terraform validate -check-variables=false "$m" && echo "√ $m") || exit 1 ; done
 }
 
 function wiremock() {
@@ -12,8 +36,8 @@ function wiremock() {
   java -jar ~/wiremock.jar --port 9000 --proxy-all="$1" --record-mappings
 }
 
-function __wget() {
-  : ${DEBUG:=0}
+__wget() {
+  : "${DEBUG:=0}"
   local URL=$1
   local tag="Connection: close"
   local mark=0
@@ -24,7 +48,7 @@ function __wget() {
     return 1;
   fi
 
-  read proto server path <<<$(echo ${URL//// })
+  read -r proto server path <<<$(echo ${URL//// })
   DOC=/${path// //}
   HOST=${server//:*}
   PORT=${server//*:}
@@ -44,15 +68,17 @@ function __wget() {
   exec 3>&-
 }
 
-function remove_duplicate_lines() {
-  local source_file="$1"
-  local dest_file="$2"
-  aws '!visited[$0]++' "$source_file" "$dest_file"
+remove_duplicate_lines() {
+  source_file="$1"
+  dest_file="$2"
+  awk '!visited[$0]++' "$source_file" "$dest_file"
 }
 
-function imeant() {
-  # i might regret making this one day
-  cmd="$(echo "$(history | tail -n2 | head -n1)" | sed "s/^.* 20.*_[A-Za-z]* *[A-Za-z0-9\-_]*/$1/")"
-  echo " ... corrected to $cmd"
-  eval $cmd
+scrape_yt() {
+  dl="$(youtube-dl --extract-audio --audio-format mp3 "$1")"
+  echo "$dl"
+  file="$(echo "$dl" | grep -e "^\[ffmpeg\] Destination:" | sed -e "s@^.*: @@")"
+  cleanfilename="$(echo "$file" | sed -e "s@\-[a-zA-Z0-9]\+\..*\$@@" | sed -e "s@[^a-zA-Z0-9]@-@g" -e "s@[\-]\+@-@g").mp3"
+  echo "cleaning up filename to $cleanfilename"
+  mv "$file" "$cleanfilename"
 }

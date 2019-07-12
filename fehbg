@@ -1,5 +1,2 @@
-#!/usr/bin/env sh
-
-set -e
-
-feh  --bg-scale "$HOME/Pictures/default.jpg"
+#!/bin/sh
+feh --bg-fill '/home/nemo/Pictures/wallpaper.jpg' 

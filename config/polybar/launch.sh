@@ -4,9 +4,7 @@
 killall -q polybar
 
 # Wait until the processes have been shut down
-while pgrep -x polybar >/dev/null; do sleep 1; done
+while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
-# Launch bar1 and bar2
-polybar bar -c $HOME/.config/polybar/config
-
-echo "Bars launched..."
+# Launch polybar
+polybar main -c /home/nemo/.config/polybar/polybar-1/dark/config.blue &
