@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+function validate_terraform() {
+  find . -type f -name "*.tf" -exec dirname {} \;|sort -u | while read m; do (terraform validate -check-variables=false "$m" && echo "√ $m") || exit 1 ; done
+}
+
 function wiremock() {
   if ! [ -f ~/wiremock.jar ]; then
     echo 'wiremock not found!'
@@ -38,4 +42,17 @@ function __wget() {
     fi
   done <&3
   exec 3>&-
+}
+
+function remove_duplicate_lines() {
+  local source_file="$1"
+  local dest_file="$2"
+  aws '!visited[$0]++' "$source_file" "$dest_file"
+}
+
+function imeant() {
+  # i might regret making this one day
+  cmd="$(echo "$(history | tail -n2 | head -n1)" | sed "s/^.* 20.*_[A-Za-z]* *[A-Za-z0-9\-_]*/$1/")"
+  echo " ... corrected to $cmd"
+  eval $cmd
 }
