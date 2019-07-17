@@ -3,6 +3,12 @@
 # shellcheck disable=SC1090
 . ~/.dockerfunc
 
+wd() {
+  # where are the feckin docs?
+  path="${1:-.}"
+  find "$path" \( -iname \*.rst -o -iname \*.md \) -exec ls -al "{}" \;
+}
+
 man() {
     LESS_TERMCAP_md=$'\e[01;31m' \
     LESS_TERMCAP_me=$'\e[0m' \
