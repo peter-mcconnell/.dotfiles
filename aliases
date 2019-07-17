@@ -32,7 +32,7 @@ if [ -f ~/.machine.specific.aliases ]; then
   source ~/.machine.specific.aliases
 fi
 
-if [ -f /usr/bin/bat ]; then
+if [ -f /usr/bin/bat ] || [ -f /usr/local/bin/bat ]; then
   alias og_cat="$(which cat)"
   alias cat="bat"
 fi
