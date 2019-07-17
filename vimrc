@@ -99,7 +99,7 @@ filetype plugin indent on
 let g:terraform_align=1
 
 " python settings
-let g:python3_host_prog = '/Library/Frameworks/Python.framework/Versions/3.6/bin/python3'
+let g:python3_host_prog = '/usr/local/bin/python3'
 let g:python2_host_prog = '/usr/local/bin/python2'
 let g:black_linelength = 80
 
