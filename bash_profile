@@ -15,3 +15,13 @@ if [ -f "/etc/arch-release" ]; then
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+# osx python installs
+if [ -d "/Library/Frameworks/Python.framework/Versions/2.7/bin" ]; then
+  PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
+  export PATH
+fi
+if [ -d "/Library/Frameworks/Python.framework/Versions/3.6/bin" ]; then
+  PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
+  export PATH
+fi

@@ -9,7 +9,7 @@ alias dockerfilelint='~/s/dockerfilelint/bin/dockerfilelint'
 alias pip3='python3 -m pip'
 
 #lazy stuff
-alias l='ls -alht -color'
+alias l='ls -laht -color'
 alias c='clear'
 
 # vim on osx
@@ -21,7 +21,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 if [ -x /usr/bin/dircolors ]; then
   (test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)") || eval "$(dircolors -b)"
 fi
-alias ls='ls --color=auto'
+#alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -32,7 +32,7 @@ if [ -f ~/.machine.specific.aliases ]; then
   source ~/.machine.specific.aliases
 fi
 
-if [ -f /usr/bin/bat ]; then
+if [ -f /usr/bin/bat ] || [ -f /usr/local/bin/bat ]; then
   alias og_cat="$(which cat)"
   alias cat="bat"
 fi

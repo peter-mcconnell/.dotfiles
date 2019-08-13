@@ -11,15 +11,17 @@ fi
 
 d_a() {
   # delete all running containers
-  docker rm -f $(docker ps -q) 2&>1 /dev/null;
+  #shellcheck disable=SC2046
+  docker rm -f $(docker ps -q) 2>&1 /dev/null;
 }
 
 d_l() {
   # follows the logs of the last container
-  docker logs -f $(docker ps -q | tail -n1)
+  docker logs -f "$(docker ps -q | tail -n1)"
 }
 
 d_l_watch() {
+  #shellcheck disable=SC2016
   watch 'docker logs $(docker ps -q | tail -n1)'
 }
 
@@ -426,6 +428,7 @@ d_jupyter() {
   elif [ -d "$1" ]; then
     vol=" -v $(cd "$(dirname "$1")" || exit; pwd)/:${notebookroot}$(dirname "$1")/"
   fi
+  #shellcheck disable=SC2086
   docker run -d -p 8888:8888 $vol \
     jupyter/minimal-notebook sh -c "mkdir -p $notebookroot && start-notebook.sh \
       --NotebookApp.token= \
@@ -443,6 +446,7 @@ d_jupytergo() {
   elif [ -d "$1" ]; then
     vol=" -v $(cd "$(dirname "$1")" || exit; pwd)/:${notebookroot}$(dirname "$1")/"
   fi
+  #shellcheck disable=SC2086
   docker run -d -p 8888:8888 $vol \
     yunabe/lgo sh -c "mkdir -p $notebookroot && jupyter notebook --ip=0.0.0.0 \
     --NotebookApp.token= \
@@ -553,8 +557,8 @@ d_player() {
   _init_pulsedaemon
   docker run --rm \
   -e PULSE_SERVER=docker.for.mac.localhost \
-  -e http_proxy=$HTTP_PROXY \
-  -e https_proxy=$HTTPS_PROXY \
+  -e "http_proxy=$HTTP_PROXY" \
+  -e "https_proxy=$HTTPS_PROXY" \
   -v ~/.config/pulse:/home/pulseaudio/.config/pulse \
   -it \
   --name player \
@@ -565,8 +569,8 @@ d_tizonia() {
   _init_pulsedaemon
   docker run --rm \
     -e PULSE_SERVER=docker.for.mac.localhost \
-    -e http_proxy=$HTTP_PROXY \
-    -e https_proxy=$HTTPS_PROXY \
+    -e "http_proxy=$HTTP_PROXY" \
+    -e "https_proxy=$HTTPS_PROXY" \
     -v ~/.config/pulse:/home/tizonia/.config/pulse \
     -v ~/.config/tizonia:/home/tizonia/.config/tizonia \
     -ti \
@@ -602,4 +606,13 @@ d_bats() {
     -w /src \
     -ti \
     bats/bats:v1.1.0 "$@"
+}
+
+d_shellcheck() {
+  docker run --rm \
+    --name shellcheck \
+    -v "$(pwd):/src" \
+    -w /src \
+    -ti \
+    pemcconnell/shellcheck:bash-4.4.19 "$@"
 }

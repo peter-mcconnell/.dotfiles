@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC1090
 . ~/.dockerfunc
+
+wd() {
+  # where are the feckin docs?
+  path="${1:-.}"
+  find "$path" \( -iname \*.rst -o -iname \*.md \) -exec ls -al "{}" \;
+}
 
 man() {
     LESS_TERMCAP_md=$'\e[01;31m' \
@@ -16,15 +23,15 @@ cdls()
 {
   if [ "$#" = 0 ]; then
     cd ~ && ls -alt
-  elif [ -d "$@" ]; then
-    cd "$@" && ls -alt
+  elif [ -d "$*" ]; then
+    cd "$*" && ls -alt
   else
-    >&2 echo "$@" directory not found!!!
+    >&2 echo "$*" directory not found!!!
   fi
 }
 
 function validate_terraform() {
-  find . -type f -name "*.tf" -exec dirname {} \;|sort -u | while read m; do (terraform validate -check-variables=false "$m" && echo "√ $m") || exit 1 ; done
+  find . -type f -name "*.tf" -exec dirname {} \;|sort -u | while read -r m; do (terraform validate -check-variables=false "$m" && echo "√ $m") || exit 1 ; done
 }
 
 function wiremock() {
@@ -35,8 +42,8 @@ function wiremock() {
   java -jar ~/wiremock.jar --port 9000 --proxy-all="$1" --record-mappings
 }
 
-function __wget() {
-  : ${DEBUG:=0}
+__wget() {
+  : "${DEBUG:=0}"
   local URL=$1
   local tag="Connection: close"
   local mark=0
@@ -47,7 +54,7 @@ function __wget() {
     return 1;
   fi
 
-  read proto server path <<<$(echo ${URL//// })
+  read -r proto server path <<<$(echo ${URL//// })
   DOC=/${path// //}
   HOST=${server//:*}
   PORT=${server//*:}
@@ -65,6 +72,12 @@ function __wget() {
     fi
   done <&3
   exec 3>&-
+}
+
+remove_duplicate_lines() {
+  source_file="$1"
+  dest_file="$2"
+  awk '!visited[$0]++' "$source_file" "$dest_file"
 }
 
 scrape_yt() {
