@@ -148,6 +148,8 @@ catch /^Vim\%((\a\+)\)\=:E185/
 	" colorscheme isnt installed
 endtry
 
+hi Visual term=reverse cterm=reverse guibg=Grey
+
 " autocommands
 au BufRead,BufNewFile *.zcml set filetype=xml
 au BufRead,BufNewFile *.rb,*.rhtml set tabstop=2

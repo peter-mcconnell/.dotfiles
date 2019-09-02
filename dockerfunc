@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 LOCALIP="127.0.0.1"
-if command -v "ifconfig" 2&>1 /dev/null; then
-  if ifconfig en0 2> /dev/null; then
+if command -v "ifconfig" > /dev/null; then
+  if ifconfig en0 > /dev/null; then
     LOCALIP=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
   fi
 fi
