@@ -12,6 +12,13 @@ if [ -f "/etc/arch-release" ]; then
       exec startx
     fi
   fi
+  if command -v "wal" 2&>1 /dev/null; then
+    # wal is installed - grab latest config
+    wal -R > /dev/null
+  fi
+  if [ -f ~/.Xmodmap ]; then
+    xmodmap ~/.Xmodmap
+  fi
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"

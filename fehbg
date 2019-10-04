@@ -1,2 +1,2 @@
 #!/bin/sh
-feh --bg-fill '/home/nemo/Pictures/wallpaper.jpg' 
+feh --no-fehbg --bg-fill '/home/nemo/Pictures/grub_skull_splash.jpg' 
