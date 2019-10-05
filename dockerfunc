@@ -2,8 +2,10 @@
 
 LOCALIP="127.0.0.1"
 if command -v "ifconfig" > /dev/null; then
-  if ifconfig en0 > /dev/null; then
-    LOCALIP=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
+  if ip addr show en0 > /dev/null 2>&1; then
+    LOCALIP=$(ip addr show en0 | grep -o -e "inet \([^ |\/]*\)" | awk '{ print $2 }')
+  elif ip addr show wlp4s0 > /dev/null 2>&1; then
+    LOCALIP=$(ip addr show wlp4s0 | grep -o -e "inet \([^ |\/]*\)" | awk '{ print $2 }')
   fi
 fi
 
