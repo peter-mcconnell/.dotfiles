@@ -1,0 +1,10 @@
+[Unit]
+Description=10min battery check timer target
+StopWhenUnneeded=yes
+
+[Service]
+ExecStart=/usr/local/bin/_battery_check.sh
+
+[Install]
+WantedBy=batterycheck.timer
+

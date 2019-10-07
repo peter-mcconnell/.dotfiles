@@ -1,0 +1,9 @@
+[Unit]
+Description=Check the battery status every 10 minutes and nag if it falls below a given threshold
+
+[Timer]
+Unit=batterycheck.target
+OnUnitInactiveSec=10m
+
+[Install]
+WantedBy=basic.target
