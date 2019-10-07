@@ -21,13 +21,13 @@
 [plugins]
 [profiles]
   [[default]]
-    background_color = "#300a24"
     background_darkness = 0.09
     copy_on_selection = True
     cursor_color = "#aaaaaa"
     custom_command = XTERM=xterm+256color bash -l
     font = Source Code Pro Medium 16
     foreground_color = "#ffffff"
+    palette = "#000000:#aa0000:#00aa00:#aa5500:#0000aa:#aa00aa:#00aaaa:#aaaaaa:#555555:#ff5555:#55ff55:#ffff55:#5555ff:#ff55ff:#55ffff:#ffffff"
     scroll_on_output = True
     scrollback_infinite = True
     use_custom_command = True
