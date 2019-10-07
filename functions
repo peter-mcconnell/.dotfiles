@@ -3,6 +3,22 @@
 # shellcheck disable=SC1090
 . ~/.dockerfunc
 
+# custom brightness function for arch linux on 2016 mbp
+s_bright(){
+  lvl="${1:-$(cat /sys/class/backlight/gmux_backlight/max_brightness)}"
+  fchar="$(echo "$lvl" | head -c1)"
+  current="$(cat /sys/class/backlight/gmux_backlight/brightness)"
+  if [ "$fchar" = "+" ]; then
+    lvl="$(echo "${lvl#?}")"
+    lvl="$((current + lvl))"
+  elif [ "$fchar" = "-" ]; then
+    lvl="$(echo "${lvl#?}")"
+    lvl="$((current - lvl))"
+  fi
+  sudo chown $(whoami) /sys/class/backlight/gmux_backlight/brightness
+  echo "$lvl" > /sys/class/backlight/gmux_backlight/brightness
+}
+
 wd() {
   # where are the feckin docs?
   path="${1:-.}"
