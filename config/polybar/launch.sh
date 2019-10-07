@@ -7,4 +7,4 @@ killall -q polybar
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
 # Launch polybar
-polybar main -c /home/nemo/.config/polybar/polybar-1/dark/config.blue &
+polybar main -c /home/nemo/.config/polybar/polybar-1/dark/config.pink &
