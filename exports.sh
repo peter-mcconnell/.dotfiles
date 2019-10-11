@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 export PATH="/opt/apache-maven-3.3.9/bin:$PATH"
@@ -32,4 +32,4 @@ export TMOUT=0                # auto logout after n seconds of inactivity
 export VIDEO_FORMAT=NTSC      # for use with creating compatible DVDs ('dvdauthor -x dvdauthor.xml' will fail if this not here)
 export VISUAL='vim'
 
-source ~/.machine.specific.exports 2&> /dev/null
+test -f ~/.machine.specific.exports && . ~/.machine.specific.exports

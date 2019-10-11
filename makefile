@@ -13,7 +13,7 @@ mv_dotfiles:
 	@ln -fs `pwd`/vimrc ~/.config/nvim/init.vim
 	@ln -fs `pwd`/bashrc ~/.bashrc
 	@ln -fs `pwd`/bash_profile ~/.bash_profile
-	@ln -fs `pwd`/exports ~/.exports
+	@ln -fs `pwd`/exports.sh ~/.exports
 	@ln -fs `pwd`/aliases ~/.aliases
 	@ln -fs `pwd`/functions ~/.functions
 	@ln -fs `pwd`/dockerfunc ~/.dockerfunc
