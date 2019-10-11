@@ -9,13 +9,13 @@ s_bright(){
   fchar="$(echo "$lvl" | head -c1)"
   current="$(cat /sys/class/backlight/gmux_backlight/brightness)"
   if [ "$fchar" = "+" ]; then
-    lvl="$(echo "${lvl#?}")"
+    lvl="${lvl#?}"
     lvl="$((current + lvl))"
   elif [ "$fchar" = "-" ]; then
-    lvl="$(echo "${lvl#?}")"
+    lvl="${lvl#?}"
     lvl="$((current - lvl))"
   fi
-  sudo chown $(whoami) /sys/class/backlight/gmux_backlight/brightness
+  sudo chown "$(whoami)" /sys/class/backlight/gmux_backlight/brightness
   echo "$lvl" > /sys/class/backlight/gmux_backlight/brightness
 }
 

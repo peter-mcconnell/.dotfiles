@@ -11,21 +11,20 @@ mv_dotfiles:
 	@ln -fs `pwd`/config ~/.config
 	@ln -fs `pwd`/vimrc ~/.vimrc
 	@ln -fs `pwd`/vimrc ~/.config/nvim/init.vim
-	@ln -fs `pwd`/bashrc ~/.bashrc
-	@ln -fs `pwd`/bash_profile ~/.bash_profile
+	@ln -fs `pwd`/bashrc.sh ~/.bashrc
+	@ln -fs `pwd`/bash_profile.sh ~/.bash_profile
 	@ln -fs `pwd`/exports.sh ~/.exports
-	@ln -fs `pwd`/aliases ~/.aliases
-	@ln -fs `pwd`/functions ~/.functions
-	@ln -fs `pwd`/dockerfunc ~/.dockerfunc
-	@ln -fs `pwd`/bash_git ~/.bash_git
+	@ln -fs `pwd`/aliases.sh ~/.aliases
+	@ln -fs `pwd`/functions.sh ~/.functions
+	@ln -fs `pwd`/dockerfunc.sh ~/.dockerfunc
+	@ln -fs `pwd`/bash_git.sh ~/.bash_git
 	@ln -fs `pwd`/tmux.conf ~/.tmux.conf
 	@ln -fs `pwd`/zshrc ~/.zshrc
-	@ln -fs `pwd`/fehbg ~/.fehbg
+	@ln -fs `pwd`/fehbg.sh ~/.fehbg
 	@ln -fs `pwd`/Xresources ~/.Xresources
 	@ln -fs `pwd`/dircolors ~/.dircolors
 	@ln -fs `pwd`/tmux.conf ~/.tmux.conf
 	@-ln -s `pwd`/gitconfig ~/.gitconfig 2> /dev/null
-	@touch ~/.machine.specific.aliases
 
 vundleplugins: vundleinstall
 	@vim +PluginClean +PluginInstall +GoInstallBinaries +UpdateRemotePlugins +qall
