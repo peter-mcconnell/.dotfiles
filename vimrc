@@ -70,12 +70,13 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'fatih/vim-go'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'tomasr/molokai'
 Plugin 'docker/docker'
+Plugin 'nanotech/jellybeans.vim'
 Plugin 'tpope/vim-git'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
 Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'pearofducks/ansible-vim'
 Plugin 'hashivim/vim-terraform'
 Plugin 'hashivim/vim-packer'
@@ -88,7 +89,7 @@ Plugin 'konfekt/fastfold'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'bats.vim'
 Plugin 'editorconfig/editorconfig-vim'
-Plugin 'w0rp/ale'
+Plugin 'dense-analysis/ale'
 Plugin 'ambv/black'
 Plugin 'davidhalter/jedi-vim'
 
@@ -143,9 +144,9 @@ map <C-n> :NERDTreeToggle<CR>
 syntax on
 set background=dark
 try
-	colorscheme molokai
+  colorscheme jellybeans
 catch /^Vim\%((\a\+)\)\=:E185/
-	" colorscheme isnt installed
+  " colorscheme isnt installed
 endtry
 
 hi Visual term=reverse cterm=reverse guibg=Grey
@@ -206,9 +207,11 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 let g:ale_enabled = 1
 let g:ale_completion_enabled = 1
 let g:ale_keep_list_window_open = 0
+let g:ale_sign_column_always = 1
 let g:ale_list_window_size = 5
 let g:ale_open_list = 1
 let g:ale_set_highlights = 1
+let g:airline#extensions#ale#enabled = 1
 " let g:ale_set_loclist = 0
 " let g:ale_set_quickfix = 1
 let g:ale_warn_about_trailing_whitespace = 0
@@ -223,7 +226,7 @@ let g:ale_linters = {
         \   'css': ['csslint', 'stylelint'],
         \   'nim': ['nim', 'nimsuggest'],
         \   'vim': ['vint'],
-        \   'python': ['python', 'black'],
+        \   'python': ['flake8', 'pylint', 'black'],
         \   'shell': ['sh', 'shellcheck'],
         \   'zsh': ['zsh'],
         \   'swift': ['swiftc'],
@@ -247,6 +250,9 @@ let g:jedi#force_py_version=3
 
 " support for Jenkinsfiles
 au BufNewFile,BufRead Jenkinsfile setf groovy
+
+" airline
+let g:airline_powerline_fonts = 1
 
 " panes
 set splitbelow
