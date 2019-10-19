@@ -9,7 +9,11 @@ alias dockerfilelint='~/s/dockerfilelint/bin/dockerfilelint'
 alias pip3='python3 -m pip'
 
 #lazy stuff
-alias l='ls -laht -color'
+if command -v exa > /dev/null; then
+  alias l='exa --long --header --git -t modified -h -a'
+else
+  alias l='ls -laht -color'
+fi
 alias c='clear'
 
 # vim on osx
