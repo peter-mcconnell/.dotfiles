@@ -24,6 +24,7 @@ mv_dotfiles:
 	@ln -fs `pwd`/Xresources ~/.Xresources
 	@ln -fs `pwd`/dircolors ~/.dircolors
 	@ln -fs `pwd`/tmux.conf ~/.tmux.conf
+	@ln -fs `pwd`/xinitrc.sh ~/.xinitrc
 	@-ln -s `pwd`/gitconfig ~/.gitconfig 2> /dev/null
 
 vundleplugins: vundleinstall
