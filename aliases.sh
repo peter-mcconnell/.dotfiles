@@ -59,3 +59,10 @@ export LESS_TERMCAP_so=$'\E[01;44;33m' # begin reverse video
 export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
 export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
+
+# docker media player shortcuts
+spotify_cmd="d_tizonia --spotify-user pemcconnell"
+if [ -f ~/secrets/spotify ]; then
+  spotify_cmd="${spotify_cmd} --spotify-password '$(cat ~/secrets/spotify)'"
+fi
+alias play_artist="\$spotify_cmd --spotify-artist"
