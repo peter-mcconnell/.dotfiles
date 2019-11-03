@@ -87,11 +87,11 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'mhinz/vim-grepper'
 Plugin 'konfekt/fastfold'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'bats.vim'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'dense-analysis/ale'
 Plugin 'ambv/black'
 Plugin 'davidhalter/jedi-vim'
+Plugin 'aliou/bats.vim'
 
 call vundle#end()            " required
 filetype plugin indent on
@@ -232,6 +232,8 @@ let g:ale_linters = {
         \   'swift': ['swiftc'],
         \   'sql': ['sqlint'],
         \}
+let g:ale_python_pylint_options = '--extension-pkg-whitelist=cv2'
+let g:ale_sh_shellcheck_options = '-x'
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_enter = 1
