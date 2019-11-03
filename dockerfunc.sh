@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
 
-LOCALIP="127.0.0.1"
-if command -v "ifconfig" > /dev/null; then
-  if ip addr show en0 > /dev/null 2>&1; then
-    LOCALIP=$(ip addr show en0 | grep -o -e "inet \([^ |\/]*\)" | awk '{ print $2 }')
-  elif ip addr show wlp4s0 > /dev/null 2>&1; then
-    LOCALIP=$(ip addr show wlp4s0 | grep -o -e "inet \([^ |\/]*\)" | awk '{ print $2 }')
+__get_ip() {
+  LOCALIP="127.0.0.1"
+  if command -v "ifconfig" > /dev/null; then
+    if ip addr show en0 > /dev/null 2>&1; then
+      LOCALIP=$(ip addr show en0 | grep -o -e "inet \([^ |\/]*\)" | awk '{ print $2 }')
+    elif ip addr show wlp4s0 > /dev/null 2>&1; then
+      LOCALIP=$(ip addr show wlp4s0 | grep -o -e "inet \([^ |\/]*\)" | awk '{ print $2 }')
+    fi
   fi
-fi
+  echo "$LOCALIP"
+}
+
+LOCALIP="$(__get_ip)"
 
 ### docker client aliases
 
@@ -116,21 +121,19 @@ d_registry() {
 d_jenkins() {
   if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
   docker run \
-    --add-host localhost:"${LOCALIP}" \
-    --add-host marathon:"${LOCALIP}" \
     -p 8080:8080 \
-    -p 50000:50000 \
-    -v "$HOME/v/jenkins_home:/var/jenkins_home" \
-    -v "$HOME/v/jenkins_user:/root" \
+    -p 40000:40000 \
     -u 0 \
     -w /root \
-    -e PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin/docker \
+    --add-host localhost:127.0.0.1 \
+    -v "$HOME/v/jenkins_home:/var/jenkins_home" \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    -v "${HOME}/bin/docker/docker-Li386:/usr/local/bin/docker" \
+    -v "$HOME/v/jenkins_user:/root" \
+    -v /var/run/docker.sock:/var/run/docker.sock \
     -v "${HOME}/.netrc:/root/.netrc" \
     --name jenkins \
     -d \
-      "${JENKINS_IMAGE:-jenkins/jenkins:latest}"
+      "${JENKINS_IMAGE:-jenkins/jenkins:lts}"
 }
 
 d_mesosphere() {
@@ -568,6 +571,18 @@ d_player() {
 }
 
 d_tizonia() {
+  docker run --rm \
+    -v ~/.config/tizonia:/home/tizonia/.config/tizonia \
+    -v ~/.config/pulse/cookie:/home/tizonia/.config/pulse/cookie \
+    -v "${XDG_RUNTIME_DIR}/pulse:${XDG_RUNTIME_DIR}/pulse" \
+    -e "PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native" \
+    -u "$(id -u)" \
+    -ti \
+    --name tizonia_mac \
+    pemcconnell/tizonia:latest "$@"
+}
+
+d_tizonia_mac() {
   _init_pulsedaemon
   docker run --rm \
     -e PULSE_SERVER=docker.for.mac.localhost \
