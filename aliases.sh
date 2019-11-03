@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC1090
+
 alias diff='diff --color=auto'
 
 alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
