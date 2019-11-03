@@ -38,13 +38,16 @@ if [ -f ~/.machine.specific.aliases ]; then
   source ~/.machine.specific.aliases
 fi
 
-if which bat > /dev/null 2>&1; then
-  alias og_cat="$(which cat)"
+if command -v bat > /dev/null 2>&1; then
+  alias og_cat="\$(which cat)"
   alias cat="bat"
 fi
 
-if which htop > /dev/null 2>&1; then
-  alias og_top="$(which top)"
+if command -v gtop > /dev/null 2>&1; then
+  alias og_top="\$(which top)"
+  alias top="gtop"
+elif command -v htop > /dev/null 2>&1; then
+  alias og_top="\$(which top)"
   alias top="htop"
 fi
 
