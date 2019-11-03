@@ -5,7 +5,7 @@
   extra_styling = False
   handle_size = 2
   scroll_tabbar = True
-  title_font = Sans 16
+  title_font = Source Code Pro 16
   title_hide_sizetext = True
   title_receive_bg_color = "#729fcf"
   title_transmit_bg_color = "#2e3436"
