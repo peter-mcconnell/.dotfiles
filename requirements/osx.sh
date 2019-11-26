@@ -2,7 +2,7 @@
 
 # install homebrew
 if ! [ -x "$(command -v brew)" ]; then
-  ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
+  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
 # install cask
@@ -11,6 +11,9 @@ brew tap homebrew/cask
 # install desired software
 if ! [ -x "$(command -v go)" ]; then
   brew install go
+fi
+if ! [ -x "$(command -v terraform)" ]; then
+  brew install terraform
 fi
 if ! [ -x "$(command -v python3)" ]; then
   brew install python3

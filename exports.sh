@@ -2,9 +2,9 @@
 
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 export PATH="/opt/apache-maven-3.3.9/bin:$PATH"
-export PATH="/Users/pete/Library/Python/3.7/bin/:$PATH"
+export PATH="${HOME}/Library/Python/3.7/bin/:$PATH"
 #export PATH="/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages:$PATH"
-export PATH="/Users/pete/Library/Python/2.7/bin:$PATH"
+export PATH="${HOME}/Library/Python/2.7/bin:$PATH"
 test -f /usr/local/bin/mysql/bin && export PATH=/usr/local/mysql/bin:$PATH
 test -f /usr/local/go/bin/go && export PATH=/usr/local/go/bin:$PATH
 test -d ~/go && export GOPATH=~/go && PATH=$GOPATH/bin:$PATH
