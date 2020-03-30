@@ -48,23 +48,25 @@ alias grun='java org.antlr.v4.runtime.misc.TestRig'
 # PS1
 # shellcheck source=/dev/null
 source ~/.bash_git
-export PS1="\\T (\\h)"'$(git branch &>/dev/null;
-if [ $? -eq 0 ]; then
-  echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1;
-  if [ "$?" -eq "0" ]; then
-    # @4 - Clean repository - nothing to commit
-    echo "\[\033[0;32m\]"$(__git_ps1 " (%s)");
+if [ "$SKIP_PS1" != "1" ]; then
+  export PS1="\\T (\\h)"'$(git branch &>/dev/null;
+  if [ $? -eq 0 ]; then
+    echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1;
+    if [ "$?" -eq "0" ]; then
+      # @4 - Clean repository - nothing to commit
+      echo "\[\033[0;32m\]"$(__git_ps1 " (%s)");
+    else
+      # @5 - Changes to working tree
+      echo "\[\033[0;91m\]"$(__git_ps1 " {%s}");
+    fi) \[\033[1;33m\]\w\[\033[0m\]\n\$ ";
   else
-    # @5 - Changes to working tree
-    echo "\[\033[0;91m\]"$(__git_ps1 " {%s}");
-  fi) \[\033[1;33m\]\w\[\033[0m\]\n\$ ";
-else
-  # @2 - Prompt when not in GIT repo
-  echo " \[\033[1;33m\]\w\[\033[0m\]\n\$ "
-fi)'
+    # @2 - Prompt when not in GIT repo
+    echo " \[\033[1;33m\]\w\[\033[0m\]\n\$ "
+  fi)'
+fi
 
 if [ "$PS1" ]; then # if running interactively, then run till 'fi' at EOF:
-  set -b
+  set -b > /dev/null 2>&1
   set -o notify
   set bell-style visible
   set completion-ignore-case on
