@@ -645,6 +645,7 @@ d_vscode() {
     -v /tmp/vscode-config/:/config \
     -v "$(pwd):/config/workspace" \
     -v "${HOME}/.gitconfig:/config/.gitconfig:ro" \
+    -v "${HOME}/.ssh:/config/.ssh:ro" \
     --restart unless-stopped \
     -ti \
     linuxserver/code-server
