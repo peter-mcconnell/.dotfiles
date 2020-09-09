@@ -633,3 +633,19 @@ d_shellcheck() {
     -ti \
     pemcconnell/shellcheck:bash-4.4.19 "$@"
 }
+
+d_vscode() {
+  docker run \
+    -e PUID=1000 \
+    -e PGID=1000 \
+    -e TZ=Europe/London \
+    -p 8443:8443 \
+    -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
+    -v "$(dirname $SSH_AUTH_SOCK)" \
+    -v /tmp/vscode-config/:/config \
+    -v "$(pwd):/config/workspace" \
+    -v "${HOME}/.gitconfig:/config/.gitconfig:ro" \
+    --restart unless-stopped \
+    -ti \
+    linuxserver/code-server
+}
