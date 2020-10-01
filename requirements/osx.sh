@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env sh
+
+echo "ensuring osx dependencies are installed ..."
 
 # install homebrew
 if ! [ -x "$(command -v brew)" ]; then
@@ -23,7 +25,7 @@ if ! [ -x "$(command -v docker)" ]; then
 fi
 brew cask install iterm2
 
-pip3 install neovim
+pip3 install --user neovim
 
 # upgrade ?
 read -p "brew upgrade? this may take a while. [y|n]" -n 1 -r
