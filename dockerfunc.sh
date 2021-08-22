@@ -440,7 +440,11 @@ d_jupyter() {
       --NotebookApp.notebook_dir=$notebookroot"
 
   sleep 1
-  open http://localhost:8888
+  if command -v open; then
+    open http://localhost:8888
+  else
+    echo "open http://localhost:8888"
+  fi
 }
 
 d_jupytergo() {

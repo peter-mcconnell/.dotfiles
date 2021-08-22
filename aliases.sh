@@ -14,7 +14,7 @@ alias pip3='python3 -m pip'
 if command -v exa > /dev/null; then
   alias l='exa --long --header --git -t modified -h -a'
 else
-  alias l='ls -laht -color'
+  alias l='ls -laht --color'
 fi
 alias c='clear'
 
@@ -70,3 +70,7 @@ alias play_artist="\$spotify_cmd --spotify-artist"
 git_wat(){
   git branch -l --sort=-committerdate
 }
+
+if command -v nvim > /dev/null 2>&1; then
+  alias vim=nvim
+fi
