@@ -8,9 +8,10 @@ export PATH="${HOME}/Library/Python/2.7/bin:$PATH"
 test -f /usr/local/bin/mysql/bin && export PATH=/usr/local/mysql/bin:$PATH
 test -f /usr/local/go/bin/go && export PATH=/usr/local/go/bin:$PATH
 test -d ~/go && export GOPATH=~/go && PATH=$GOPATH/bin:$PATH
+test -d ~/bin && PATH=$HOME/bin:$PATH
 test -d ~/.local/bin && PATH=~/.local/bin:$PATH
 test -d /usr/local/lib/ruby/gems/2.6.0/bin && PATH=/usr/local/lib/ruby/gems/2.6.0/bin:$PATH
-export TERM='xterm-256color'
+export TERM='xterm'
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 export BLOCKSIZE=K            # set blocksize size

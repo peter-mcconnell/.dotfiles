@@ -12,7 +12,7 @@ set wildmenu
 set wildmode=list:longest
 set wildignore=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,*.swp,*.jpg,*.gif,*.png
 set ruler
-set cmdheight=1
+set cmdheight=2
 set lz
 set whichwrap+=<,>,h,l
 set autochdir " make working directory same as open file
@@ -36,6 +36,7 @@ set autoread
 set hidden
 set noswapfile
 set nobackup
+set nowritebackup
 set nowb
 set autoindent
 set smartindent
@@ -61,6 +62,9 @@ set cursorline
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 set laststatus=2
 set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+set updatetime=300
+set shortmess+=c
+set signcolumn=yes
 
 " Plugins
 let vundle_installed=1
@@ -90,8 +94,10 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'dense-analysis/ale'
 Plugin 'ambv/black'
+Plugin 'heavenshell/vim-pydocstring'
 Plugin 'aliou/bats.vim'
 Plugin 'valloric/listtoggle'
+Plugin 'c.vim'
 
 call vundle#end()            " required
 filetype plugin indent on
@@ -212,8 +218,8 @@ let g:ale_list_window_size = 5
 let g:ale_open_list = 1
 let g:ale_set_highlights = 1
 let g:airline#extensions#ale#enabled = 1
-" let g:ale_set_loclist = 0
-" let g:ale_set_quickfix = 1
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
 let g:ale_warn_about_trailing_whitespace = 0
 let g:ale_linters = {
         \   'javascript': ['eslint_d'],
@@ -221,22 +227,27 @@ let g:ale_linters = {
         \   'go': ['go build', 'gometalinter'],
         \   'rust': ['rustc'],
         \   'html': ['tidy', 'htmlhint'],
-        \   'c': ['clang'],
+        \   'c': ['cc'],
         \   'cpp': ['clang++'],
         \   'css': ['csslint', 'stylelint'],
         \   'nim': ['nim', 'nimsuggest'],
         \   'vim': ['vint'],
-        \   'python': ['flake8', 'pylint', 'black'],
+        \   'python': ['mypy', 'flake8', 'pylint', 'black'],
         \   'shell': ['sh', 'shellcheck'],
         \   'zsh': ['zsh'],
         \   'swift': ['swiftc'],
         \   'sql': ['sqlint'],
         \}
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\}
+let g:ale_fix_on_save = 1
 let g:ale_python_pylint_options = '--extension-pkg-whitelist=cv2'
+let g:ale_python_mypy_options = '--ignore-missing-imports'
 let g:ale_sh_shellcheck_options = '-x'
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_save = 1
-let g:ale_lint_on_enter = 1
+let g:ale_lint_on_enter = 0
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '⨉'
 let g:ale_sign_warning = '⚠'
@@ -246,6 +257,16 @@ let g:ale_echo_cursor = 1
 let g:ale_echo_msg_error_str = 'ERROR'
 let g:ale_echo_msg_warning_str = 'WARNING'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_c_cc_executable = 'gcc'
+autocmd QuitPre * if empty(&bt) | lclose | endif
+function! ToggleQuickFix()
+    if empty(filter(getwininfo(), 'v:val.quickfix'))
+        copen
+    else
+        cclose
+    endif
+endfunction
+nnoremap <silent> <F2> :call ToggleQuickFix()<cr>
 
 " support for Jenkinsfiles
 au BufNewFile,BufRead Jenkinsfile setf groovy
@@ -256,3 +277,15 @@ let g:airline_powerline_fonts = 1
 " panes
 set splitbelow
 set splitright
+
+" c.vim
+let g:C_UseTool_cmake    = 'yes'
+let g:C_UseTool_doxygen = 'yes'
+
+" pydocstring
+let g:pydocstring_formatter = 'numpy'
+let g:pydocstring_doq_path = '~/.local/bin/doq'
+
+" allow project-specific vimrc files
+set exrc
+set secure

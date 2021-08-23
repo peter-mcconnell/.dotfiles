@@ -1,5 +1,3 @@
-#include "~/.config/solarized/xresources-colors-solarized/Xresources"
-
 URxvt*font:                     xft:bitstream Fantasque Sans Mono:size=16:antialias=true
 URxvt*boldFont:                 xft:bitstream Fantasque Sans Mono:bold:size=16:antialias=true
 
@@ -25,3 +23,100 @@ URxvt.internalBorder:           25
 URxvt.perl-ext:                 default,matcher
 URxvt.url-launcher:             chromium
 URxvt.matcher.button:           1o
+
+! Terminal: urxvt
+! ===============
+
+! Tango color scheme
+! ------------------
+URxvt*foreground:       #eeeeec
+URxvt*background:       #2e3436
+URxvt*cursorColor:      #8ae234
+URxvt*colorUL:          #8ae234
+URxvt*underlineColor:   #92659a
+! - Aluminium -
+URxvt*color0:           #2e3436
+URxvt*color8:           #888A85
+! - Scariet Red -
+URxvt*color1:           #cc0000
+URxvt*color9:           #ef2929
+! - Chameleon -
+URxvt*color2:           #4e9a06
+URxvt*color10:          #8ae234
+! - Butter -
+URxvt*color3:           #edd400
+URxvt*color11:          #fce94f
+! - Sky Blue -
+URxvt*color4:           #3465a4
+URxvt*color12:          #729fcf
+! - Plum -
+URxvt*color5:           #92659a
+URxvt*color13:          #c19fbe
+! - Cyan -
+URxvt*color6:           #07c7ca
+URxvt*color14:          #63e9e9
+! - Aluminium 2 -
+URxvt*color7:           #d3d7cf
+URxvt*color15:          #eeeeec
+
+! Options
+! -------
+URxvt.saveLines: 1000
+URxvt.scrollBar: false
+URxvt.secondaryScroll: true
+URxvt.font: xft:Bitstream Vera Sans Mono:pixelsize=12
+URxvt.iso14755: False
+URxvt.perl-ext-common: default,matcher,clipboard
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+Urxvt.keysym.Shift-Control-C: perl:clipboard:copy
+URxvt.keysym.C-C: perl:clipboard:copy
+URxvt.urlLauncher: firefox
+URxvt.matcher.button: 1
+
+
+! Terminal: xterm
+! ===============
+
+! Tango color scheme
+! ------------------
+xterm*foreground:       #eeeeec
+xterm*background:       #2e3436
+xterm*cursorColor:      #8ae234
+xterm*colorUL:          #8ae234
+xterm*underlineColor:   #92659a
+! - Aluminium -
+xterm*color0:           #2e3436
+xterm*color8:           #888A85
+! - Scariet Red -
+xterm*color1:           #cc0000
+xterm*color9:           #ef2929
+! - Chameleon -
+xterm*color2:           #4e9a06
+xterm*color10:          #8ae234
+! - Butter -
+xterm*color3:           #edd400
+xterm*color11:          #fce94f
+! - Sky Blue -
+xterm*color4:           #3465a4
+xterm*color12:          #729fcf
+! - Plum -
+xterm*color5:           #92659a
+xterm*color13:          #c19fbe
+! - Cyan -
+xterm*color6:           #07c7ca
+xterm*color14:          #63e9e9
+! - Aluminium 2 -
+xterm*color7:           #d3d7cf
+xterm*color15:          #eeeeec
+
+! Options
+! -------
+xterm*utf8: 1
+xterm*faceName: Bitstream Vera Sans Mono:size=12
+XTerm*selectToClipboard: true
+XTerm*VT100.Translations: #override \
+Shift Ctrl<Key>V: insert-selection(CLIPBOARD) \n\
+    Shift Ctrl<Key>V: insert-selection(PRIMARY) \n\
+    Shift<Btn1Down>: select-start() \n\
+    Shift<Btn1Motion>: select-extend() \n\
+    Shift<Btn1Up>: select-end(CLIPBOARD) \n

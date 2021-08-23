@@ -104,3 +104,5 @@ scrape_yt() {
   echo "cleaning up filename to $cleanfilename"
   mv "$file" "$cleanfilename"
 }
+
+

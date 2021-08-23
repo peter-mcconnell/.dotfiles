@@ -87,3 +87,11 @@ if [ "$PS1" ]; then # if running interactively, then run till 'fi' at EOF:
   COMP_WORDBREAKS=${COMP_WORDBREAKS/=/}
   complete -cf sudo
 fi
+
+complete -C /usr/bin/terraform terraform
+
+dockersh_ps1() { if [ -f /.dockerenv ]; then export PS1="\e[41;4;33m[docker] $ \e[0;m$PS1"; fi; }; dockersh_ps1
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

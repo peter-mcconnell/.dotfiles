@@ -32,7 +32,7 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
-alias tmux="TERM=screen-256color-bce tmux"
+alias tmux="tmux -2"
 
 if [ -f ~/.machine.specific.aliases ]; then
   source ~/.machine.specific.aliases
@@ -66,3 +66,7 @@ if [ -f ~/secrets/spotify ]; then
   spotify_cmd="${spotify_cmd} --spotify-password '$(cat ~/secrets/spotify)'"
 fi
 alias play_artist="\$spotify_cmd --spotify-artist"
+
+git_wat(){
+  git branch -l --sort=-committerdate
+}

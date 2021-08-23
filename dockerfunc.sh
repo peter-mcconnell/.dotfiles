@@ -224,7 +224,7 @@ d_rabbitmq() {
   docker run -d \
     -e RABBITMQ_DEFAULT_USER=root \
     -e RABBITMQ_DEFAULT_PASS=pass \
-    -p 15672:15672 \
+    -p 5672:5672 \
     --name rabbit \
     rabbitmq:3-management
 }
