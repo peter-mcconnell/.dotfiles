@@ -1,4 +1,4 @@
-.PHONY: help install mv_dotfiles vundleplugins vundleinstall aptdeps neovim reloadshell
+.PHONY: help install mv_dotfiles vundleplugins vundleinstall aptdeps neovim ohmytmux reloadshell
 
 help:
 	@echo "install - installs dotfiles"
@@ -15,11 +15,15 @@ aptupdate:
 	@apt-get update -yq
 
 aptdeps: aptupdate
-	@hash bash git curl vim jq || \
-		DEBIAN_FRONTEND=noninteractive apt-get install -yq bash git curl vim jq
+	@hash bash git curl vim jq tmux || \
+		DEBIAN_FRONTEND=noninteractive apt-get install -yq bash git curl vim jq tmux
 
-install: aptdeps neovim mv_dotfiles vundleplugins reloadshell
+install: aptdeps neovim ohmytmux mv_dotfiles vundleplugins reloadshell
 	@echo "installed"
+
+ohmytmux:
+	@git clone https://github.com/gpakosz/.tmux.git ~/.tmux
+	@cd && ln -s -f .tmux/.tmux.conf && cp .tmux/.tmux.conf.local .
 
 reloadshell:
 	@exec bash -l

@@ -10,4 +10,6 @@ RUN apt-get update -yq && \
 COPY . /workspace/
 WORKDIR /workspace/
 
+RUN make install
+
 CMD ["bash"]
