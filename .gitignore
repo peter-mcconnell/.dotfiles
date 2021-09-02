@@ -5,3 +5,4 @@ config/**/*
 !config/polybar/*
 !config/terminator
 !config/terminator/*
+nvim*tar.gz

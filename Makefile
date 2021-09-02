@@ -1,10 +1,28 @@
-.PHONY: help install mv_dotfiles vundleplugins vundleinstall
+.PHONY: help install mv_dotfiles vundleplugins vundleinstall aptdeps neovim reloadshell
 
 help:
 	@echo "install - installs dotfiles"
 
-install: mv_dotfiles vundleplugins
+neovim:
+	@hash nvim || (\
+		curl -L https://github.com/neovim/neovim/releases/download/v0.5.0/nvim-linux64.tar.gz -O \
+		&& tar -xvf nvim-linux64.tar.gz --directory /usr/local \
+		&& chmod u+x /usr/local/nvim-linux64/bin/nvim \
+		&& ln -s /usr/local/nvim-linux64/bin/nvim /usr/local/bin/nvim \
+	)
+
+aptupdate:
+	@apt-get update -yq
+
+aptdeps: aptupdate
+	@hash bash git curl vim jq || \
+		DEBIAN_FRONTEND=noninteractive apt-get install -yq bash git curl vim jq
+
+install: aptdeps neovim mv_dotfiles vundleplugins reloadshell
 	@echo "installed"
+
+reloadshell:
+	@exec bash -l
 
 mv_dotfiles:
 	@mkdir -p ~/.config/nvim/
