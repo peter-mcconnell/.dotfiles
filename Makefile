@@ -1,4 +1,4 @@
-.PHONY: help install mv_dotfiles vundleplugins vundleinstall aptdeps neovim ohmytmux reloadshell
+.PHONY: help install mv_dotfiles vundleplugins vundleinstall aptdeps neovim ohmytmux reloadshell linters
 
 help:
 	@echo "install - installs dotfiles"
@@ -11,6 +11,11 @@ neovim:
 		&& ln -s /usr/local/nvim-linux64/bin/nvim /usr/local/bin/nvim \
 	)
 
+linters: aptupdate
+	@curl -L https://github.com/hadolint/hadolint/releases/download/v2.7.0/hadolint-Linux-x86_64 -o hadolint && chmod +x hadolint && mv hadolint /usr/local/bin/hadolint
+	@DEBIAN_FRONTEND=noninteractive apt-get install -yq \
+		shellcheck yamllint
+
 aptupdate:
 	@apt-get update -yq
 
@@ -18,7 +23,7 @@ aptdeps: aptupdate
 	@hash bash git curl vim jq tmux || \
 		DEBIAN_FRONTEND=noninteractive apt-get install -yq bash git curl vim jq tmux fonts-powerline
 
-install: aptdeps neovim ohmytmux mv_dotfiles vundleplugins reloadshell
+install: aptdeps linters neovim ohmytmux mv_dotfiles vundleplugins reloadshell
 	@echo "installed"
 
 ohmytmux:
