@@ -1,5 +1,8 @@
 # .dotfiles
 
+[![Publish Docker image](https://github.com/peter-mcconnell/.dotfiles/actions/workflows/yeet.yml/badge.svg)](https://github.com/peter-mcconnell/.dotfiles/actions/workflows/yeet.yml)
+[![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/pemcconnell/dev?label=docker%20image%20size)](https://hub.docker.com/repository/docker/pemcconnell/dev)
+
 A selection of oddities to help with my own day to day. Used mostly on OSX / debian / arch. No guarantees
 
 ## volumes
@@ -8,10 +11,16 @@ It's worth noting that I've dedicated a directory on my machine to act as a home
 
 ## requirements
 
-- Docker
-- Vim (and Vundle)
+- `make`
+
+## docker
+
+A docker image has been provided - mostly this is just to validate the dotfiles inside a 'clean' environment but it is useable if a docker dev env is your thing:
+
+```sh
+docker run --rm -ti pemcconnell/dev:master
+```
 
 ## install
 
-- (optional) `./requirements.sh` - installs a bunch of stuff, suitable for bootstrapping
 - `make install`
