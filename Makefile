@@ -16,7 +16,7 @@ aptupdate:
 
 aptdeps: aptupdate
 	@hash bash git curl vim jq tmux || \
-		DEBIAN_FRONTEND=noninteractive apt-get install -yq bash git curl vim jq tmux
+		DEBIAN_FRONTEND=noninteractive apt-get install -yq bash git curl vim jq tmux fonts-powerline
 
 install: aptdeps neovim ohmytmux mv_dotfiles vundleplugins reloadshell
 	@echo "installed"
@@ -29,8 +29,8 @@ reloadshell:
 	@exec bash -l
 
 mv_dotfiles:
+	@ln -fs `pwd`/config/ ~/.config
 	@mkdir -p ~/.config/nvim/
-	@ln -fs `pwd`/config ~/.config
 	@ln -fs `pwd`/vimrc ~/.vimrc
 	@ln -fs `pwd`/vimrc ~/.config/nvim/init.vim
 	@ln -fs `pwd`/bashrc.sh ~/.bashrc
