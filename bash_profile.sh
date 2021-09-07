@@ -28,3 +28,13 @@ if [ -d "/Library/Frameworks/Python.framework/Versions/3.6/bin" ]; then
   PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
   export PATH
 fi
+
+# run docker automatically in WSL2
+if uname -a | grep -i -q wsl2; then
+  if command -v pgrep dockerd > /dev/null; then
+    # note: requires update to sudoers file:
+    #   myusername ALL=(ALL) NOPASSWD: /usr/bin/dockerd
+    sudo dockerd > /dev/null 2>&1 &
+    disown
+  fi
+fi
