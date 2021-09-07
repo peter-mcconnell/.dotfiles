@@ -20,8 +20,8 @@ aptupdate:
 	@apt-get update -yq
 
 aptdeps: aptupdate
-	@hash bash git curl vim jq tmux || \
-		DEBIAN_FRONTEND=noninteractive apt-get install -yq bash git curl vim jq tmux fonts-powerline
+	@hash bash git curl vim jq tmux nmap || \
+		DEBIAN_FRONTEND=noninteractive apt-get install -yq bash git curl vim jq tmux nmap fonts-powerline
 
 install: aptdeps linters neovim ohmytmux mv_dotfiles vundleplugins reloadshell
 	@echo "installed"
