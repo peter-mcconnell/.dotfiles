@@ -6,3 +6,4 @@ config/**/*
 !config/terminator
 !config/terminator/*
 nvim*tar.gz
+hadolint

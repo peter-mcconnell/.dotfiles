@@ -1,34 +1,58 @@
-.PHONY: help install mv_dotfiles vundleplugins vundleinstall aptdeps neovim ohmytmux reloadshell linters
+.PHONY: help install mv_dotfiles vundleplugins vundleinstall deps neovim ohmytmux reloadshell linters nodedeps aptdeps
 
 help:
 	@echo "install - installs dotfiles"
 
 neovim:
 	@hash nvim || (\
-		curl -L https://github.com/neovim/neovim/releases/download/v0.5.0/nvim-linux64.tar.gz -O \
-		&& tar -xvf nvim-linux64.tar.gz --directory /usr/local \
-		&& chmod u+x /usr/local/nvim-linux64/bin/nvim \
-		&& ln -s /usr/local/nvim-linux64/bin/nvim /usr/local/bin/nvim \
+		rm -rf ~/neovimsrc \
+		&& git clone https://github.com/neovim/neovim.git ~/neovimsrc \
+		&& cd ~/neovimsrc/ \
+		&& make CMAKE_BUILD_TYPE=RelWithDebInfo \
+		&& sudo make install \
+		&& rm -rf ~/neovimsrc \
 	)
 
 linters: aptupdate
-	@curl -L https://github.com/hadolint/hadolint/releases/download/v2.7.0/hadolint-Linux-x86_64 -o hadolint && chmod +x hadolint && mv hadolint /usr/local/bin/hadolint
-	@DEBIAN_FRONTEND=noninteractive apt-get install -yq \
+	@curl -L https://github.com/hadolint/hadolint/releases/download/v2.7.0/hadolint-Linux-x86_64 -o hadolint && chmod +x hadolint && mv -n hadolint /usr/local/bin/hadolint
+	@DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
 		shellcheck yamllint
 
 aptupdate:
-	@apt-get update -yq
+	@sudo apt-get update -yq
 
-aptdeps: aptupdate
-	@hash bash git curl vim jq tmux nmap || \
-		DEBIAN_FRONTEND=noninteractive apt-get install -yq bash git curl vim jq tmux nmap fonts-powerline
+deps: aptupdate nodedeps aptdeps
 
-install: aptdeps linters neovim ohmytmux mv_dotfiles vundleplugins reloadshell
+aptdeps:
+	@hash bash git curl vim jq tmux nmap libtool || \
+		DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq bash git curl vim jq tmux nmap fonts-powerline libtool-bin
+
+nodedeps:
+	@hash node || if uname -a | grep -q "armv[0-9]"; then \
+		curl -L https://nodejs.org/download/release/v16.9.1/node-v16.9.1-linux-`uname -a | grep -o -e "armv[^ ]*"`.tar.gz -o node.tar.gz; \
+	else \
+		curl -L https://nodejs.org/download/release/v16.9.1/node-v16.9.1-linux-x64.tar.gz -o node.tar.gz; \
+	fi
+	@hash node || (tar -xvf node.tar.gz \
+		&& sudo cp -R node-v16.9.1-linux-*/* /usr/local/ \
+		&& rm -rf node-v16.9.1-linux-* \
+		&& rm node.tar.gz)
+	@hash yarn || sudo npm install -g yarn
+	@if [ ! -f ~/.vim/bundle/coc.nvim/build/index.js ]; then \
+		cd ~/.vim/bundle/coc.nvim/ && \
+		yarn install;
+	fi
+
+install: deps linters neovim ohmytmux mv_dotfiles vundleplugins reloadshell
 	@echo "installed"
 
 ohmytmux:
-	@git clone https://github.com/gpakosz/.tmux.git ~/.tmux
-	@cd && ln -s -f .tmux/.tmux.conf && cp .tmux/.tmux.conf.local .
+	@if [ ! -d ~/.tmux ]; then \
+		git clone https://github.com/gpakosz/.tmux.git ~/.tmux \
+		&& cd \
+		&& ln -s -f .tmux/.tmux.conf \
+		&& cp .tmux/.tmux.conf.local .; \
+	fi
 
 reloadshell:
 	@exec bash -l
