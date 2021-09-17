@@ -24,7 +24,7 @@ aptupdate:
 deps: aptupdate aptdeps nodedeps
 
 aptdeps:
-	@hash bash git curl vim jq tmux nmap libtool cmake unzip || \
+	@hash bash git curl vim jq tmux nmap libtool cmake unzip exa bat htop || \
 		DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
 			bash \
 			git \
@@ -37,9 +37,13 @@ aptdeps:
 			libtool-bin \
 			cmake \
 			unzip \
+			exa \
+			bat \
+			htop \
 			build-essential \
 			pkg-config \
 			gettext
+	@if [ -f /usr/bin/batcat ]; then sudo ln -sf /usr/bin/batcat /usr/bin/bat; fi
 
 nodedeps:
 	@hash node || if uname -a | grep -q "armv[0-9]"; then \
