@@ -21,11 +21,25 @@ linters: aptupdate
 aptupdate:
 	@sudo apt-get update -yq
 
-deps: aptupdate nodedeps aptdeps
+deps: aptupdate aptdeps nodedeps
 
 aptdeps:
-	@hash bash git curl vim jq tmux nmap libtool || \
-		DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq bash git curl vim jq tmux nmap fonts-powerline libtool-bin
+	@hash bash git curl vim jq tmux nmap libtool cmake unzip || \
+		DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
+			bash \
+			git \
+			curl \
+			vim \
+			jq \
+			tmux \
+			nmap \
+			fonts-powerline \
+			libtool-bin \
+			cmake \
+			unzip \
+			build-essential \
+			pkg-config \
+			gettext
 
 nodedeps:
 	@hash node || if uname -a | grep -q "armv[0-9]"; then \
@@ -38,10 +52,6 @@ nodedeps:
 		&& rm -rf node-v16.9.1-linux-* \
 		&& rm node.tar.gz)
 	@hash yarn || sudo npm install -g yarn
-	@if [ ! -f ~/.vim/bundle/coc.nvim/build/index.js ]; then \
-		cd ~/.vim/bundle/coc.nvim/ && \
-		yarn install;
-	fi
 
 install: deps linters neovim ohmytmux mv_dotfiles vundleplugins reloadshell
 	@echo "installed"
@@ -79,6 +89,10 @@ mv_dotfiles:
 
 vundleplugins: vundleinstall
 	@nvim +PluginClean +PluginInstall +GoInstallBinaries +UpdateRemotePlugins +qall
+	@if [ ! -f ~/.vim/bundle/coc.nvim/build/index.js ]; then \
+		cd ~/.vim/bundle/coc.nvim/ && \
+		yarn install; \
+	fi
 
 vundleinstall:
 	@if [ ! -d ${HOME}/.config/nvim/bundle/Vundle.vim/ ]; then git clone https://github.com/VundleVim/Vundle.vim.git ~/.config/nvim/bundle/Vundle.vim/; fi
