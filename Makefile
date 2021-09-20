@@ -14,7 +14,7 @@ neovim:
 	)
 
 linters: aptupdate
-	@curl -L https://github.com/hadolint/hadolint/releases/download/v2.7.0/hadolint-Linux-x86_64 -o hadolint && chmod +x hadolint && mv -n hadolint /usr/local/bin/hadolint
+	@curl -L https://github.com/hadolint/hadolint/releases/download/v2.7.0/hadolint-Linux-x86_64 -o hadolint && chmod +x hadolint && sudo mv -n hadolint /usr/local/bin/hadolint
 	@DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
 		shellcheck yamllint
 
@@ -24,7 +24,7 @@ aptupdate:
 deps: aptupdate aptdeps nodedeps
 
 aptdeps:
-	@hash bash git curl vim jq tmux nmap libtool cmake unzip exa bat htop || \
+	@hash bash git curl vim jq tmux nmap libtool cmake unzip bat htop || \
 		DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
 			bash \
 			git \
@@ -37,7 +37,6 @@ aptdeps:
 			libtool-bin \
 			cmake \
 			unzip \
-			exa \
 			bat \
 			htop \
 			build-essential \
