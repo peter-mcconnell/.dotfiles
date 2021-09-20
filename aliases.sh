@@ -2,6 +2,8 @@
 
 # shellcheck disable=SC1090
 
+alias ss='stty sane'
+
 alias diff='diff --color=auto'
 
 alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
