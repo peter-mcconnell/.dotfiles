@@ -38,3 +38,11 @@ if uname -a | grep -i -q wsl2; then
     disown
   fi
 fi
+
+# WSL thingys
+# https://github.com/stuartleeks/wsl-notify-send
+if command -v wsl-notify-send.exe; then
+  function notify-send() {
+    wsl-notify-send.exe --category $WSL_DISTRO_NAME "${@}";
+  }
+fi
