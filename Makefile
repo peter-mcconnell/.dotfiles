@@ -24,7 +24,7 @@ aptupdate:
 deps: aptupdate aptdeps nodedeps
 
 aptdeps:
-	@hash bash git curl vim jq tmux nmap libtool cmake unzip bat htop || \
+	@hash bash git curl vim jq tmux nmap libtool cmake unzip bat htop nmon || \
 		DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
 			bash \
 			git \
@@ -39,6 +39,7 @@ aptdeps:
 			unzip \
 			bat \
 			htop \
+			nmon \
 			build-essential \
 			pkg-config \
 			gettext
