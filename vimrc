@@ -105,6 +105,7 @@ Plugin 'nvim-lua/popup.nvim'
 Plugin 'nvim-lua/plenary.nvim'
 Plugin 'nvim-lua/telescope.nvim'
 Plugin 'fannheyward/telescope-coc.nvim'
+Plugin 'tpope/vim-fugitive'
 Plugin 'kyazdani42/nvim-web-devicons'
 
 call vundle#end()            " required
@@ -128,6 +129,31 @@ let g:go_fmt_command = "goimports"
 
 " markdown preview
 let vim_markdown_preview_github=1
+
+" centering
+nnoremap Y y$
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap J mzJ`z
+
+" fix bps
+inoremap , ,<c-g>u
+inoremap . .<c-g>u
+inoremap ! !<c-g>u
+inoremap ? ?<c-g>u
+inoremap ; ;<c-g>u
+
+" fix jumplists
+nnoremap <expr> k (v:count > 5 ? "m'" . v:count : "") . 'k'
+nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'j'
+
+" moving shit around
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+inoremap <C-j> <esc> :m .+1<CR>==
+inoremap <C-k> <esc> :m .-2<CR>==
+nnoremap <leader>j :m .+1<CR>==
+nnoremap <leader>k :m .-2<CR>==
 
 " tab remaps
 nnoremap th  :tabfirst<CR>
@@ -444,3 +470,6 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 " read .sh.tpl as .sh
 autocmd BufRead,BufNewFile *.sh.tpl set filetype=sh
+
+" fugative - git stuffs
+nmap <leader>gs :G<CR>
