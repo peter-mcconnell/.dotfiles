@@ -6,4 +6,5 @@ nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 nnoremap <C-p> :lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>vrc :lua require('peter-mcconnell.telescope').search_dotfiles()<cr>
+nnoremap <leader>dvc :lua require('peter-mcconnell.telescope').search_nvim()<cr>
+nnoremap <leader>ddf :lua require('peter-mcconnell.telescope').search_dotfiles()<cr>
