@@ -74,7 +74,7 @@ reloadshell:
 
 mv_dotfiles:
 	@ln -fs `pwd`/config ~/.config
-	@ln -fs `pwd`/vimrc ~/.vimrc
+	@ln -fs `pwd`/config/nvim/init.vim ~/.vimrc
 	@ln -fs `pwd`/bashrc.sh ~/.bashrc
 	@ln -fs `pwd`/bash_profile.sh ~/.bash_profile
 	@ln -fs `pwd`/exports.sh ~/.exports
