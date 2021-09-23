@@ -36,7 +36,7 @@ fi
 
 if command -v bat > /dev/null 2>&1; then
   alias og_cat="\$(which cat)"
-  alias cat="bat"
+  alias cat="bat -pp"
 fi
 
 if command -v gtop > /dev/null 2>&1; then
