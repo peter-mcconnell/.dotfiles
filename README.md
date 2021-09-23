@@ -3,9 +3,12 @@
 [![Publish Docker image](https://github.com/peter-mcconnell/.dotfiles/actions/workflows/yeet.yml/badge.svg)](https://github.com/peter-mcconnell/.dotfiles/actions/workflows/yeet.yml)
 [![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/pemcconnell/dev?label=docker%20image%20size)](https://hub.docker.com/repository/docker/pemcconnell/dev)
 
-A selection of oddities to help with my own day to day. ubuntu / tmux / neovim.
+Personal dotfiles. ubuntu / tmux / neovim. single command install.
 
-![only l33t little badgers may contribute](./media/banner-hackerman.png)
+![only l33t little bots may contribute](./media/banner-robot.png)
+
+`make install` - that should be it
+
 
 ## volumes
 
