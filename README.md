@@ -10,10 +10,6 @@ Personal dotfiles. ubuntu / tmux / neovim. single command install.
 `make install` - that should be it
 
 
-## volumes
-
-It's worth noting that I've dedicated a directory on my machine to act as a home for all of my container volumes - for me this is `~/v/`. Tweak this to suit your needs (esp. in `.dockerfunc`)
-
 ## requirements
 
 - `make`
@@ -25,7 +21,3 @@ A docker image has been provided - mostly this is just to validate the dotfiles 
 ```sh
 docker run --rm -ti pemcconnell/dev:master
 ```
-
-## install
-
-- `make install`

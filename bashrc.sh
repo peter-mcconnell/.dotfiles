@@ -8,11 +8,8 @@ _initMyDir () {
     echo "${2}" > "${1}/.info"
   fi
 }
-_initMyDir "${HOME}/p" "Playground area for messing around"
-_initMyDir "${HOME}/s" "General webapps dir"
-_initMyDir "${HOME}/go" "Golang directory"
+_initMyDir "${HOME}/go/src/github.com/" "Golang directory"
 _initMyDir "${HOME}/v" "A place to store common docker volumes"
-_initMyDir "${HOME}/.config" "A place to store various configs - mostly Arch stuff"
 
 # load in extra files
 # shellcheck source=/dev/null
