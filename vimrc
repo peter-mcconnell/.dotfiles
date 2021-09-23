@@ -1,3 +1,5 @@
+set path+=**
+
 set shell=/bin/bash
 filetype off " required for vundle
 
@@ -481,3 +483,6 @@ nmap <leader>gp :G push<CR>
 nmap <leader>gpf :G push --force<CR>
 nmap <leader>gj :diffget //3<CR>
 nmap <leader>gf :diffget //2<CR>
+
+" sprinkle in my own sprinkles
+lua require("peter-mcconnell")
