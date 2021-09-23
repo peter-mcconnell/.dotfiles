@@ -1,0 +1,13 @@
+*
+!.gitignore
+!nvim/**/*
+!nvim
+!i3/**/*
+!i3
+!terminator/**/*
+!terminator/
+!polybar/**/*
+!polybar
+!regolith/**/*
+!regolith
+!mimeapps.list
