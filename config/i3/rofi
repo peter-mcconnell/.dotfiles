@@ -1,3 +1,0 @@
-#!/bin/bash
-
-rofi -modi run,drun,window -lines 30 -padding 20 -width 900 -location 0 -show drun -sidebar-mode -columns 4 -font "Fantasque Sans Mono 10"
