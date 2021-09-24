@@ -12,7 +12,6 @@ test -d ~/bin && PATH=$HOME/bin:$PATH
 test -d ~/.local/bin && PATH=~/.local/bin:$PATH
 test -d ~/.krew/bin && PATH=~/.krew/bin:$PATH
 test -d /usr/local/lib/ruby/gems/2.6.0/bin && PATH=/usr/local/lib/ruby/gems/2.6.0/bin:$PATH
-export TERM='xterm'
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 export BLOCKSIZE=K            # set blocksize size
