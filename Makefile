@@ -22,6 +22,16 @@ aptupdate:
 	@sudo apt-get update -yq
 
 deps: aptupdate aptdeps nodedeps
+	@if ! hash rg; then \
+		curl -LO https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb && \
+		sudo dpkg -i ripgrep_12.1.1_amd64.deb && \
+		rm ripgrep_12.1.1_amd64.deb; \
+	fi
+	@if ! hash fd; then \
+		curl -LO https://github.com/sharkdp/fd/releases/download/v8.2.1/fd_8.2.1_amd64.deb && \
+		sudo dpkg -i fd_8.2.1_amd64.deb && \
+		rm fd_8.2.1_amd64.deb; \
+	fi
 
 aptdeps:
 	@hash bash git curl vim jq tmux nmap libtool cmake unzip bat htop nmon gcalcli || \
@@ -59,7 +69,7 @@ nodedeps:
 	@hash yarn || sudo npm install -g yarn
 
 tmuxplugins: ohmytmux
-	@if [ ! -d ~/.tmux/plugins/tmp ]; then git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm; fi
+	@if [ ! -d ~/.tmux/plugins/tpm ]; then git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm; fi
 
 install: deps linters neovim tmuxplugins mv_dotfiles vundleplugins reloadshell
 	@echo "installed"
