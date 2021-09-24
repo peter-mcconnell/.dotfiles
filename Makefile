@@ -1,4 +1,4 @@
-.PHONY: help install mv_dotfiles vundleplugins vundleinstall deps neovim tmuxplugins ohmytmux reloadshell linters nodedeps aptdeps
+.PHONY: help install mv_dotfiles vundleplugins vundleinstall  pipdeps deps neovim tmuxplugins ohmytmux reloadshell linters nodedeps aptdeps
 
 help:
 	@echo "install - installs dotfiles"
@@ -34,7 +34,7 @@ deps: aptupdate aptdeps nodedeps
 	fi
 
 aptdeps:
-	@hash bash git curl vim jq tmux nmap libtool cmake unzip bat htop nmon gcalcli || \
+	@hash bash git curl vim jq tmux nmap libtool cmake unzip bat htop nmon gcalcli pip3 || \
 		DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
 			bash \
 			git \
@@ -53,8 +53,23 @@ aptdeps:
 			gcalcli \
 			build-essential \
 			pkg-config \
-			gettext
+			gettext \
+			python3 \
+			python3-setuptools \
+			python3-dev \
+			python3-pip \
 	@if [ -f /usr/bin/batcat ]; then sudo ln -sf /usr/bin/batcat /usr/bin/bat; fi
+
+pipdeps:
+	@if hash black radon bandit pylint ipdb3; then \
+		pip3 install --user \
+			black \
+			radon \
+			bandit \
+			pylint \
+			ipdb \
+			neovim; \
+	fi
 
 nodedeps:
 	@hash node || if uname -a | grep -q "armv[0-9]"; then \
@@ -71,7 +86,7 @@ nodedeps:
 tmuxplugins: ohmytmux
 	@if [ ! -d ~/.tmux/plugins/tpm ]; then git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm; fi
 
-install: deps linters neovim tmuxplugins mv_dotfiles vundleplugins reloadshell
+install: deps linters neovim tmuxplugins mv_dotfiles pipdeps vundleplugins reloadshell
 	@echo "installed"
 
 ohmytmux:

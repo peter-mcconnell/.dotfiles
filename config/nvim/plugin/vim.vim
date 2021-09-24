@@ -58,6 +58,7 @@ set secure
 
 " custom file extensions
 autocmd BufRead,BufNewFile *.sh.tpl set filetype=sh
+autocmd BufRead,BufNewFile *.py.tpl set filetype=python
 
 " autocommands
 au BufRead,BufNewFile *.zcml set filetype=xml
