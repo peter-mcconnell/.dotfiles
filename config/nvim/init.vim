@@ -102,5 +102,8 @@ Plugin 'arzg/vim-colors-xcode'
 call vundle#end()            " required
 filetype plugin indent on
 
-" sprinkle in my own sprinkles
-lua require("peter-mcconnell")
+" there's almost certainly a better way to do this
+if !&rtp =~ "telescope.actions"
+  " sprinkle in my own sprinkles
+  lua require("peter-mcconnell")
+endif
