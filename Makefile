@@ -1,4 +1,4 @@
-.PHONY: help install mv_dotfiles vundleplugins vundleinstall  pipdeps deps neovim tmuxplugins ohmytmux reloadshell linters nodedeps aptdeps
+.PHONY: help install mv_dotfiles vundleplugins vundleinstall pipdeps deps neovim tmuxplugins ohmytmux reloadshell linters nodedeps aptdeps
 
 help:
 	@echo "install - installs dotfiles"
@@ -57,11 +57,11 @@ aptdeps:
 			python3 \
 			python3-setuptools \
 			python3-dev \
-			python3-pip \
+			python3-pip
 	@if [ -f /usr/bin/batcat ]; then sudo ln -sf /usr/bin/batcat /usr/bin/bat; fi
 
 pipdeps:
-	@if hash black radon bandit pylint ipdb3; then \
+	@if ! hash black radon bandit pylint ipdb3; then \
 		pip3 install --user \
 			black \
 			radon \
