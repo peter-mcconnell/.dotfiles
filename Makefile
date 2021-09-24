@@ -1,4 +1,4 @@
-.PHONY: help install mv_dotfiles vundleplugins vundleinstall deps neovim ohmytmux reloadshell linters nodedeps aptdeps
+.PHONY: help install mv_dotfiles vundleplugins vundleinstall deps neovim tmuxplugins ohmytmux reloadshell linters nodedeps aptdeps
 
 help:
 	@echo "install - installs dotfiles"
@@ -58,7 +58,10 @@ nodedeps:
 		&& rm node.tar.gz)
 	@hash yarn || sudo npm install -g yarn
 
-install: deps linters neovim ohmytmux mv_dotfiles vundleplugins reloadshell
+tmuxplugins: ohmytmux
+	@if [ ! -d ~/.tmux/plugins/tmp ]; then git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm; fi
+
+install: deps linters neovim tmuxplugins mv_dotfiles vundleplugins reloadshell
 	@echo "installed"
 
 ohmytmux:
