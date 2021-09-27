@@ -61,7 +61,7 @@ aptdeps:
 	@if [ -f /usr/bin/batcat ]; then sudo ln -sf /usr/bin/batcat /usr/bin/bat; fi
 
 pipdeps:
-	@if ! hash black radon bandit pylint ipdb3 doq; then \
+	@if ! hash black radon bandit pylint ipdb3 doq pytest; then \
 		pip3 install --user \
 			black \
 			radon \
@@ -69,7 +69,8 @@ pipdeps:
 			pylint \
 			ipdb \
 			neovim \
-			doq; \
+			doq \
+			pytest; \
 	fi
 
 nodedeps:
