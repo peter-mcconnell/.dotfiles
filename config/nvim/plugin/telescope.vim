@@ -9,3 +9,4 @@ nnoremap <C-p> :lua require('telescope.builtin').git_files()<cr>
 nnoremap <C-f> :lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>dvc :lua require('peter-mcconnell.telescope').search_nvim()<cr>
 nnoremap <leader>ddf :lua require('peter-mcconnell.telescope').search_dotfiles()<cr>
+nnoremap <leader>dks :lua require('peter-mcconnell.telescope').k8s_edit_svc()<cr>
