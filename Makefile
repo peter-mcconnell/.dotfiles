@@ -1,4 +1,4 @@
-.PHONY: help install mv_dotfiles vundleplugins vundleinstall pipdeps deps neovim tmuxplugins ohmytmux reloadshell linters nodedeps aptdeps
+.PHONY: help install mv_dotfiles vundleplugins vundleinstall pipdeps deps neovim tmuxplugins tmux reloadshell linters nodedeps aptdeps
 
 help:
 	@echo "install - installs dotfiles"
@@ -88,19 +88,18 @@ nodedeps:
 		&& rm node.tar.gz)
 	@hash yarn || sudo npm install -g yarn
 
-tmuxplugins: ohmytmux
+tmuxplugins: tmux
+	@mkdir -p ~/.tmux/plugins
 	@if [ ! -d ~/.tmux/plugins/tpm ]; then git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm; fi
+	@if [ ! -d ~/.tmux/plugins/tmux-resurrect]; then git clone https://github.com/tmux-plugins/tmux-resurrect ~/.tmux/plugins/tmux-resurrect; fi
+
 
 install: deps linters neovim tmuxplugins mv_dotfiles pipdeps vundleplugins reloadshell
 	@echo "installed"
 
-ohmytmux:
-	@if [ ! -d ~/.tmux ]; then \
-		git clone https://github.com/gpakosz/.tmux.git ~/.tmux \
-		&& cd \
-		&& ln -s -f .tmux/.tmux.conf \
-		&& cp .tmux/.tmux.conf.local .; \
-	fi
+tmux:
+	@mkdir -p ~/.tmux/
+	@ln -fs `pwd`/tmux.conf ~/.tmux.conf
 
 reloadshell:
 	@exec bash -l
@@ -115,12 +114,10 @@ mv_dotfiles:
 	@ln -fs `pwd`/functions.sh ~/.functions
 	@ln -fs `pwd`/dockerfunc.sh ~/.dockerfunc
 	@ln -fs `pwd`/bash_git.sh ~/.bash_git
-	@ln -fs `pwd`/tmux.conf ~/.tmux.conf
 	@ln -fs `pwd`/zshrc ~/.zshrc
 	@ln -fs `pwd`/fehbg.sh ~/.fehbg
 	@ln -fs `pwd`/Xresources ~/.Xresources
 	@ln -fs `pwd`/dircolors ~/.dircolors
-	@ln -fs `pwd`/tmux.conf ~/.tmux.conf
 	@ln -fs `pwd`/xinitrc.sh ~/.xinitrc
 
 vundleplugins: vundleinstall
