@@ -34,7 +34,7 @@ deps: aptupdate aptdeps nodedeps
 	fi
 
 aptdeps:
-	@hash bash git curl vim jq tmux nmap libtool cmake unzip bat htop nmon gcalcli pip3 fzf powerline || \
+	@hash bash git curl vim jq tmux nmap libtool cmake unzip bat htop nmon gcalcli pip3 fzf powerline xclip || \
 		DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
 			bash \
 			git \
@@ -59,6 +59,7 @@ aptdeps:
 			python3-dev \
 			python3-pip \
 			fzf \
+			xclip \
 			powerline
 	@if [ -f /usr/bin/batcat ]; then sudo ln -sf /usr/bin/batcat /usr/bin/bat; fi
 
