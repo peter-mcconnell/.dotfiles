@@ -41,4 +41,36 @@ M.search_nvim = function()
   })
 end
 
+M.k8s_edit_svc = function()
+    local handle = assert(io.popen('kubectl get svc --all-namespaces | tail -n +2'))
+    local results = {}
+    for line in handle:lines() do
+      table.insert(results, line)
+    end
+    handle.close()
+    require("telescope.pickers").new({}, {
+        prompt_title = "k8s service",
+        finder = require("telescope.finders").new_table({
+            results = results,
+        }),
+        sorter = require("telescope.config").values.generic_sorter({}),
+        attach_mappings = function(pbfr, map)
+          map("i", "<CR>", function()
+            -- take the stdout row and parse the 'columns'
+            local choice = require("telescope.actions.state").get_selected_entry(pbfr)
+            local choice_ns = string.match(choice.value, "^[^ ]+")
+            -- this is horrible - there has to be a cleaner way to do this in lua
+            local choice_svc = string.match(choice.value, "[ ]+[^ ]+"):gsub("%s", "")
+            vim.cmd('! tmux neww kubectl edit svc ' .. choice_svc .. ' -n ' .. choice_ns)
+            -- TODO: look at a vim only solution. might need to avoid kubectl edit?
+            -- local handle = assert(io.popen('kubectl get svc ' .. choice_svc .. ' -n ' .. choice_ns .. ' -o yaml'))
+            -- local yaml = handle:read("*a")
+            handle.close()
+            require("telescope.actions").close(pbfr)
+          end)
+          return true
+        end,
+    }):find()
+end
+
 return M
