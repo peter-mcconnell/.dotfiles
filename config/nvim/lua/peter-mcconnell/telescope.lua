@@ -97,18 +97,11 @@ M.k8s_edit = function(config)
           -- this is horrible - there has to be a cleaner way to do this in lua
           local choice_obj = string.match(choice.value, "[ ]+[^ ]+"):gsub("%s", "")
           io.popen('kubectl edit --kubeconfig='.. kubeconfig .. ' ' .. choice_obj .. ' -n ' .. choice_ns)
-          -- TODO: look at a vim only solution. might need to avoid kubectl edit?
-          -- local handle = assert(io.popen('kubectl get svc ' .. choice_svc .. ' -n ' .. choice_ns .. ' -o yaml'))
-          -- local yaml = handle:read("*a")
-          -- handle.close()
           require("telescope.actions").close(pbfr)
         end)
         return true
       end,
   }):find()
 end
-
--- Testing method
---k8s_edit({config="/home/toast/.kube/test-cofig"})
 
 return M
