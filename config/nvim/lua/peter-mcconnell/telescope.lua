@@ -73,4 +73,42 @@ M.k8s_edit_svc = function()
     }):find()
 end
 
+-- Call with M.k8s_edit{kubeconfig="~/.kube/config"}
+M.k8s_edit = function(config)
+  setmetatable(config,{__index={config="~/.kube/config"}})
+  local kubeconfig = config[1] or config.config
+  local handle = assert(io.popen('kubectl --kubeconfig=' .. kubeconfig .. ' get all --all-namespaces | grep -v \'^NAME\' | awk \'!/^$/\' $1'))
+  local results = {}
+  for line in handle:lines() do
+    table.insert(results, line)
+  end
+  handle.close()
+  require("telescope.pickers").new({}, {
+      prompt_title = kubeconfig,
+      finder = require("telescope.finders").new_table({
+          results = results,
+      }),
+      sorter = require("telescope.config").values.generic_sorter({}),
+      attach_mappings = function(pbfr, map)
+        map("i", "<CR>", function()
+          -- take the stdout row and parse the 'columns'
+          local choice = require("telescope.actions.state").get_selected_entry(pbfr)
+          local choice_ns = string.match(choice.value, "^[^ ]+")
+          -- this is horrible - there has to be a cleaner way to do this in lua
+          local choice_obj = string.match(choice.value, "[ ]+[^ ]+"):gsub("%s", "")
+          io.popen('kubectl edit --kubeconfig='.. kubeconfig .. ' ' .. choice_obj .. ' -n ' .. choice_ns)
+          -- TODO: look at a vim only solution. might need to avoid kubectl edit?
+          -- local handle = assert(io.popen('kubectl get svc ' .. choice_svc .. ' -n ' .. choice_ns .. ' -o yaml'))
+          -- local yaml = handle:read("*a")
+          -- handle.close()
+          require("telescope.actions").close(pbfr)
+        end)
+        return true
+      end,
+  }):find()
+end
+
+-- Testing method
+--k8s_edit({config="/home/toast/.kube/test-cofig"})
+
 return M
