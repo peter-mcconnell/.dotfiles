@@ -1,7 +1,4 @@
-.PHONY: help install mv_dotfiles vundleplugins vundleinstall pipdeps deps neovim tmuxplugins tmux reloadshell linters nodedeps aptdeps
-
-help:
-	@echo "install - installs dotfiles"
+.PHONY: install mv_dotfiles vundleplugins vundleinstall pipdeps deps neovim tmuxplugins tmux reloadshell linters nodedeps aptdeps
 
 neovim:
 	@hash nvim || (\
