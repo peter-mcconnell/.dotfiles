@@ -1,24 +1,32 @@
+local job = require("plenary.job")
+local finders = require("telescope.finders")
+local pickers = require("telescope.pickers")
+local sorters = require("telescope.sorters")
+local conf = require("telescope.config").values
 local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
+local kubeconfig = "/home/peter/.kube/config"
+
 require("telescope").setup({
   defaults = {
-    file_sorter = require("telescope.sorters").get_fzy_sorter,
-    prompt_prefix = " >",
-    color_devicons = true,
-    file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-    grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
-    qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
-    mappings = {
-      i = {
-        ["<C-x>"] = false,
-        ["<C-q>"] = actions.send_to_qflist,
-      },
+  file_sorter = require("telescope.sorters").get_fzy_sorter,
+  prompt_prefix = " >",
+  color_devicons = true,
+  file_previewer = require("telescope.previewers").vim_buffer_cat.new,
+  grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
+  qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
+  mappings = {
+    i = {
+    ["<C-x>"] = false,
+    ["<C-q>"] = actions.send_to_qflist,
     },
   },
+  },
   extensions = {
-    fzy_native = {
-      override_generic_sorter = false,
-      override_file_sorter = false,
-    },
+  fzy_native = {
+    override_generic_sorter = false,
+    override_file_sorter = false,
+  },
   },
 })
 
@@ -27,81 +35,74 @@ require("telescope").load_extension("fzy_native")
 local M = {}
 M.search_dotfiles = function()
   require("telescope.builtin").find_files({
-    prompt_title = "< ~ Dotfiles ~ >",
-    cwd = vim.env.HOME .. "/.dotfiles/",
-    hidden = true,
+  prompt_title = "< ~ Dotfiles ~ >",
+  cwd = vim.env.HOME .. "/.dotfiles/",
+  hidden = true,
   })
 end
 
 M.search_nvim = function()
   require("telescope.builtin").find_files({
-    prompt_title = "< ~ VimRC ~ >",
-    cwd = vim.env.HOME .. "/.dotfiles/config/nvim/",
-    hidden = true,
+  prompt_title = "< ~ VimRC ~ >",
+  cwd = vim.env.HOME .. "/.dotfiles/config/nvim/",
+  hidden = true,
   })
 end
 
-M.k8s_edit_svc = function()
-    local handle = assert(io.popen('kubectl get svc --all-namespaces | tail -n +2'))
-    local results = {}
-    for line in handle:lines() do
-      table.insert(results, line)
-    end
-    handle.close()
-    require("telescope.pickers").new({}, {
-        prompt_title = "k8s service",
-        finder = require("telescope.finders").new_table({
-            results = results,
-        }),
-        sorter = require("telescope.config").values.generic_sorter({}),
-        attach_mappings = function(pbfr, map)
-          map("i", "<CR>", function()
-            -- take the stdout row and parse the 'columns'
-            local choice = require("telescope.actions.state").get_selected_entry(pbfr)
-            local choice_ns = string.match(choice.value, "^[^ ]+")
-            -- this is horrible - there has to be a cleaner way to do this in lua
-            local choice_svc = string.match(choice.value, "[ ]+[^ ]+"):gsub("%s", "")
-            vim.cmd('! tmux neww kubectl edit svc ' .. choice_svc .. ' -n ' .. choice_ns)
-            -- TODO: look at a vim only solution. might need to avoid kubectl edit?
-            -- local handle = assert(io.popen('kubectl get svc ' .. choice_svc .. ' -n ' .. choice_ns .. ' -o yaml'))
-            -- local yaml = handle:read("*a")
-            -- handle.close()
-            require("telescope.actions").close(pbfr)
-          end)
-          return true
-        end,
-    }):find()
-end
-
--- Call with M.k8s_edit{kubeconfig="~/.kube/config"}
-M.k8s_edit = function(config)
-  setmetatable(config,{__index={config="~/.kube/config"}})
-  local kubeconfig = config[1] or config.config
-  local handle = assert(io.popen('kubectl --kubeconfig=' .. kubeconfig .. ' get all --all-namespaces | grep -v \'^NAME\' | awk \'!/^$/\' $1'))
-  local results = {}
-  for line in handle:lines() do
-    table.insert(results, line)
+M.k8s_edits = function()
+  if not vim.fn.executable("kubectl") then
+    error("You don't have kubectl! Install it first.")
+    return
   end
-  handle.close()
-  require("telescope.pickers").new({}, {
-      prompt_title = kubeconfig,
-      finder = require("telescope.finders").new_table({
-          results = results,
-      }),
-      sorter = require("telescope.config").values.generic_sorter({}),
-      attach_mappings = function(pbfr, map)
-        map("i", "<CR>", function()
-          -- take the stdout row and parse the 'columns'
-          local choice = require("telescope.actions.state").get_selected_entry(pbfr)
-          local choice_ns = string.match(choice.value, "^[^ ]+")
-          -- this is horrible - there has to be a cleaner way to do this in lua
-          local choice_obj = string.match(choice.value, "[ ]+[^ ]+"):gsub("%s", "")
-          io.popen('kubectl edit --kubeconfig='.. kubeconfig .. ' ' .. choice_obj .. ' -n ' .. choice_ns)
-          require("telescope.actions").close(pbfr)
-        end)
-        return true
-      end,
-  }):find()
+
+  opts = {}
+  local popup_opts={}
+  opts.get_preview_window = function ()
+    return popup_opts.preview
+  end
+
+  local results = {}
+  job:new({
+    command = 'kubectl',
+    args = {'get', 'all', '--kubeconfig=' .. kubeconfig, '--all-namespaces', '--no-headers=true'},
+    env = {
+      PATH = vim.env.PATH,
+      ['KUBECONFIG'] = kubeconfig
+    },
+    on_stderr = function(_, data)
+      print("failed running kubectl get all ...")
+      print(data)
+    end,
+    on_stdout = function(_, data)
+      table.insert(results, data)
+    end,
+  }):sync()
+
+  local picker=pickers.new(opts, {
+    prompt_title = "scanning k8s all",
+    finder = finders.new_table({
+      results = results,
+      opts = opts,
+    }),
+    sorter = conf.generic_sorter(opts),
+    attach_mappings = function(pbfr, map)
+      map("i", "<CR>", function()
+        local choice = action_state.get_selected_entry(pbfr)
+        local choice_ns = string.match(choice.value, "^[^ ]+")
+        local choice_obj = string.match(choice.value, "[ ]+[^ ]+"):gsub("%s", "")
+        vim.cmd('! tmux neww kubectl edit --kubeconfig=' .. kubeconfig .. ' ' .. choice_obj .. ' -n ' .. choice_ns)
+      end)
+      return true
+    end,
+  })
+
+
+  local line_count = vim.o.lines - vim.o.cmdheight
+  if vim.o.laststatus ~= 0 then
+    line_count = line_count - 1
+  end
+  popup_opts = picker:get_window_options(vim.o.columns, line_count)
+  picker:find()
 end
 
 return M
