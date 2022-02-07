@@ -108,6 +108,7 @@ mv_dotfiles:
 	@ln -fs `pwd`/bashrc.sh ~/.bashrc
 	@ln -fs `pwd`/bash_profile.sh ~/.bash_profile
 	@ln -fs `pwd`/exports.sh ~/.exports
+	@ln -fs `pwd`/jira.sh ~/.jira
 	@ln -fs `pwd`/aliases.sh ~/.aliases
 	@ln -fs `pwd`/functions.sh ~/.functions
 	@ln -fs `pwd`/dockerfunc.sh ~/.dockerfunc

@@ -13,6 +13,8 @@ _initMyDir "${HOME}/v" "A place to store common docker volumes"
 
 # load in extra files
 # shellcheck source=/dev/null
+test -f ~/.jira && source ~/.jira
+# shellcheck source=/dev/null
 test -f ~/.aliases && source ~/.aliases
 # shellcheck source=/dev/null
 test -f ~/.exports && source ~/.exports
