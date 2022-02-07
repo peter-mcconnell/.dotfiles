@@ -49,6 +49,22 @@ M.search_nvim = function()
   })
 end
 
+M.search_kube = function()
+  require("telescope.builtin").find_files({
+  prompt_title = "< ~ .kube ~ >",
+  cwd = vim.env.HOME .. "/.kube/",
+  hidden = true,
+  })
+end
+
+M.search_aws = function()
+  require("telescope.builtin").find_files({
+  prompt_title = "< ~ .aws ~ >",
+  cwd = vim.env.HOME .. "/.aws/",
+  hidden = true,
+  })
+end
+
 M.k8s_edits = function()
   if not vim.fn.executable("kubectl") then
     error("You don't have kubectl! Install it first.")
