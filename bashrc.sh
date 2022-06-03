@@ -21,6 +21,8 @@ test -f ~/.exports && source ~/.exports
 # shellcheck source=/dev/null
 test -f ~/.functions && source ~/.functions
 # shellcheck source=/dev/null
+test -f ~/.Xmodmap && xmodmap ~/.Xmodmap
+# shellcheck source=/dev/null
 test -f ~/.bash_completion && source ~/.bash_completion
 # shellcheck source=/dev/null
 test -f ~/.bash_completion && source ~/.bash_completion
