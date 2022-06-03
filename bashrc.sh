@@ -32,6 +32,8 @@ test -f /etc/bash_completion && source /etc/bash_completion
 test -f /usr/local/git/contrib/completion/git-completion.bash && source /usr/local/git/contrib/completion/git-completion.bash
 # shellcheck source=/dev/null
 test -f /usr/local/git/contrib/completion/git-prompt.sh && source /usr/local/git/contrib/completion/git-prompt.sh
+# kubernetes plugins
+test -d ~/.kube/plugins/jordanwilson230 && export PATH=$PATH:~/.kube/plugins/jordanwilson230
 # shellcheck source=/dev/null
 test -f /usr/local/bin/virtualenvwrapper.sh && source /usr/local/bin/virtualenvwrapper.sh
 # shellcheck source=/dev/null
