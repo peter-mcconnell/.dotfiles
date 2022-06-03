@@ -49,7 +49,7 @@ nnoremap gf :vertical wincmd f<CR>
 " appearance
 syntax on
 set background=dark
-colorscheme xcodedark
+colorscheme xcodedarkhc
 hi Visual term=reverse cterm=reverse guibg=Grey
 
 " allow project-specific vimrc files
