@@ -4,7 +4,7 @@ SHELL ["/bin/bash", "-c"]
 
 ENV TZ=Europe/Dublin
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
-  apt-get update -yq && \
+  apt-get update -yq --fix-missing && \
     DEBIAN_FRONTEND=noninteractive \
     apt-get install -yq --no-install-recommends \
       sudo \
