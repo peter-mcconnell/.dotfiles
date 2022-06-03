@@ -112,3 +112,8 @@ if !&rtp =~ "telescope.actions"
   " sprinkle in my own sprinkles
   lua require("peter-mcconnell")
 endif
+
+augroup highlight_yank
+    autocmd!
+    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("IncSearch", 1000)
+augroup END
