@@ -7,7 +7,7 @@ export PATH="${HOME}/Library/Python/3.7/bin/:$PATH"
 export PATH="${HOME}/Library/Python/2.7/bin:$PATH"
 test -f /usr/local/bin/mysql/bin && export PATH=/usr/local/mysql/bin:$PATH
 test -f /usr/local/go/bin/go && export PATH=/usr/local/go/bin:$PATH
-test -d ~/go && export GOPATH=~/go && PATH=$GOPATH/bin:$PATH
+test -d ~/go/bin/ && export PATH=$HOME/go/bin:$PATH
 test -d ~/bin && PATH=$HOME/bin:$PATH
 test -d ~/.local/bin && PATH=~/.local/bin:$PATH
 test -d ~/.krew/bin && PATH=~/.krew/bin:$PATH
