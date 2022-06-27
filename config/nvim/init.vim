@@ -95,6 +95,8 @@ Plugin 'heavenshell/vim-pydocstring'
 Plugin 'aliou/bats.vim'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'neoclide/coc.nvim'
+Plugin 'dracula/vim', { 'name': 'dracula' }
+Plugin 'arzg/vim-colors-xcode'
 Plugin 'nvim-lua/popup.nvim'
 Plugin 'nvim-lua/plenary.nvim'
 Plugin 'nvim-treesitter/nvim-treesitter'
@@ -102,7 +104,6 @@ Plugin 'nvim-telescope/telescope.nvim'
 Plugin 'nvim-telescope/telescope-fzy-native.nvim'
 Plugin 'fannheyward/telescope-coc.nvim'
 Plugin 'tpope/vim-fugitive'
-Plugin 'arzg/vim-colors-xcode'
 
 call vundle#end()            " required
 filetype plugin indent on

@@ -47,9 +47,9 @@ nnoremap ph  <C-W><C-H>
 nnoremap gf :vertical wincmd f<CR>
 
 " appearance
-syntax on
+syntax enable
 set background=dark
-colorscheme xcodedarkhc
+colorscheme dracula
 hi Visual term=reverse cterm=reverse guibg=Grey
 
 " allow project-specific vimrc files

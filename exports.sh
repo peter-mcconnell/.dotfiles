@@ -1,5 +1,7 @@
 #!/bin/sh
 
+test -f "${HOME}/.kube/config.yaml" && export KUBECONFIG="$HOME/.kube/config.yaml"
+test -d "${HOME}/.krew" && export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 export PATH="/opt/apache-maven-3.3.9/bin:$PATH"
 export PATH="${HOME}/Library/Python/3.7/bin/:$PATH"
