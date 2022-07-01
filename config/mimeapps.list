@@ -1,9 +1,11 @@
 [Default Applications]
-x-scheme-handler/http=chromium_chromium.desktop
-text/html=chromium_chromium.desktop
-x-scheme-handler/https=chromium_chromium.desktop
+x-scheme-handler/http=firefox.desktop
+text/html=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+application/xhtml+xml=firefox.desktop
 
 [Added Associations]
-x-scheme-handler/http=chromium_chromium.desktop;
-text/html=chromium_chromium.desktop;
-x-scheme-handler/https=chromium_chromium.desktop;
+x-scheme-handler/http=chromium_chromium.desktop;firefox.desktop;
+text/html=chromium_chromium.desktop;firefox.desktop;
+x-scheme-handler/https=chromium_chromium.desktop;firefox.desktop;
+application/xhtml+xml=firefox.desktop;

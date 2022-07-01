@@ -2,6 +2,8 @@
 
 # shellcheck disable=SC1090
 
+alias vi='vim'
+
 alias ss='stty sane'
 
 alias diff='diff --color=auto'

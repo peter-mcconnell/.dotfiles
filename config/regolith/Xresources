@@ -1,0 +1,17 @@
+# gaps
+i3-wm.gaps.inner.size: 10
+i3-wm.gaps.outer.size: 10
+
+# terminal
+gnome.terminal.use-transparent-background: true
+gnome.terminal.background-transparency-percent: 10
+
+# wallpaper
+gnome.wallpaper: ~/.dotfiles/backgrounds/bg1.jpg
+
+# i3bar
+i3-wm.bar.position: top
+i3-wm.bar.font: pango:Source Code Pro Medium 13, Material Design Icons 13 #333333
+i3-wm.bar.background.color: #111111
+i3-wm.bar.statusline.color: #333333
+i3-wm.bar.separator.color: #333333

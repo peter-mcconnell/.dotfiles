@@ -1,122 +1,59 @@
-URxvt*font:                     xft:bitstream Fantasque Sans Mono:size=16:antialias=true
-URxvt*boldFont:                 xft:bitstream Fantasque Sans Mono:bold:size=16:antialias=true
+*background:                      #272827
+*foreground:                      #657b83
+*cursorColor:                     #16A085
 
-Xft.dpi:                        72
-Xft.antialias:                  1
-Xft.autohint:                   1
-Xft.hinting:                    1
-Xft.hintstyle:                  hintslight
-Xft.lcdfilter:                  lcdlight
-Xft.rgba:                       rgb
+*color0:                          #232423
+*color8:                          #282928
+*color1:                          #BA2922
+*color9:                          #CC372C
+*color2:                          #7E807E
+*color10:                         #8D8F8D
+*color3:                          #4C4F4D
+*color11:                         #4E524F
+*color4:                          #16A085
+*color12:                         #13BF9D
+*color5:                          #43746A
+*color13:                         #487D72
+*color6:                          #00CCCC
+*color14:                         #00D1D1
+*color7:                          #E0E0E0
+*color15:                         #E8E8E8
 
+URxvt.font: xft:Source Code Pro:size=10.5
+URxvt.depth:                      32
+URxvt*scrollBar:                  false
+URxvt*mouseWheelScrollPage:       false
+URxvt*cursorBlink:                true
+URxvt*saveLines:                  5000
+URxvt*internalBorder: 5
+URxvt*geometry: 70x19
 
-URxvt*termName:                 rxvt-256color
-URxvt.depth:                    32
-URxvt*lineSpace:                1
-URxvt.letterSpace:              -1
-URxvt.iso14755:                 false
-URxvt.iso14755_52:              false
-URxvt*geometry:                 65x17
-URxvt.scrollBar:                true
-URxvt*loginShell:               true
-URxvt.internalBorder:           25
-URxvt.perl-ext:                 default,matcher
-URxvt.url-launcher:             chromium
-URxvt.matcher.button:           1o
+rofi.color-enabled: true
+rofi.color-window: #272827, #13bf9d, #13bf9d
+rofi.color-normal: #272827, #657b83, #272827, #272827, #13bf9d
+rofi.color-active: #272827, #657b83, #272827, #272827, #13bf9d
+rofi.color-urgent: #272827, #657b83, #272827, #272827, #13bf9d
 
-! Terminal: urxvt
-! ===============
+rofi.separator-style: solid
+rofi.sidebar-mode: false
+rofi.lines: 5
+rofi.font: Source Code Pro Semibold 10.5
+rofi.bw: 1
+rofi.columns: 2
+rofi.padding: 5
+rofi.fixed-num-lines: true
+rofi.hide-scrollbar: true
 
-! Tango color scheme
-! ------------------
-URxvt*foreground:       #eeeeec
-URxvt*background:       #2e3436
-URxvt*cursorColor:      #8ae234
-URxvt*colorUL:          #8ae234
-URxvt*underlineColor:   #92659a
-! - Aluminium -
-URxvt*color0:           #2e3436
-URxvt*color8:           #888A85
-! - Scariet Red -
-URxvt*color1:           #cc0000
-URxvt*color9:           #ef2929
-! - Chameleon -
-URxvt*color2:           #4e9a06
-URxvt*color10:          #8ae234
-! - Butter -
-URxvt*color3:           #edd400
-URxvt*color11:          #fce94f
-! - Sky Blue -
-URxvt*color4:           #3465a4
-URxvt*color12:          #729fcf
-! - Plum -
-URxvt*color5:           #92659a
-URxvt*color13:          #c19fbe
-! - Cyan -
-URxvt*color6:           #07c7ca
-URxvt*color14:          #63e9e9
-! - Aluminium 2 -
-URxvt*color7:           #d3d7cf
-URxvt*color15:          #eeeeec
-
-! Options
-! -------
-URxvt.saveLines: 1000
-URxvt.scrollBar: false
-URxvt.secondaryScroll: true
-URxvt.font: xft:Bitstream Vera Sans Mono:pixelsize=12
-URxvt.iso14755: False
-URxvt.perl-ext-common: default,matcher,clipboard
-URxvt.keysym.Shift-Control-V: perl:clipboard:paste
-Urxvt.keysym.Shift-Control-C: perl:clipboard:copy
-URxvt.keysym.C-C: perl:clipboard:copy
-URxvt.urlLauncher: firefox
-URxvt.matcher.button: 1
-
-
-! Terminal: xterm
-! ===============
-
-! Tango color scheme
-! ------------------
-xterm*foreground:       #eeeeec
-xterm*background:       #2e3436
-xterm*cursorColor:      #8ae234
-xterm*colorUL:          #8ae234
-xterm*underlineColor:   #92659a
-! - Aluminium -
-xterm*color0:           #2e3436
-xterm*color8:           #888A85
-! - Scariet Red -
-xterm*color1:           #cc0000
-xterm*color9:           #ef2929
-! - Chameleon -
-xterm*color2:           #4e9a06
-xterm*color10:          #8ae234
-! - Butter -
-xterm*color3:           #edd400
-xterm*color11:          #fce94f
-! - Sky Blue -
-xterm*color4:           #3465a4
-xterm*color12:          #729fcf
-! - Plum -
-xterm*color5:           #92659a
-xterm*color13:          #c19fbe
-! - Cyan -
-xterm*color6:           #07c7ca
-xterm*color14:          #63e9e9
-! - Aluminium 2 -
-xterm*color7:           #d3d7cf
-xterm*color15:          #eeeeec
-
-! Options
-! -------
-xterm*utf8: 1
-xterm*faceName: Bitstream Vera Sans Mono:size=12
-XTerm*selectToClipboard: true
-XTerm*VT100.Translations: #override \
-Shift Ctrl<Key>V: insert-selection(CLIPBOARD) \n\
-    Shift Ctrl<Key>V: insert-selection(PRIMARY) \n\
-    Shift<Btn1Down>: select-start() \n\
-    Shift<Btn1Motion>: select-extend() \n\
-    Shift<Btn1Up>: select-end(CLIPBOARD) \n
+! Normal copy-paste keybindings without perls
+URxvt.iso14755:                   false
+URxvt.keysym.Shift-Control-V:     eval:paste_clipboard
+URxvt.keysym.Shift-Control-C:     eval:selection_to_clipboard
+!Xterm escape codes, word by word movement
+URxvt.keysym.Control-Left:        \033[1;5D
+URxvt.keysym.Shift-Control-Left:  \033[1;6D
+URxvt.keysym.Control-Right:       \033[1;5C
+URxvt.keysym.Shift-Control-Right: \033[1;6C
+URxvt.keysym.Control-Up:          \033[1;5A
+URxvt.keysym.Shift-Control-Up:    \033[1;6A
+URxvt.keysym.Control-Down:        \033[1;5B
+URxvt.keysym.Shift-Control-Down:  \033[1;6B
