@@ -49,7 +49,7 @@ nnoremap gf :vertical wincmd f<CR>
 " appearance
 syntax enable
 set background=dark
-colorscheme dracula
+colorscheme tokyonight
 hi Visual term=reverse cterm=reverse guibg=Grey
 
 " allow project-specific vimrc files
