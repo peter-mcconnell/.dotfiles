@@ -6,6 +6,10 @@ alias vi='vim'
 
 alias ss='stty sane'
 
+if command -v bazelisk > /dev/null 2>&1; then
+  alias bazel='bazelisk'
+fi
+
 alias diff='diff --color=auto'
 
 alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
@@ -33,7 +37,7 @@ alias egrep='egrep --color=auto'
 alias tmux="tmux -2"
 
 if [ -f ~/.machine.specific.aliases ]; then
-  source ~/.machine.specific.aliases
+  . ~/.machine.specific.aliases
 fi
 
 if command -v bat > /dev/null 2>&1; then
