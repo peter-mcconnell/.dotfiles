@@ -3,6 +3,11 @@
 # shellcheck disable=SC1090
 . ~/.dockerfunc
 
+samplesize() {
+  size="${1:-10}"
+  numfmt --to iec --format "%8.4f" $(du -shc */ --block-size=1 | sort -R | head -n$size | awk '{ print $1 }' | jq -s add/length)
+}
+
 # custom brightness function for arch linux on 2016 mbp
 s_bright(){
   lvl="${1:-$(cat /sys/class/backlight/gmux_backlight/max_brightness)}"
@@ -104,5 +109,3 @@ scrape_yt() {
   echo "cleaning up filename to $cleanfilename"
   mv "$file" "$cleanfilename"
 }
-
-
