@@ -2,6 +2,8 @@
 
 test -f "${HOME}/.kube/config.yaml" && export KUBECONFIG="$HOME/.kube/config.yaml"
 test -d "${HOME}/.krew" && export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+test -d /var/lib/flatpak/exports/share && export PATH="/var/lib/flatpak/exports/share:$PATH"
+test -d "${HOME}/.local/share/flatpak/exports/share" && export PATH="${HOME}/.local/share/flatpak/exports/share:$PATH"
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 export PATH="/opt/apache-maven-3.3.9/bin:$PATH"
 export PATH="${HOME}/Library/Python/3.7/bin/:$PATH"
