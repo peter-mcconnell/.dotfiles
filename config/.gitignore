@@ -1,5 +1,9 @@
 *
 !.gitignore
+!coc
+!coc/extensions
+!coc/extensions/db.json
+!coc/extensions/package.json
 !nvim/**/*
 !nvim
 !i3/**/*

@@ -5,6 +5,10 @@
       "rootPatterns": ["go.mod"],
       "trace.server": "verbose",
       "filetypes": ["go"]
+    },
+    "python": {
+      "pyright.enable": "true",
+      "filetypes": ["py"]
     }
   }
 }
