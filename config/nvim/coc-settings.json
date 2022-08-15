@@ -9,6 +9,7 @@
     "python": {
       "pyright.enable": "true",
       "filetypes": ["py"]
-    }
+      "pythonPath": "/usr/bin/python3",
+    },
   }
 }
