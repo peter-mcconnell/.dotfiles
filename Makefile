@@ -31,7 +31,7 @@ deps: aptupdate aptdeps nodedeps
 	fi
 
 aptdeps:
-	@hash bash git curl vim jq tmux nmap libtool cmake unzip bat htop nmon gcalcli pip3 fzf powerline xclip nikto || \
+	@hash bash git curl vim jq tmux nmap libtool cmake unzip bat htop nmon gcalcli pip3 fzf powerline xclip nikto regina okteta x3270 || \
 		DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
 			bash \
 			git \
@@ -58,7 +58,10 @@ aptdeps:
 			fzf \
 			xclip \
 			nikto \
-			powerline
+			powerline \
+			regina-rexx \
+			okteta \
+			x3270 \
 	@if [ -f /usr/bin/batcat ]; then sudo ln -sf /usr/bin/batcat /usr/bin/bat; fi
 
 pipdeps:
