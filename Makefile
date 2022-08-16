@@ -1,4 +1,6 @@
-.PHONY: install mv_dotfiles vundleplugins vundleinstall pipdeps deps neovim tmuxplugins tmux reloadshell linters nodedeps aptdeps
+.PHONY: install mv_dotfiles vundleplugins vundleinstall pipdeps deps neovim tmuxplugins tmux reloadshell linters nodedeps aptdeps test
+
+test:
 
 neovim:
 	@hash nvim || (\
@@ -10,15 +12,12 @@ neovim:
 		&& rm -rf ~/neovimsrc \
 	)
 
-linters: aptupdate
+linters:
 	@curl -L https://github.com/hadolint/hadolint/releases/download/v2.7.0/hadolint-Linux-x86_64 -o hadolint && chmod +x hadolint && sudo mv -n hadolint /usr/local/bin/hadolint
 	@DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
 		shellcheck yamllint
 
-aptupdate:
-	@sudo apt-get update -yq
-
-deps: aptupdate aptdeps nodedeps
+deps: aptdeps nodedeps
 	@if ! hash rg; then \
 		curl -LO https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb && \
 		sudo dpkg -i ripgrep_12.1.1_amd64.deb && \
@@ -61,7 +60,7 @@ aptdeps:
 			powerline \
 			regina-rexx \
 			okteta \
-			x3270 \
+			x3270
 	@if [ -f /usr/bin/batcat ]; then sudo ln -sf /usr/bin/batcat /usr/bin/bat; fi
 
 pipdeps:
