@@ -56,7 +56,7 @@ set linebreak
 set foldmethod=indent
 set foldnestmax=3
 set nofoldenable
-set scrolloff=8
+set scrolloff=15
 set sidescrolloff=15
 set sidescroll=1
 set incsearch
@@ -99,6 +99,7 @@ Plugin 'folke/tokyonight.nvim'
 Plugin 'nvim-lua/popup.nvim'
 Plugin 'nvim-lua/plenary.nvim'
 Plugin 'nvim-treesitter/nvim-treesitter'
+Plugin 'nvim-treesitter/nvim-treesitter-context'
 Plugin 'nvim-telescope/telescope.nvim'
 Plugin 'nvim-telescope/telescope-fzy-native.nvim'
 Plugin 'fannheyward/telescope-coc.nvim'
