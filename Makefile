@@ -65,6 +65,7 @@ aptdeps:
 			okteta \
 			x3270 \
 			bpfcc-tools \
+			bpftrace \
 			linux-tools-generic \
 			linux-cloud-tools-generic
 	@if [ -f /usr/bin/batcat ]; then sudo ln -sf /usr/bin/batcat /usr/bin/bat; fi
