@@ -7,6 +7,11 @@ __get_ip() {
       LOCALIP=$(ip addr show en0 | grep -o -e "inet \([^ |\/]*\)" | awk '{ print $2 }')
     elif ip addr show wlp4s0 > /dev/null 2>&1; then
       LOCALIP=$(ip addr show wlp4s0 | grep -o -e "inet \([^ |\/]*\)" | awk '{ print $2 }')
+    else
+      ONENINETWO="$(ip addr | grep -o -e 'inet 192\.168\.[0-9]\+\.[0-9]\+' | sed -e 's/inet //')"
+      if [ "$ONENINETWO" != "" ]; then
+        LOCALIP="$ONENINETWO"
+      fi
     fi
   fi
   echo "$LOCALIP"
@@ -653,4 +658,27 @@ d_vscode() {
     --restart unless-stopped \
     -ti \
     linuxserver/code-server
+}
+
+d_redpanda() {
+  docker run -d --pull=always --name=redpanda-1 --rm \
+    -p 8081:8081 \
+    -p 8082:8082 \
+    -p 9092:9092 \
+    -p 9644:9644 \
+    -p 28082:28082 \
+    -p 29092:29092 \
+    docker.redpanda.com/vectorized/redpanda:latest \
+    redpanda start \
+    --overprovisioned \
+    --smp 1  \
+    --memory 1G \
+    --reserve-memory 0M \
+    --node-id 0 \
+    --check=false \
+    --node-id '0' \
+    --kafka-addr "PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092" \
+    --advertise-kafka-addr "PLAINTEXT://${LOCALIP}:29092,OUTSIDE://localhost:9092" \
+    --pandaproxy-addr "PLAINTEXT://0.0.0.0:28082,OUTSIDE://0.0.0.0:8082" \
+    --advertise-pandaproxy-addr "PLAINTEXT://${LOCALIP}:28082,OUTSIDE://localhost:8082"
 }
