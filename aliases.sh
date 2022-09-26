@@ -4,7 +4,7 @@
 
 alias vi='vim'
 
-alias ss='stty sane'
+alias sane='stty sane'
 
 if command -v bazelisk > /dev/null 2>&1; then
   alias bazel='bazelisk'

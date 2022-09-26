@@ -12,6 +12,9 @@ neovim:
 		&& rm -rf ~/neovimsrc \
 	)
 
+rust:
+	@if ! command -v rustup > /dev/null 2>&1; then curl https://sh.rustup.rs -sSf | sh; fi
+
 linters:
 	@curl -L https://github.com/hadolint/hadolint/releases/download/v2.7.0/hadolint-Linux-x86_64 -o hadolint && chmod +x hadolint && sudo mv -n hadolint /usr/local/bin/hadolint
 	@DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
@@ -94,7 +97,7 @@ tmuxplugins: tmux
 	@if [ ! -d ~/.tmux/plugins/tmux-resurrect ]; then git clone https://github.com/tmux-plugins/tmux-resurrect ~/.tmux/plugins/tmux-resurrect; fi
 
 
-install: deps linters neovim tmuxplugins mv_dotfiles pipdeps vundleplugins reloadshell
+install: deps linters neovim tmuxplugins mv_dotfiles pipdeps vundleplugins reloadshell rust
 	@echo "installed"
 
 tmux:

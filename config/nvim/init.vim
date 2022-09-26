@@ -1,7 +1,12 @@
 set path+=**
+let &path.="src/include,/usr/include/AL,"
 
 set shell=/bin/bash
 filetype off " required for vundle
+
+set exrc
+set secure
+set noexpandtab
 
 set ma
 set foldlevelstart=99

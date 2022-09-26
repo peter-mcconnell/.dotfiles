@@ -106,3 +106,7 @@ if [ -f /usr/share/powerline/bindings/bash/powerline.sh ]; then
   POWERLINE_BASH_SELECT=1
   source /usr/share/powerline/bindings/bash/powerline.sh
 fi
+
+[[ -s "/home/peter/.gvm/scripts/gvm" ]] && source "/home/peter/.gvm/scripts/gvm"
+# shellcheck source=/dev/null
+test -f ~/.cargo/env && source ~/.cargo/env

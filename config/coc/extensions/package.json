@@ -5,8 +5,7 @@
     "coc-go": ">=0.13.3",
     "coc-pyright": ">=1.1.262",
     "coc-python": ">=1.2.13",
-    "coc-rls": ">=1.1.6",
-    "coc-rust-analyzer": ">=0.65.3",
+    "coc-rust-analyzer": ">=0.67.1",
     "coc-sh": ">=0.6.0",
     "coc-sql": ">=0.8.1"
   }
