@@ -129,6 +129,7 @@ mv_dotfiles:
 
 vundleplugins: vundleinstall
 	@nvim +PluginClean +PluginInstall +GoInstallBinaries +UpdateRemotePlugins +qall
+	@mkdir -p ~/.vim/bundle/coc.nvim/
 	@if [ ! -f ~/.vim/bundle/coc.nvim/build/index.js ]; then \
 		cd ~/.vim/bundle/coc.nvim/ && \
 		yarn install; \
