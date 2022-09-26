@@ -63,7 +63,10 @@ aptdeps:
 			powerline \
 			regina-rexx \
 			okteta \
-			x3270
+			x3270 \
+			bpfcc-tools \
+			linux-tools-generic \
+			linux-cloud-tools-generic
 	@if [ -f /usr/bin/batcat ]; then sudo ln -sf /usr/bin/batcat /usr/bin/bat; fi
 
 pipdeps:
