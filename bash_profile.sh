@@ -46,4 +46,4 @@ if command -v wsl-notify-send.exe > /dev/null; then
     wsl-notify-send.exe --category "$WSL_DISTRO_NAME" "${@}";
   }
 fi
-. "$HOME/.cargo/env"
+test -f "$HOME/.cargo/env" && . "$HOME/.cargo/env"
