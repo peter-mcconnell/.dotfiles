@@ -1,6 +1,11 @@
-.PHONY: install mv_dotfiles vundleplugins vundleinstall pipdeps deps neovim tmuxplugins tmux reloadshell linters nodedeps aptdeps test docker kube
+.PHONY: install mv_dotfiles vundleplugins vundleinstall pipdeps deps neovim tmuxplugins tmux reloadshell linters nodedeps aptdeps test docker kube vpns
 
 test:
+
+vpns:
+	@hash tailscale || (\
+		curl -fsSL https://tailscale.com/install.sh | sh \
+	)
 
 kube:
 	# install kubectl
