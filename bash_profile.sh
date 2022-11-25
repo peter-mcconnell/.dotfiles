@@ -47,3 +47,5 @@ if command -v wsl-notify-send.exe > /dev/null; then
   }
 fi
 test -f "$HOME/.cargo/env" && . "$HOME/.cargo/env"
+
+test -d "$HOME/.krew/bin" && export PATH="$PATH:$HOME/.krew/bin"

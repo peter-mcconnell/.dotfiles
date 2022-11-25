@@ -1,6 +1,43 @@
-.PHONY: install mv_dotfiles vundleplugins vundleinstall pipdeps deps neovim tmuxplugins tmux reloadshell linters nodedeps aptdeps test
+.PHONY: install mv_dotfiles vundleplugins vundleinstall pipdeps deps neovim tmuxplugins tmux reloadshell linters nodedeps aptdeps test docker kube
 
 test:
+
+kube:
+	# install kubectl
+	@hash kubectl || (\
+		sudo snap install kubectl --classic \
+	)
+	# install krew
+	hash kubectl-ctx || (\
+  		cd "$(shell mktemp -d)" && \
+  		OS="linux" && \
+		ARCH="amd64" && \
+  		curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz" && \
+  		tar zxvf "krew-linux_amd64.tar.gz" && \
+  		./krew-linux_amd64 install krew \
+	)
+	# install ctx
+	@PATH="$(PATH):$(HOME)/.krew/bin"; kubectl krew install ctx
+	# install ns
+	@PATH="$(PATH):$(HOME)/.krew/bin"; kubectl krew install ns
+
+docker:
+	@hash docker || (\
+		sudo apt-get install -yq \
+			ca-certificates \
+			curl \
+			gnupg \
+			lsb-release && \
+		mkdir -p /etc/apt/keyrings && \
+		curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg --batch --yes && \
+		echo "deb [arch=$(shell dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(shell lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+  		sudo apt-get update && \
+		sudo apt-get install -yq docker-ce docker-ce-cli containerd.io docker-compose-plugin \
+	);
+	sudo groupadd docker || true
+	sudo usermod -aG docker $(shell whoami) || true
+	newgrp docker || true
 
 neovim:
 	@hash nvim || (\
@@ -101,7 +138,7 @@ tmuxplugins: tmux
 	@if [ ! -d ~/.tmux/plugins/tmux-resurrect ]; then git clone https://github.com/tmux-plugins/tmux-resurrect ~/.tmux/plugins/tmux-resurrect; fi
 
 
-install: deps linters neovim tmuxplugins mv_dotfiles pipdeps vundleplugins reloadshell rust
+install: deps linters neovim tmuxplugins mv_dotfiles pipdeps vundleplugins reloadshell rust docker kube
 	@echo "installed"
 
 tmux:
