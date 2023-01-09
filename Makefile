@@ -76,7 +76,7 @@ deps: aptdeps nodedeps
 	fi
 
 aptdeps:
-	@hash bash git curl jq tmux nmap libtool cmake unzip bat htop nmon gcalcli pip3 fzf powerline xclip nikto lua regina okteta x3270 || \
+	@hash bash git curl jq tmux nmap libtool cmake unzip bat htop nmon gcalcli pip3 fzf powerline xclip nikto lua hugo regina okteta x3270 || \
 		DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
 			bash \
 			git \
@@ -110,6 +110,7 @@ aptdeps:
 			bpftrace \
 			linux-tools-generic \
 			linux-cloud-tools-generic \
+      hugo \
       lua5.4
 	@if [ -f /usr/bin/batcat ]; then sudo ln -sf /usr/bin/batcat /usr/bin/bat; fi
 
