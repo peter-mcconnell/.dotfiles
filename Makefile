@@ -1,4 +1,4 @@
-.PHONY: install mv_dotfiles vundleplugins vundleinstall pipdeps deps neovim tmuxplugins tmux reloadshell linters nodedeps aptdeps test docker kube vpns
+.PHONY: install mv_dotfiles vimpluginstall pipdeps deps neovim tmuxplugins tmux reloadshell linters nodedeps aptdeps test docker kube vpns
 
 test:
 
@@ -45,6 +45,7 @@ docker:
 	newgrp docker || true
 
 neovim:
+	@hash git cmake libtools || sudo apt-get install -yq git cmake gettext libtool-bin
 	@hash nvim || (\
 		rm -rf ~/neovimsrc \
 		&& git clone https://github.com/neovim/neovim.git ~/neovimsrc \
@@ -75,12 +76,11 @@ deps: aptdeps nodedeps
 	fi
 
 aptdeps:
-	@hash bash git curl vim jq tmux nmap libtool cmake unzip bat htop nmon gcalcli pip3 fzf powerline xclip nikto regina okteta x3270 || \
+	@hash bash git curl jq tmux nmap libtool cmake unzip bat htop nmon gcalcli pip3 fzf powerline xclip nikto lua regina okteta x3270 || \
 		DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
 			bash \
 			git \
 			curl \
-			vim \
 			jq \
 			tmux \
 			nmap \
@@ -109,7 +109,8 @@ aptdeps:
 			bpfcc-tools \
 			bpftrace \
 			linux-tools-generic \
-			linux-cloud-tools-generic
+			linux-cloud-tools-generic \
+      lua5.4
 	@if [ -f /usr/bin/batcat ]; then sudo ln -sf /usr/bin/batcat /usr/bin/bat; fi
 
 pipdeps:
@@ -143,7 +144,7 @@ tmuxplugins: tmux
 	@if [ ! -d ~/.tmux/plugins/tmux-resurrect ]; then git clone https://github.com/tmux-plugins/tmux-resurrect ~/.tmux/plugins/tmux-resurrect; fi
 
 
-install: deps linters neovim tmuxplugins mv_dotfiles pipdeps vundleplugins reloadshell rust docker kube
+install: deps linters neovim tmuxplugins mv_dotfiles pipdeps reloadshell rust docker kube
 	@echo "installed"
 
 tmux:
@@ -170,13 +171,8 @@ mv_dotfiles:
 	@ln -fs `pwd`/dircolors ~/.dircolors
 	@ln -fs `pwd`/xinitrc.sh ~/.xinitrc
 
-vundleplugins: vundleinstall
-	@nvim +PluginClean +PluginInstall +GoInstallBinaries +UpdateRemotePlugins +qall
-	@mkdir -p ~/.vim/bundle/coc.nvim/
-	@if [ ! -f ~/.vim/bundle/coc.nvim/build/index.js ]; then \
-		cd ~/.vim/bundle/coc.nvim/ && \
-		yarn install; \
-	fi
-
-vundleinstall:
-	@if [ ! -d ${HOME}/.config/nvim/bundle/Vundle.vim/ ]; then git clone https://github.com/VundleVim/Vundle.vim.git ~/.config/nvim/bundle/Vundle.vim/; fi
+vimpluginstall:
+	@hash lua || sudo apt-get install -yq lua5.4
+	@if [ ! -f /usr/local/bin/lua ]; then sudo ln -s $(which lua) /usr/local/bin/lua; fi
+	@mkdir -p /home/pete/.local/share/nvim/lazy/lazy.nvim/lua/lazy/
+  @nvim +PackerInstall +qa

@@ -1,1 +1,0 @@
-require("peter-mcconnell.telescope")
