@@ -1,4 +1,4 @@
-.PHONY: install mv_dotfiles vimpluginstall pipdeps deps neovim tmuxplugins tmux reloadshell linters nodedeps aptdeps test docker kube vpns
+.PHONY: install mv_dotfiles vimpluginstall pipdeps deps neovim tmuxplugins tmux reloadshell linters nodedeps aptdeps test docker kube vpns terragrunt
 
 test:
 
@@ -10,7 +10,8 @@ vpns:
 kube:
 	# install kubectl
 	@hash kubectl || (\
-		sudo snap install kubectl --classic \
+    curl -L "https://dl.k8s.io/release/$(shell curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o /tmp/kubectl && \
+		sudo install /tmp/kubectl /usr/local/bin/kubectl \
 	)
 	# install krew
 	hash kubectl-ctx || (\
@@ -56,7 +57,7 @@ neovim:
 	)
 
 rust:
-	@if ! command -v rustup > /dev/null 2>&1; then curl https://sh.rustup.rs -sSf | sh; fi
+	@if ! command -v rustup > /dev/null 2>&1; then curl https://sh.rustup.rs -sSf -o /tmp/rustup.sh && sh /tmp/rustup.sh -y && rm /tmp/rustup.sh; fi
 
 linters:
 	@curl -L https://github.com/hadolint/hadolint/releases/download/v2.7.0/hadolint-Linux-x86_64 -o hadolint && chmod +x hadolint && sudo mv -n hadolint /usr/local/bin/hadolint
@@ -77,7 +78,8 @@ deps: aptdeps nodedeps
 
 aptdeps:
 	@hash bash git curl jq tmux nmap libtool cmake unzip bat htop nmon gcalcli pip3 fzf powerline xclip nikto lua hugo regina okteta x3270 || \
-		DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
+		sudo apt-get update && \
+    DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq \
 			bash \
 			git \
 			curl \
@@ -155,6 +157,11 @@ tmux:
 reloadshell:
 	@exec bash -l
 
+terragrunt:
+	@curl -L https://github.com/gruntwork-io/terragrunt/releases/download/v0.42.7/terragrunt_linux_amd64 -o /tmp/terragrunt
+	@sudo install /tmp/terragrunt /usr/local/bin/terragrunt
+	@rm /tmp/terragrunt
+
 mv_dotfiles:
 	@ln -fs `pwd`/config ~/.config
 	@ln -fs `pwd`/config/nvim/init.vim ~/.vimrc
@@ -176,4 +183,4 @@ vimpluginstall:
 	@hash lua || sudo apt-get install -yq lua5.4
 	@if [ ! -f /usr/local/bin/lua ]; then sudo ln -s $(which lua) /usr/local/bin/lua; fi
 	@mkdir -p /home/pete/.local/share/nvim/lazy/lazy.nvim/lua/lazy/
-  @nvim +PackerInstall +qa
+	@nvim +PackerInstall +qa

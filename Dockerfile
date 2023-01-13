@@ -1,4 +1,4 @@
-FROM ubuntu:20.10
+FROM ubuntu:22.04
 LABEL maintainer "Peter McConnell <me@petermcconnell.com>"
 SHELL ["/bin/bash", "-c"]
 
