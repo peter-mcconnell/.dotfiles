@@ -1,6 +1,19 @@
 vim.opt.listchars = {eol = '↵'}
 vim.opt.list = true
 
+-- Automatically change directory to current file
+vim.opt.autochdir = true
+
+-- Sane splits
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
+-- Pane remaps
+vim.keymap.set('n', 'pj', '<C-W><C-J>')
+vim.keymap.set('n', 'pk', '<C-W><C-K>')
+vim.keymap.set('n', 'pl', '<C-W><C-L>')
+vim.keymap.set('n', 'ph', '<C-W><C-H>')
+
 -- Install packer
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
