@@ -219,6 +219,7 @@ pcall(require('telescope').load_extension, 'fzf')
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader>f', require('telescope.builtin').find_files, { desc = '[?] Find files' })
+vim.keymap.set('n', '<leader>d', require('peter-mcconnell.telescope').search_dotfiles, {})
 vim.keymap.set('n', '<leader>p', require('telescope.builtin').git_files, { desc = '[?] Git files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
