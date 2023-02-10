@@ -113,7 +113,7 @@ aptdeps:
 			linux-tools-generic \
 			linux-cloud-tools-generic \
       hugo \
-      lua5.4
+      lua5.3
 	@if [ -f /usr/bin/batcat ]; then sudo ln -sf /usr/bin/batcat /usr/bin/bat; fi
 
 pipdeps:
@@ -180,7 +180,7 @@ mv_dotfiles:
 	@ln -fs `pwd`/xinitrc.sh ~/.xinitrc
 
 vimpluginstall:
-	@hash lua || sudo apt-get install -yq lua5.4
-	@if [ ! -f /usr/local/bin/lua ]; then sudo ln -s $(which lua) /usr/local/bin/lua; fi
-	@mkdir -p /home/pete/.local/share/nvim/lazy/lazy.nvim/lua/lazy/
+	@hash lua || sudo apt-get install -yq lua5.3
+	@if [ ! -f /usr/local/bin/lua ]; then sudo ln -sf $(which lua) /usr/local/bin/lua; fi
+	@mkdir -p $(HOME)/.local/share/nvim/lazy/lazy.nvim/lua/lazy/
 	@nvim +PackerInstall +qa
