@@ -8,4 +8,3 @@
 
 - name: move kubectl binary to /usr/local/bin/
   command: mv /tmp/kubectl /usr/local/bin/
-  creates: /usr/local/bin/kubectl
