@@ -1,0 +1,11 @@
+---
+- name: download kubectl binary
+  get_url:
+    url: https://dl.k8s.io/release/{{ lookup('url', 'https://dl.k8s.io/release/stable.txt') }}/bin/linux/amd64/kubectl
+    dest: /tmp/kubectl
+    owner: "{{ user }}"
+    mode: '0755'
+
+- name: move kubectl binary to /usr/local/bin/
+  command: mv /tmp/kubectl /usr/local/bin/
+  creates: /usr/local/bin/kubectl

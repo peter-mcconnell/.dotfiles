@@ -1,0 +1,7 @@
+---
+- name: copy images to Pictures directory
+  copy:
+    src: backgrounds/
+    dest: ~/backgrounds
+    mode: '0755'
+    owner: "{{ user }}"

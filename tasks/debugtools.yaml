@@ -1,0 +1,11 @@
+---
+- name: Install debugging tools
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - build-essential
+    - bpfcc-tools
+    - bpftrace
+    - linux-tools-generic
+    - linux-cloud-tools-generic

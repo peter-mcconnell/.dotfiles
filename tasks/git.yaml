@@ -1,0 +1,10 @@
+---
+- name: configure git user.name
+  become_user: "{{ user }}"
+  command: |
+    git config --global user.name "Peter McConnell"
+
+- name: configure git user.email
+  become_user: "{{ user }}"
+  command: |
+    git config --global user.email "me@petermcconnell.com"

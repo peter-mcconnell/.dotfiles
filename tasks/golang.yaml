@@ -1,0 +1,15 @@
+---
+- name: install go
+  become_user: "{{ user }}"
+  get_url:
+    url: "https://dl.google.com/go/go{{ go_version }}.linux-amd64.tar.gz"
+    dest: "/tmp/go{{ go_version }}.linux-amd64.tar.gz"
+  register: go_download
+
+- name: extract go archive
+  unarchive:
+    src: "{{ go_download.dest }}"
+    dest: "/usr/local"
+    remote_src: yes
+    owner: "{{ user }}"
+    group: "{{ user }}"

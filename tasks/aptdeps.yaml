@@ -1,0 +1,37 @@
+---
+- name: update apt sources
+  apt:
+    update_cache: yes
+
+- name: install deps
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - git
+    - make
+    - curl
+    - apt-transport-https
+    - ca-certificates
+    - gnupg
+    - lsb-release
+    - jq
+    - tmux
+    - libtool
+    - cmake
+    - unzip
+    - bat
+    - htop
+    - gcalcli
+    - fzf
+    - fonts-powerline
+    - powerline
+    - xclip
+    - lua5.4
+    - hugo
+    - regina-rexx
+    - okteta
+    - x3270
+    - libtool-bin
+    - pkg-config
+    - gettext

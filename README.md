@@ -14,6 +14,10 @@ Personal dotfiles. ubuntu / tmux / neovim. single command install.
 
 - `make`
 
+## install locally
+
+`ansible-playbook -i inventory.ini playbook.yaml --extra-vars "variable_host=local" -K`
+
 ## docker
 
 A docker image has been provided - mostly this is just to validate the dotfiles inside a 'clean' environment but it is useable if a docker dev env is your thing:

@@ -1,0 +1,21 @@
+---
+- name: download terraform
+  get_url:
+    url: https://releases.hashicorp.com/terraform/1.0.10/terraform_1.0.10_linux_amd64.zip
+    dest: /tmp/terraform.zip
+    owner: "{{ user }}"
+    mode: 0644
+
+- name: unzip terraform
+  unarchive:
+    src: /tmp/terraform.zip
+    dest: /usr/local/bin/
+    owner: "{{ user }}"
+    remote_src: yes
+
+- name: download terragrunt
+  get_url:
+    url: https://github.com/gruntwork-io/terragrunt/releases/download/v0.44.5/terragrunt_linux_amd64
+    dest: /usr/local/bin/terragrunt
+    owner: "{{ user }}"
+    mode: 0755

@@ -1,0 +1,25 @@
+---
+- name: neovim
+  command: "which nvim"
+  register: neovim_present
+  ignore_errors: yes
+
+- name: install neovim
+  become_user: "{{ user }}"
+  command: >
+    sh -c "git clone https://github.com/neovim/neovim.git ~/neovimsrc &&
+    cd ~/neovimsrc/ &&
+    make CMAKE_BUILD_TYPE=RelWithDebInfo &&
+    sudo make install"
+  when: not neovim_present.rc == 0
+
+- name: uninstall vim
+  apt:
+    name: vim
+    state: absent
+
+- name: install neovim plugins
+  become_user: "{{ user }}"
+  shell: source ~/.bashrc && nvim --headless +PackerInstall +qall
+  args:
+     executable: /bin/bash

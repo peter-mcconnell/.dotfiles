@@ -1,0 +1,57 @@
+---
+- name: Install dotfiles and dependencies
+  hosts: "{{ hosts | default('remote') }}"
+  become: true
+  vars_files:
+    - vars.yaml
+  tasks:
+    - name: install apt deps
+      include: tasks/aptdeps.yaml
+
+    - name: configure git
+      include: tasks/git.yaml
+
+    - name: install dotfiles
+      include: tasks/dotfiles.yaml
+
+    - name: install python3
+      include: tasks/python3.yaml
+
+    - name: install rust
+      include: tasks/rust.yaml
+
+    - name: install golang
+      include: tasks/golang.yaml
+
+    - name: install bash
+      include: tasks/bash.yaml
+
+    - name: install npm
+      include: tasks/npm.yaml
+
+    - name: install debugging tools
+      include: tasks/debugtools.yaml
+
+    - name: install networking tools
+      include: tasks/nettools.yaml
+
+    - name: install vpn
+      include: tasks/vpn.yaml
+
+    - name: install docker
+      include: tasks/docker.yaml
+
+    - name: install terraform/terragrunt/packer things
+      include: tasks/hashicorps.yaml
+
+    - name: install kubernetes things
+      include: tasks/k8s.yaml
+
+    - name: install neovim
+      include: tasks/neovim.yaml
+
+    - name: configure SSH
+      include: tasks/ssh.yaml
+
+    - name: copy images
+      include: tasks/images.yaml

@@ -1,0 +1,7 @@
+---
+- name: Install bash
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - bash

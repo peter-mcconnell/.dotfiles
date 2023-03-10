@@ -1,0 +1,9 @@
+---
+- name: download tailscale
+  get_url:
+    url: "https://tailscale.com/install.sh"
+    dest: "/tmp/install-tailscale.sh"
+    mode: "0755"
+    owner: "{{ user }}"
+- name: install tailscale
+  command: "/tmp/install-tailscale.sh"

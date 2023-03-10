@@ -1,0 +1,10 @@
+---
+- name: Install networking tools
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - curl
+    - nmap
+    - nmon
+    - nikto

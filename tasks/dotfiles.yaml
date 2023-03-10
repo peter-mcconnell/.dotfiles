@@ -1,0 +1,115 @@
+---
+- name: dotfiles dir exists
+  become_user: "{{ user }}"
+  stat:
+    path: "{{ dotfiles_home }}"
+  register: dotfiles_dir
+
+- name: clone repo
+  become_user: "{{ user }}"
+  git:
+    repo: https://github.com/peter-mcconnell/.dotfiles.git
+    dest: "{{ dotfiles_home }}"
+    clone: yes
+  when: not dotfiles_dir.stat.exists
+
+- name: create symlink to config directory
+  become_user: "{{ user }}"
+  file:
+    src: "{{ dotfiles_home }}/config"
+    dest: "~/.config"
+    state: link
+    force: yes
+
+- name: create symlink to bashrc file
+  become_user: "{{ user }}"
+  file:
+    src: "{{ dotfiles_home }}/bashrc.sh"
+    dest: "~/.bashrc"
+    state: link
+    force: yes
+
+- name: create symlink to bash_profile file
+  become_user: "{{ user }}"
+  file:
+    src: "{{ dotfiles_home }}/bash_profile.sh"
+    dest: "~/.bash_profile"
+    state: link
+    force: yes
+
+- name: create symlink to exports file
+  become_user: "{{ user }}"
+  file:
+    src: "{{ dotfiles_home }}/exports.sh"
+    dest: "~/.exports"
+    state: link
+
+- name: create symlink to jira file
+  become_user: "{{ user }}"
+  file:
+    src: "{{ dotfiles_home }}/jira.sh"
+    dest: "~/.jira"
+    state: link
+
+- name: create symlink to aliases file
+  become_user: "{{ user }}"
+  file:
+    src: "{{ dotfiles_home }}/aliases.sh"
+    dest: "~/.aliases"
+    state: link
+
+- name: create symlink to functions file
+  become_user: "{{ user }}"
+  file:
+    src: "{{ dotfiles_home }}/functions.sh"
+    dest: "~/.functions"
+    state: link
+
+- name: create symlink to dockerfunc file
+  become_user: "{{ user }}"
+  file:
+    src: "{{ dotfiles_home }}/dockerfunc.sh"
+    dest: "~/.dockerfunc"
+    state: link
+
+- name: create symlink to bash_git file
+  become_user: "{{ user }}"
+  file:
+    src: "{{ dotfiles_home }}/bash_git.sh"
+    dest: "~/.bash_git"
+    state: link
+
+- name: create symlink to zshrc file
+  become_user: "{{ user }}"
+  file:
+    src: "{{ dotfiles_home }}/zshrc"
+    dest: "~/.zshrc"
+    state: link
+
+- name: create symlink to fehbg file
+  become_user: "{{ user }}"
+  file:
+    src: "{{ dotfiles_home }}/fehbg.sh"
+    dest: "~/.fehbg"
+    state: link
+
+- name: create symlink to Xresources file
+  become_user: "{{ user }}"
+  file:
+    src: "{{ dotfiles_home }}/Xresources"
+    dest: "~/.Xresources"
+    state: link
+
+- name: create symlink to dircolors file
+  become_user: "{{ user }}"
+  file:
+    src: "{{ dotfiles_home }}/dircolors"
+    dest: "~/.dircolors"
+    state: link
+
+- name: create symlink to xinitrc file
+  become_user: "{{ user }}"
+  file:
+    src: "{{ dotfiles_home }}/xinitrc.sh"
+    dest: "~/.xinitrc"
+    state: link

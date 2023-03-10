@@ -1,0 +1,4 @@
+---
+user: pete
+dotfiles_home: ~/.dotfiles
+go_version: 1.20.2
