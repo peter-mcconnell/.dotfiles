@@ -7,16 +7,17 @@ Personal dotfiles. ubuntu / tmux / neovim. single command install.
 
 ![only l33t little bots may contribute](./media/banner-robot.png)
 
-`make install` - that should be it
+`sudo apt install ansible` - that should be all the dependencies
 
-
-## requirements
-
-- `make`
 
 ## install locally
 
 `ansible-playbook -i inventory.ini playbook.yaml --extra-vars "variable_host=local" -K`
+
+## run against remotes
+
+`ansible-playbook -i inventory.ini playbook.yaml`
+
 
 ## docker
 

@@ -50,6 +50,9 @@
     - name: install neovim
       include: tasks/neovim.yaml
 
+    - name: install tmux
+      include: tasks/tmux.yaml
+
     - name: configure SSH
       include: tasks/ssh.yaml
 

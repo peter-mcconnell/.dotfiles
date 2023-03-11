@@ -16,7 +16,6 @@
     - gnupg
     - lsb-release
     - jq
-    - tmux
     - libtool
     - cmake
     - unzip

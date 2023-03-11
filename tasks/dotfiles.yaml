@@ -113,3 +113,10 @@
     src: "{{ dotfiles_home }}/xinitrc.sh"
     dest: "~/.xinitrc"
     state: link
+
+- name: create symlink to tmux file
+  become_user: "{{ user }}"
+  file:
+    src: "{{ dotfiles_home }}/tmux.conf"
+    dest: "~/.tmux.conf"
+    state: link

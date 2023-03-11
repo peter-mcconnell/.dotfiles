@@ -5,3 +5,5 @@
     state: present
   loop:
     - bash
+    - shellcheck
+    - yamllint

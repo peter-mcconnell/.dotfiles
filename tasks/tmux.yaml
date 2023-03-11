@@ -1,0 +1,38 @@
+---
+- name: install tmux
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - tmux
+
+- name: create plugins directory if it doesn't exist
+  become_user: "{{ user }}"
+  file:
+    path: ~/.tmux/plugins
+    state: directory
+    mode: '0755'
+
+- name: download tpm
+  become_user: "{{ user }}"
+  get_url:
+    url: "https://github.com/tmux-plugins/tpm/archive/master.tar.gz"
+    dest: "~/.tmux/plugins/tpm.tar.gz"
+    owner: "{{ user }}"
+    mode: '0755'
+
+- name: unpack tmp
+  become_user: "{{ user }}"
+  command: tar --strip-components=1 -xzf "~/.tmux/plugins/tpm.tar.gz" -C "~/.tmux/plugins/"
+
+- name: download resurrect
+  become_user: "{{ user }}"
+  get_url:
+    url: "https://github.com/tmux-plugins/tmux-resurrect/archive/master.tar.gz"
+    dest: "~/.tmux/plugins/res.tar.gz"
+    owner: "{{ user }}"
+    mode: '0755'
+
+- name: unpack resurrect
+  become_user: "{{ user }}"
+  command: tar --strip-components=1 -xzf "~/.tmux/plugins/res.tar.gz" -C "~/.tmux/plugins/"
