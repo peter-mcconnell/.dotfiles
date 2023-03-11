@@ -1,30 +1,10 @@
-.PHONY: install deps tmuxplugins tmux reloadshell linters test kube
+.PHONY: install deps tmuxplugins tmux reloadshell linters test
 
 test:
 
 install:
 	@if command -v ansible; then sudo apt-get install -yq ansible; fi
 	@ansible-playbook -i inventory.ini playbook.yaml --extra-vars "hosts=local" -vv -K
-
-kube:
-	# install kubectl
-	@hash kubectl || (\
-    curl -L "https://dl.k8s.io/release/$(shell curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o /tmp/kubectl && \
-		sudo install /tmp/kubectl /usr/local/bin/kubectl \
-	)
-	# install krew
-	hash kubectl-ctx || (\
-  		cd "$(shell mktemp -d)" && \
-  		OS="linux" && \
-		ARCH="amd64" && \
-  		curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz" && \
-  		tar zxvf "krew-linux_amd64.tar.gz" && \
-  		./krew-linux_amd64 install krew \
-	)
-	# install ctx
-	@PATH="$(PATH):$(HOME)/.krew/bin"; kubectl krew install ctx
-	# install ns
-	@PATH="$(PATH):$(HOME)/.krew/bin"; kubectl krew install ns
 
 linters:
 	@curl -L https://github.com/hadolint/hadolint/releases/download/v2.7.0/hadolint-Linux-x86_64 -o hadolint && chmod +x hadolint && sudo mv -n hadolint /usr/local/bin/hadolint
