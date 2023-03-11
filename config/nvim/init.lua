@@ -42,6 +42,8 @@ require('packer').startup(function(use)
     },
   }
 
+  use 'github/copilot.vim'
+
   use { -- Autocompletion
     'hrsh7th/nvim-cmp',
     requires = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
@@ -433,6 +435,22 @@ cmp.setup {
 -- transparency rice
 vim.api.nvim_set_hl(0, "Normal", {guibg=None, ctermbg=NONE})
 vim.api.nvim_set_hl(0, "EndOfBuffer", {guibg=None, ctermbg=NONE})
+
+-- copilot
+vim.g.copilot_no_tab_map = true
+vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
+vim.g.copilot_filetypes = {
+  ["*"] = false,
+  ["javascript"] = true,
+  ["typescript"] = true,
+  ["lua"] = false,
+  ["rust"] = true,
+  ["c"] = true,
+  ["c#"] = true,
+  ["c++"] = true,
+  ["go"] = true,
+  ["python"] = true,
+}
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
