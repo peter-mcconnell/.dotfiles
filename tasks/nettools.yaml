@@ -4,6 +4,7 @@
     name: "{{ item }}"
     state: present
   loop:
+    - net-tools
     - curl
     - nmap
     - nmon

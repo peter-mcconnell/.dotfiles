@@ -2,3 +2,4 @@ nvim*tar.gz
 hadolint
 *.deb
 homelab
+grafana-config.yaml

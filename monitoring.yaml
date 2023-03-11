@@ -1,0 +1,69 @@
+---
+- name: Install Grafana Agent on a linux host
+  hosts: "{{ hosts | default('local') }}"
+
+  vars:
+    agent_binary_location: /usr/local/bin
+    agent_config_location: /etc/grafana-cloud
+    linux_architecture: linux-amd64
+    agent_config_local_path: grafana-config.yaml
+    agent_version: 0.32.1
+
+  tasks:
+    - name: Download Grafana Agent binary
+      get_url:
+        url: "https://github.com/grafana/agent/releases/download/v{{ agent_version }}/grafana-agent-{{ linux_architecture }}.zip"
+        dest: "/tmp/agent-linux.zip"
+        mode: '0644'
+
+    - name: Unarchive Grafana Agent binary
+      become: yes
+      unarchive:
+        src: "/tmp/agent-linux.zip"
+        dest: "{{ agent_binary_location }}"
+        remote_src: yes
+        mode: '0755'
+
+    - name: Create directory for Grafana Agent
+      become: yes
+      file:
+        path: "{{ agent_config_location }}"
+        state: directory
+        mode: '0755'
+
+    - name: Create config file for Grafana Agent
+      become: yes
+      copy:
+        src: "{{ agent_config_local_path }}"
+        dest: "{{ agent_config_location }}/agent-config.yaml"
+
+    - name: Add user 'grafana-agent'
+      become: yes
+      user:
+        name: grafana-agent
+        create_home: no
+        shell: /bin/false
+
+    - name: Create service file for Grafana Agent
+      become: yes
+      copy:
+        dest: "/etc/systemd/system/grafana-agent.service"
+        content: |
+          [Unit]
+          Description=Grafana Agent
+
+          [Service]
+          User=grafana-agent
+          ExecStart={{ agent_binary_location }}/grafana-agent-{{ linux_architecture }} --config.file={{ agent_config_location }}/agent-config.yaml
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: Start Grafana Agent service
+      become: yes
+      systemd:
+        daemon_reload: yes
+        name: grafana-agent
+        enabled: yes
+        state: restarted
