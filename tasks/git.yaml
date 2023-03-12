@@ -8,3 +8,8 @@
   become_user: "{{ user }}"
   command: |
     git config --global user.email "me@petermcconnell.com"
+
+- name: set git rebase strategy
+  become_user: "{{ user }}"
+  command: |
+    git config pull.rebase true
