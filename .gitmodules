@@ -1,0 +1,3 @@
+[submodule "inventory"]
+	path = inventory
+	url = https://github.com/peter-mcconnell/homelab-inventory.git
