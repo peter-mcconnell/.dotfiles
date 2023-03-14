@@ -12,11 +12,11 @@ Personal dotfiles. ubuntu / tmux / neovim. single command install.
 
 ## install locally
 
-`ansible-playbook -i ./inventory/homelab.ini playbook.yaml --extra-vars "variable_host=local" -K`
+`ansible-playbook -i ./inventory/homelab.ini playbook.yaml -K`
 
 ## run against remotes
 
-`ansible-playbook -i ./inventory/homelab.ini playbook.yaml`
+`ansible-playbook -i ./inventory/homelab.ini playbook.yaml--extra-vars "hosts=something" `
 
 
 ## docker
