@@ -34,3 +34,4 @@
     - libtool-bin
     - pkg-config
     - gettext
+    - tree

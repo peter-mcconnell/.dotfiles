@@ -13,3 +13,7 @@
     remote_src: yes
     owner: "{{ user }}"
     group: "{{ user }}"
+
+- name: install delve
+  command:
+    /usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@master
