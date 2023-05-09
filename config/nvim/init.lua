@@ -443,6 +443,7 @@ vim.g.copilot_filetypes = {
   ["*"] = false,
   ["javascript"] = true,
   ["typescript"] = true,
+  ["ts"] = true,
   ["lua"] = false,
   ["rust"] = true,
   ["c"] = true,
