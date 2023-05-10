@@ -1,4 +1,7 @@
 ---
 user: pete
 dotfiles_home: ~/.dotfiles
+llvm_version: llvmorg-16.0.3
+llvm_build_dir: /usr/local/src/llvm
+llvm_install_dir: /usr/local
 go_version: 1.20.2

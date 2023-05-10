@@ -47,6 +47,9 @@
     - name: install kubernetes things
       include: tasks/k8s.yaml
 
+    - name: install llvm
+      include: tasks/llvm.yaml
+
     - name: install neovim
       include: tasks/neovim.yaml
 

@@ -1,0 +1,74 @@
+---
+- name: llvm src dir exists
+  stat:
+    path: "{{ llvm_build_dir }}"
+  register: llvm_build_dir_exists
+
+- name: check if clang exists
+  command: which clang
+  changed_when: false
+  register: clang_exists
+
+- name: check if llvm-readelf exists
+  command: which llvm-readelf
+  changed_when: false
+  register: llvm_exists
+
+- name: clone llvm
+  when: llvm_build_dir_exists is failed and llvm_exists is failed
+  git:
+    repo: https://github.com/llvm/llvm-project.git
+    dest: "{{ llvm_build_dir }}"
+    version: "{{ llvm_version }}"
+    depth: 1
+    owner: "{{ user }}"
+
+- name: llvm cmake
+  when: llvm_exists is failed
+  shell: |
+    rm -rf build && mkdir build && cd build && \
+    cmake \
+      -DLLVM_ENABLE_PROJECTS=clang -G 'Unix Makefiles' \
+      -DCMAKE_INSTALL_PREFIX={{ llvm_install_dir }} \
+      -DLLVM_ENABLE_ASSERTIONS=No \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DLLVM_ENABLE_PROJECTS='clang;;clang-tools-extra;lld;' \
+      -DLLVM_TARGETS_TO_BUILD=X86 \
+      ../llvm
+  args:
+    chdir: "{{ llvm_build_dir }}"
+
+- name: llvm make
+  when: llvm_exists is failed
+  shell: |
+    make -j$(nproc)
+  args:
+    chdir: "{{ llvm_build_dir }}/build"
+
+- name: llvm make clang
+  when: clang_exists is false
+  shell: |
+    make -j$(nproc) clang
+  args:
+    chdir: "{{ llvm_build_dir }}/build"
+
+- name: llvm make install
+  when: llvm_exists is failed
+  shell: |
+    make install -j$(nproc)
+  args:
+    chdir: "{{ llvm_build_dir }}/build"
+
+- name: llvm add path
+  template:
+    src: llvm.conf-template.j2
+    dest: "/etc/ld.so.conf.d/llvm-{{ llvm_version }}.conf"
+    mode: 0644
+
+- name: llvm run ldconfig
+  command: ldconfig
+
+- name: llvm clean build dir
+  file:
+    state: absent
+    path: "{{ llvm_build_dir }}"
