@@ -1,27 +1,28 @@
 ---
-- name: llvm src dir exists
+- name: llvm build dir
   stat:
-    path: "{{ llvm_build_dir }}"
-  register: llvm_build_dir_exists
+    path: "{{ llvm_build_dir_path }}"
+  register: llvm_build_dir
 
 - name: check if clang exists
   command: which clang
   changed_when: false
   register: clang_exists
+  ignore_errors: yes
 
 - name: check if llvm-readelf exists
   command: which llvm-readelf
   changed_when: false
   register: llvm_exists
+  ignore_errors: yes
 
 - name: clone llvm
-  when: llvm_build_dir_exists is failed and llvm_exists is failed
+  when: not llvm_build_dir.stat.exists
   git:
     repo: https://github.com/llvm/llvm-project.git
-    dest: "{{ llvm_build_dir }}"
+    dest: "{{ llvm_build_dir_path }}"
     version: "{{ llvm_version }}"
     depth: 1
-    owner: "{{ user }}"
 
 - name: llvm cmake
   when: llvm_exists is failed
@@ -29,35 +30,35 @@
     rm -rf build && mkdir build && cd build && \
     cmake \
       -DLLVM_ENABLE_PROJECTS=clang -G 'Unix Makefiles' \
-      -DCMAKE_INSTALL_PREFIX={{ llvm_install_dir }} \
+      -DCMAKE_INSTALL_PREFIX={{ llvm_install_dir_path }} \
       -DLLVM_ENABLE_ASSERTIONS=No \
       -DCMAKE_BUILD_TYPE=Release \
       -DLLVM_ENABLE_PROJECTS='clang;;clang-tools-extra;lld;' \
       -DLLVM_TARGETS_TO_BUILD=X86 \
       ../llvm
   args:
-    chdir: "{{ llvm_build_dir }}"
+    chdir: "{{ llvm_build_dir_path }}"
 
 - name: llvm make
   when: llvm_exists is failed
   shell: |
     make -j$(nproc)
   args:
-    chdir: "{{ llvm_build_dir }}/build"
+    chdir: "{{ llvm_build_dir_path }}/build"
 
 - name: llvm make clang
   when: clang_exists is false
   shell: |
     make -j$(nproc) clang
   args:
-    chdir: "{{ llvm_build_dir }}/build"
+    chdir: "{{ llvm_build_dir_path }}/build"
 
 - name: llvm make install
   when: llvm_exists is failed
   shell: |
     make install -j$(nproc)
   args:
-    chdir: "{{ llvm_build_dir }}/build"
+    chdir: "{{ llvm_build_dir_path }}/build"
 
 - name: llvm add path
   template:
@@ -71,4 +72,4 @@
 - name: llvm clean build dir
   file:
     state: absent
-    path: "{{ llvm_build_dir }}"
+    path: "{{ llvm_build_dir_path }}"
