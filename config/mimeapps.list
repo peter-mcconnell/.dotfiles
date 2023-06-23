@@ -3,6 +3,8 @@ x-scheme-handler/http=firefox.desktop
 text/html=firefox.desktop
 x-scheme-handler/https=firefox.desktop
 application/xhtml+xml=firefox.desktop
+x-scheme-handler/about=firefox.desktop
+x-scheme-handler/unknown=firefox.desktop
 
 [Added Associations]
 x-scheme-handler/http=chromium_chromium.desktop;firefox.desktop;
@@ -10,3 +12,4 @@ text/html=chromium_chromium.desktop;firefox.desktop;
 x-scheme-handler/https=chromium_chromium.desktop;firefox.desktop;
 application/xhtml+xml=firefox.desktop;
 image/png=gimp_gimp.desktop;
+video/webm=firefox_firefox.desktop;
