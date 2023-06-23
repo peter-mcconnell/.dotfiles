@@ -1,0 +1,15 @@
+---
+- name: clean npm cache
+  become: yes
+  command: npm cache clean -f
+  become_user: "{{ user }}"
+
+- name: install n globally
+  become: yes
+  command: npm install -g n
+  become_user: "{{ user }}"
+
+- name: install stable version of Node.js
+  become: yes
+  command: n stable
+  become_user: "{{ user }}"
