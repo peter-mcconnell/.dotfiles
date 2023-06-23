@@ -1,4 +1,16 @@
 ---
+- name: tpm dir exists
+  become_user: "{{ user }}"
+  stat:
+    path: "~/.tmux/plugins/tpm"
+  register: tpm_dir
+
+- name: resurrect exists
+  become_user: "{{ user }}"
+  stat:
+    path: "~/.tmux/plugins/resurrect.tmux"
+  register: resurrect
+
 - name: install tmux
   apt:
     name: "{{ item }}"
@@ -17,10 +29,12 @@
   git:
     repo: https://github.com/tmux-plugins/tpm.git
     dest: ~/.tmux/plugins/tpm
+  when: not tpm_dir.stat.exists
 
 - name: unpack tmp
   become_user: "{{ user }}"
   command: tar --strip-components=1 -xzf "~/.tmux/plugins/tpm.tar.gz" -C "~/.tmux/plugins/"
+  when: not tpm_dir.stat.exists
 
 - name: download resurrect
   become_user: "{{ user }}"
@@ -29,7 +43,9 @@
     dest: "~/.tmux/plugins/res.tar.gz"
     owner: "{{ user }}"
     mode: '0755'
+  when: not resurrect.stat.exists
 
 - name: unpack resurrect
   become_user: "{{ user }}"
   command: tar --strip-components=1 -xzf "~/.tmux/plugins/res.tar.gz" -C "~/.tmux/plugins/"
+  when: not resurrect.stat.exists
