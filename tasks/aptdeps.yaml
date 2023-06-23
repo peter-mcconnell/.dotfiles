@@ -35,3 +35,6 @@
     - pkg-config
     - gettext
     - tree
+    - ripgrep
+    - openssh-server
+    - xsel
