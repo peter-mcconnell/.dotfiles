@@ -69,6 +69,9 @@ require('packer').startup(function(use)
     end,
   }
 
+  use 'ray-x/go.nvim'
+  use 'ray-x/guihua.lua'
+
   use { -- Additional text objects via treesitter
     'nvim-treesitter/nvim-treesitter-textobjects',
     after = 'nvim-treesitter',
@@ -452,6 +455,9 @@ cmp.setup({
     { name = 'buffer' },
   })
 })
+
+-- go settings
+require('go').setup()
 
 -- transparency rice
 vim.api.nvim_set_hl(0, "Normal", {guibg=None, ctermbg=NONE})

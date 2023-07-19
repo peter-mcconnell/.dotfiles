@@ -7,6 +7,7 @@
   register: go_download
 
 - name: extract go archive
+  become_user: "{{ user }}"
   unarchive:
     src: "{{ go_download.dest }}"
     dest: "/usr/local"
@@ -15,5 +16,16 @@
     group: "{{ user }}"
 
 - name: install delve
+  become_user: "{{ user }}"
   command:
-    /usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@master
+    /usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@latest
+
+- name: install gofumpt
+  become_user: "{{ user }}"
+  command:
+    /usr/local/go/bin/go install mvdan.cc/gofumpt@latest
+
+- name: install golines
+  become_user: "{{ user }}"
+  command:
+    /usr/local/go/bin/go install github.com/segmentio/golines@latest
