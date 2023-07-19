@@ -76,3 +76,4 @@ git_wat(){
 if command -v nvim > /dev/null 2>&1; then
   alias vim=nvim
 fi
+alias awsp="export AWS_PROFILE=\$(sed -n \"s@\[profile \(.*\)\]@\1@gp\" ~/.aws/config | fzf)"
