@@ -1,5 +1,3 @@
-require('go').setup()
-require('dap-go').setup()
 local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*.go",
@@ -98,3 +96,23 @@ if go_status then
 		-- trouble = true, -- true: use trouble to open quickfix
 	})
 end
+
+-- dap (debugging)
+require('dap-go').setup({
+	-- Additional dap configurations can be added.
+  -- dap_configurations accepts a list of tables where each entry
+  -- represents a dap configuration. For more details do:
+  -- :help dap-configuration
+  dap_configurations = {
+    {
+      -- Must be "go" or it will be ignored by the plugin
+      type = "go",
+      name = "Agent",
+      request = "attach",
+      mode = "local",
+      port = "44444",
+      host = "127.0.0.1",
+      showLog = true,
+    },
+  },
+})
