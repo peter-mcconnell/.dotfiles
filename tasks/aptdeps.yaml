@@ -38,3 +38,4 @@
     - ripgrep
     - openssh-server
     - xsel
+    - dwarfdump
