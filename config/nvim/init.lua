@@ -34,6 +34,8 @@ require('packer').startup(function(use)
     end
   }
 
+  use { 'folke/tokyonight.nvim' }
+
   use { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     requires = {
@@ -141,7 +143,7 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 vim.o.hlsearch = false
 
 -- Make line numbers default
-vim.wo.number = true
+vim.wo.relativenumber = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
