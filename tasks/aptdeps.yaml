@@ -24,6 +24,7 @@
     - gcalcli
     - fzf
     - fonts-powerline
+    - fonts-anonymous-pro
     - powerline
     - xclip
     - lua5.4
