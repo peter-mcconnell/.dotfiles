@@ -2,16 +2,9 @@ local glance = require('glance')
 local actions = glance.actions
 
 glance.setup({
-  height = 18, -- Height of the window
+  height = 18,
   zindex = 45,
-
-  -- By default glance will open preview "embedded" within your active window
-  -- when `detached` is enabled, glance will render above all existing windows
-  -- and won't be restiricted by the width of your active window
   detached = true,
-
-  -- Or use a function to enable `detached` only when the active window is too small
-  -- (default behavior)
   detached = function(winid)
     return vim.api.nvim_win_get_width(winid) < 100
   end,
@@ -80,3 +73,7 @@ glance.setup({
   },
 })
 
+vim.api.nvim_set_keymap("n", "gR", "<cmd>Glance references<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "gD", "<cmd>Glance definitions<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "gY", "<cmd>Glance type_definitions<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "gM", "<cmd>Glance implementations<CR>", {noremap = true, silent = true})
