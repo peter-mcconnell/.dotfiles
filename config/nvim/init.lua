@@ -100,7 +100,6 @@ require('packer').startup(function(use)
   -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
 
-  use { 'ldelossa/nvim-ide' }
   use { 'rcarriga/nvim-notify' }
   use { 'dnlhc/glance.nvim' }
 
@@ -241,8 +240,7 @@ require('peter-mcconnell.rice');
 -- copilot
 require('peter-mcconnell.copilot');
 
--- ide
-require('peter-mcconnell.ide');
+-- glance
 require('peter-mcconnell.glance');
 
 -- The line beneath this is called `modeline`. See `:help modeline`

@@ -1,3 +1,6 @@
+--
+-- note: currently disabled. keeping incase I want to try nvim-ide out again
+--
 local bufferlist      = require('ide.components.bufferlist')
 local explorer        = require('ide.components.explorer')
 local outline         = require('ide.components.outline')
