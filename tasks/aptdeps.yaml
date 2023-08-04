@@ -40,3 +40,4 @@
     - openssh-server
     - xsel
     - dwarfdump
+    - graphviz
