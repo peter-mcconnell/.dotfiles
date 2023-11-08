@@ -169,11 +169,6 @@ _G.packer_plugins = {
     path = "/home/pete/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
     url = "https://github.com/rcarriga/nvim-dap-ui"
   },
-  ["nvim-ide"] = {
-    loaded = true,
-    path = "/home/pete/.local/share/nvim/site/pack/packer/start/nvim-ide",
-    url = "https://github.com/ldelossa/nvim-ide"
-  },
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "/home/pete/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
@@ -223,6 +218,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/pete/.local/share/nvim/site/pack/packer/start/toggleterm.nvim",
     url = "https://github.com/akinsho/toggleterm.nvim"
+  },
+  ["tokyonight.nvim"] = {
+    loaded = true,
+    path = "/home/pete/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
+    url = "https://github.com/folke/tokyonight.nvim"
   },
   ["vim-clang-format"] = {
     loaded = true,
