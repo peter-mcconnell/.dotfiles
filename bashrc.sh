@@ -110,3 +110,9 @@ fi
 [[ -s "/home/peter/.gvm/scripts/gvm" ]] && source "/home/peter/.gvm/scripts/gvm"
 # shellcheck source=/dev/null
 test -f ~/.cargo/env && source ~/.cargo/env
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/pete/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/home/pete/Downloads/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/pete/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/home/pete/Downloads/google-cloud-sdk/completion.bash.inc'; fi
