@@ -5,11 +5,12 @@ x-scheme-handler/https=firefox_firefox.desktop
 application/xhtml+xml=firefox.desktop
 x-scheme-handler/about=firefox_firefox.desktop
 x-scheme-handler/unknown=firefox_firefox.desktop
+x-scheme-handler/eclipse+command=_usr_share_dbeaver-ce_.desktop
 
 [Added Associations]
 x-scheme-handler/http=chromium_chromium.desktop;firefox.desktop;
 text/html=chromium_chromium.desktop;firefox.desktop;
 x-scheme-handler/https=chromium_chromium.desktop;firefox.desktop;
-application/xhtml+xml=firefox.desktop;
-image/png=gimp_gimp.desktop;
+image/png=org.gnome.eog.desktop;gimp_gimp.desktop;
 video/webm=firefox_firefox.desktop;
+video/x-matroska=vlc_vlc.desktop;
