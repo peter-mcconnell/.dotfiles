@@ -4,4 +4,4 @@ dotfiles_home: ~/.dotfiles
 llvm_version: llvmorg-16.0.3
 llvm_build_dir_path: /usr/local/src/llvm
 llvm_install_dir_path: /usr/local
-go_version: 1.20.2
+go_version: 1.21.4
