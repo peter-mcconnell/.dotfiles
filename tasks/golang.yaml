@@ -20,6 +20,11 @@
   command:
     /usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@latest
 
+- name: install gopls
+  become_user: "{{ user }}"
+  command:
+    /usr/local/go/bin/go install golang.org/x/tools/gopls@latest
+
 - name: install gofumpt
   become_user: "{{ user }}"
   command:
