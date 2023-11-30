@@ -1,34 +1,55 @@
 ---
+- name: check if node exists
+  become_user: "{{ user }}"
+  command: which node
+  register: node_exists
+  ignore_errors: yes
+
 - name: add nodejs apt key
-  become: yes
-  apt_key:
-    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-    state: present
+  when: not node_exists.rc == 0
+  ansible.builtin.get_url:
+    url: https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key
+    dest: /tmp/nodesource-repo.gpg.key
+    mode: '0644'
 
-- name: add nodejs 20.x ppa for apt repo
+- name: add nodesource GPG key to keyring
+  when: not node_exists.rc == 0
   become: yes
-  apt_repository:
-    repo: deb https://deb.nodesource.com/node_20.x bionic main
-    update_cache: yes
+  ansible.builtin.shell: |
+    gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg < /tmp/nodesource-repo.gpg.key
 
-- name: install nodejs
+- name: add nodesource repository
+  when: not node_exists.rc == 0
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /etc/apt/sources.list.d/nodesource.list
+    line: "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main"
+    create: yes
+
+- name: update and install node.js
+  when: not node_exists.rc == 0
   become: yes
   apt:
     update_cache: yes
     name: nodejs
-    state: present
+    state: latest
 
 - name: clean npm cache
+  when: not node_exists.rc == 0
   become: yes
   command: npm cache clean -f
   become_user: "{{ user }}"
 
+- name: install yarn using npm
+  when: not node_exists.rc == 0
+  command: npm install -g yarn
+
 - name: install n globally
+  when: not node_exists.rc == 0
   become: yes
   command: npm install -g n
-  become_user: "{{ user }}"
 
 - name: install stable version of Node.js
+  when: not node_exists.rc == 0
   become: yes
   command: n stable
-  become_user: "{{ user }}"

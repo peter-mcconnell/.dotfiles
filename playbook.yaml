@@ -14,6 +14,9 @@
     - name: install dotfiles
       include: tasks/dotfiles.yaml
 
+    - name: install nodejs
+      include: tasks/nodejs.yaml
+
     - name: install python3
       include: tasks/python3.yaml
 
@@ -25,9 +28,6 @@
 
     - name: install bash
       include: tasks/bash.yaml
-
-    - name: install npm
-      include: tasks/npm.yaml
 
     - name: install debugging tools
       include: tasks/debugtools.yaml

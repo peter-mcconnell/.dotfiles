@@ -8,6 +8,7 @@
     name: "{{ item }}"
     state: present
   loop:
+    - apt-utils
     - git
     - make
     - curl

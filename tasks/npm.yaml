@@ -1,8 +1,0 @@
----
-- name: install npm
-  apt:
-    name: npm
-    state: present
-
-- name: install yarn using npm
-  command: npm install -g yarn
