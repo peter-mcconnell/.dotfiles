@@ -17,7 +17,8 @@
   ignore_errors: yes
 
 - name: clone llvm
-  when: not llvm_build_dir.stat.exists
+  when: not llvm_build_dir.stat.exists and
+    llvm_exists is failed
   git:
     repo: https://github.com/llvm/llvm-project.git
     dest: "{{ llvm_build_dir_path }}"

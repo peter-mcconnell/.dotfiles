@@ -7,5 +7,13 @@
     - build-essential
     - bpfcc-tools
     - bpftrace
+    - strace
+    - gdb
+    - dwarfdump
+    - gcc-multilib
+    - g++-multilib
+    - libc6-dev-i386
+    - nasm
+    - libelf-dev
     - linux-tools-generic
     - linux-cloud-tools-generic
