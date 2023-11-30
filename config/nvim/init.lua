@@ -37,13 +37,20 @@ require('packer').startup(function(use)
   use { 'folke/tokyonight.nvim' }
 
   use {
-    'neovim/nvim-lspconfig',
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v3.x',
     requires = {
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
-      'j-hui/fidget.nvim',
-      'folke/neodev.nvim',
-    },
+      --- Uncomment these if you want to manage LSP servers from neovim
+      -- {'williamboman/mason.nvim'},
+      -- {'williamboman/mason-lspconfig.nvim'},
+
+      -- LSP Support
+      {'neovim/nvim-lspconfig'},
+      -- Autocompletion
+      {'hrsh7th/nvim-cmp'},
+      {'hrsh7th/cmp-nvim-lsp'},
+      {'L3MON4D3/LuaSnip'},
+    }
   }
 
   use 'github/copilot.vim'
@@ -198,14 +205,14 @@ require('peter-mcconnell.term')
 -- git settings
 require('peter-mcconnell.git')
 
+-- lsp settings
+require('peter-mcconnell.lsp')
+
 -- telescope settings
 require('peter-mcconnell.telescope')
 
 -- treesitter settings
 require('peter-mcconnell.treesitter');
-
--- general lsp settings
-require('peter-mcconnell.lsp');
 
 -- go settings
 require('peter-mcconnell.go');
