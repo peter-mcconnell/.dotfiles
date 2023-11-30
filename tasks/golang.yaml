@@ -1,5 +1,12 @@
 ---
+- name: check if golang exists
+  become_user: "{{ user }}"
+  command: which go
+  register: go_exists
+  ignore_errors: yes
+
 - name: install go
+  when: not go_exists.rc == 0
   become_user: "{{ user }}"
   get_url:
     url: "https://dl.google.com/go/go{{ go_version }}.linux-amd64.tar.gz"
@@ -7,7 +14,8 @@
   register: go_download
 
 - name: extract go archive
-  become_user: "{{ user }}"
+  when: not go_exists.rc == 0
+  become: yes
   unarchive:
     src: "{{ go_download.dest }}"
     dest: "/usr/local"

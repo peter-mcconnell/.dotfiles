@@ -1,6 +1,7 @@
 ---
 - name: neovim
   command: "which nvim"
+  become_user: "{{ user }}"
   register: neovim_present
   ignore_errors: yes
 

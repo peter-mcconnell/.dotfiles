@@ -1,6 +1,7 @@
 ---
 - name: check if cargo is installed
   shell: which cargo
+  become_user: "{{ user }}"
   register: cargo_exists
   ignore_errors: yes
 

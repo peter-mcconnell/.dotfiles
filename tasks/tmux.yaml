@@ -1,4 +1,10 @@
 ---
+- name: check if tmux exists
+  become_user: "{{ user }}"
+  command: which tmux
+  register: tmux_exists
+  ignore_errors: yes
+
 - name: tpm dir exists
   become_user: "{{ user }}"
   stat:
@@ -12,6 +18,7 @@
   register: resurrect
 
 - name: install tmux
+  when: not tmux_exists.rc == 0
   apt:
     name: "{{ item }}"
     state: present
@@ -26,15 +33,16 @@
     mode: '0755'
 
 - name: clone tpm repository
+  become_user: "{{ user }}"
+  when: not tpm_dir.stat.exists
   git:
     repo: https://github.com/tmux-plugins/tpm.git
     dest: ~/.tmux/plugins/tpm
-  when: not tpm_dir.stat.exists
 
-- name: unpack tmp
+- name: unpack tpm
   become_user: "{{ user }}"
-  command: tar --strip-components=1 -xzf "~/.tmux/plugins/tpm.tar.gz" -C "~/.tmux/plugins/"
   when: not tpm_dir.stat.exists
+  command: tar --strip-components=1 -xzf "~/.tmux/plugins/tpm.tar.gz" -C "~/.tmux/plugins/"
 
 - name: download resurrect
   become_user: "{{ user }}"
