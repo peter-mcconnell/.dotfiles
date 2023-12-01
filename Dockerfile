@@ -10,7 +10,8 @@ RUN useradd --create-home pete && \
     apt-get install -yq --no-install-recommends \
       sudo \
       ansible && \
-    rm -rf /var/lib/apt/lists/*
+  rm -rf /var/lib/apt/lists/* && \
+  echo 'pete ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 COPY . /home/pete/.dotfiles/
 WORKDIR /home/pete/.dotfiles/

@@ -39,11 +39,6 @@
     repo: https://github.com/tmux-plugins/tpm.git
     dest: ~/.tmux/plugins/tpm
 
-- name: unpack tpm
-  become_user: "{{ user }}"
-  when: not tpm_dir.stat.exists
-  command: tar --strip-components=1 -xzf "~/.tmux/plugins/tpm.tar.gz" -C "~/.tmux/plugins/"
-
 - name: download resurrect
   become_user: "{{ user }}"
   get_url:
