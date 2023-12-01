@@ -9,3 +9,4 @@
     - nmap
     - nmon
     - nikto
+    - dnsutils

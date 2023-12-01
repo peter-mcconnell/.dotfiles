@@ -47,6 +47,14 @@ if go_status then
 		-- virtual text setup
 		lsp_diag_update_in_insert = true,
 		lsp_document_formatting = false, -- true: use gopls to format, false: use other formatter tool
+    diagnostic = {  -- set diagnostic to false to disable vim.diagnostic setup
+      hdlr = false, -- hook lsp diag handler and send diag to quickfix
+      underline = true,
+      -- virtual text setup
+      virtual_text = { spacing = 0, prefix = '■' },
+      signs = true,
+      update_in_insert = false,
+    },
 		lsp_inlay_hints = {
 			enable = true,
 			-- Only show inlay hints for the current line
@@ -80,6 +88,7 @@ if go_status then
 		gopls_remote_auto = true, -- add -remote=auto to gopls
 		gocoverage_sign = "█",
 		sign_priority = 5, -- change to a higher number to override other signs
+    dap_debug = true,
 		-- dap_debug = false, -- set to false to disable dap
 		-- dap_debug_keymap = false, -- true: use keymap for debugger defined in go/dap.lua
 		-- false: do not use keymap in go/dap.lua.  you must define your own.
@@ -112,3 +121,7 @@ require('dap-go').setup({
     },
   },
 })
+
+-- remaps
+vim.keymap.set('n', 'cl', ':GoCodeLenAct<CR>')
+
