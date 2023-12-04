@@ -12,7 +12,18 @@ Personal dotfiles. ubuntu / tmux / neovim. single command install.
 
 ## install locally
 
-`ansible-playbook -i ./inventory/homelab.ini playbook.yaml --extra-vars "hosts=local" -K`
+This repo pulls in my personal .ini file which likely won't make sense for you. You can create `./inventory/homelab.ini` like so:
+
+```
+[local]
+localhost ansible_connection=local
+```
+
+Then you can run the playbook against that target:
+
+```sh
+ansible-playbook -i ./inventory/homelab.ini playbook.yaml --extra-vars "hosts=local" -K
+```
 
 ## run against remotes
 
