@@ -8,6 +8,9 @@
     - name: install apt deps
       include: tasks/aptdeps.yaml
 
+    - name: install aws cli
+      include: tasks/aws.yaml
+
     - name: configure git
       include: tasks/git.yaml
 
