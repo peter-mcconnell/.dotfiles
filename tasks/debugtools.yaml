@@ -1,5 +1,5 @@
 ---
-- name: Install debugging tools
+- name: install debugging tools
   apt:
     name: "{{ item }}"
     state: present
@@ -17,3 +17,18 @@
     - libelf-dev
     - linux-tools-generic
     - linux-cloud-tools-generic
+
+- name: download .gdbinit-gef.py using Ansible
+  become_user: "{{ user }}"
+  ansible.builtin.get_url:
+    url: https://gef.blah.cat/py
+    dest: ~/.gdbinit-gef.py
+    mode: '0644'
+
+- name: add 'source ~/.gdbinit-gef.py' to ~/.gdbinit
+  become_user: "{{ user }}"
+  ansible.builtin.lineinfile:
+    path: ~/.gdbinit
+    line: 'source ~/.gdbinit-gef.py'
+    create: yes
+
