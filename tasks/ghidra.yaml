@@ -1,0 +1,35 @@
+---
+- name: ghidra exists
+  stat:
+    path: /usr/local/bin/ghidra
+  register: ghidra_exists
+
+- name: creates jdk directory
+  when: not ghidra_exists.stat.exists
+  ansible.builtin.file:
+    owner: "{{ user }}"
+    path: /opt/ghidra
+    state: directory
+
+- name: download ghidra
+  when: not ghidra_exists.stat.exists
+  become: true
+  unarchive:
+    src: "https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_10.4_build/ghidra_10.4_PUBLIC_20230928.zip"
+    dest: "/opt/ghidra"
+    list_files: yes
+    remote_src: true
+
+- name: find ghidraRun in /opt/ghidra/
+  when: not ghidra_exists.stat.exists
+  ansible.builtin.command: find /opt/ghidra/ -name ghidraRun
+  register: find_result
+  changed_when: False
+
+- name: create a symlink to ghidraRun
+  when: not ghidra_exists.stat.exists
+  ansible.builtin.file:
+    src: "{{ find_result.stdout_lines[0] }}"
+    dest: /usr/local/bin/ghidra
+    state: link
+  when: find_result.stdout_lines | length > 0

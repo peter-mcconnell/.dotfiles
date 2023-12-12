@@ -38,5 +38,7 @@ export TIMEFORMAT=$'\nreal %3R\tuser %3U\tsys %3S\tpcpu %P\n'
 export TMOUT=0                # auto logout after n seconds of inactivity
 export VIDEO_FORMAT=NTSC      # for use with creating compatible DVDs ('dvdauthor -x dvdauthor.xml' will fail if this not here)
 export VISUAL='vim'
+test -d /opt/jdk/jdk-21.0.1 && export JAVA_HOME=/opt/jdk/jdk-21.0.1
+test -d /opt/jdk/jdk-21.0.1 && export PATH="/opt/jdk/jdk-21.0.1/bin:$PATH"
 
 test -f ~/.machine.specific.exports && . ~/.machine.specific.exports

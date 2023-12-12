@@ -42,3 +42,4 @@
     - xsel
     - graphviz
     - meson
+    - rsync

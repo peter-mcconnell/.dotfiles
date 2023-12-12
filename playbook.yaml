@@ -64,3 +64,9 @@
 
     - name: copy images
       include: tasks/images.yaml
+
+    - name: install java
+      include: tasks/java.yaml
+
+    - name: install ghidra
+      include: tasks/ghidra.yaml

@@ -1,0 +1,26 @@
+---
+- name: jdk exists
+  stat:
+    path: /opt/jdk
+  register: jdk_exists
+
+- name: download jdk
+  when: not jdk_exists.stat.exists
+  get_url:
+    url: "https://download.java.net/java/GA/jdk21.0.1/415e3f918a1f4062a0074a2794853d0d/12/GPL/openjdk-21.0.1_linux-x64_bin.tar.gz"
+    dest: "/tmp/jdk"
+
+- name: creates jdk directory
+  when: not jdk_exists.stat.exists
+  ansible.builtin.file:
+    owner: "{{ user }}"
+    path: /opt/jdk
+    state: directory
+
+- name: unzip jdk
+  when: not jdk_exists.stat.exists
+  become: true
+  unarchive:
+    src: "/tmp/jdk"
+    dest: /opt/jdk
+    remote_src: yes
