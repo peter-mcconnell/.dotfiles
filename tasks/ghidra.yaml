@@ -32,4 +32,3 @@
     src: "{{ find_result.stdout_lines[0] }}"
     dest: /usr/local/bin/ghidra
     state: link
-  when: find_result.stdout_lines | length > 0
