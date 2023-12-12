@@ -124,4 +124,3 @@ require('dap-go').setup({
 
 -- remaps
 vim.keymap.set('n', 'cl', ':GoCodeLenAct<CR>')
-
