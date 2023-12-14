@@ -1,21 +1,31 @@
 ---
+- name: docker exists
+  become_user: "{{ user }}"
+  command: which docker
+  register: docker_exists
+  ignore_errors: yes
+
 - name: add docker gpg key
+  when: not docker_exists.rc == 0
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
 - name: add docker repository
+  when: not docker_exists.rc == 0
   apt_repository:
     repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
     state: present
 
 - name: install docker ce
+  when: not docker_exists.rc == 0
   apt:
     update_cache: yes
     name: docker-ce
     state: present
 
 - name: add user to docker group
+  when: not docker_exists.rc == 0
   become: yes
   become_method: sudo
   user:
@@ -23,7 +33,14 @@
     groups: docker
     append: yes
 
+- name: hadolint exists
+  become_user: "{{ user }}"
+  command: which hadolint
+  register: hadolint_exists
+  ignore_errors: yes
+
 - name: download and install hadolint
+  when: not hadolint_exists.rc == 0
   get_url:
     url: https://github.com/hadolint/hadolint/releases/download/v2.7.0/hadolint-Linux-x86_64
     dest: "/usr/local/bin/hadolint"

@@ -1,9 +1,18 @@
 ---
+- name: tailscale exists
+  become_user: "{{ user }}"
+  command: which tailscale
+  register: tailscale_exists
+  ignore_errors: yes
+
 - name: download tailscale
+  when: not tailscale_exists.rc == 0
   get_url:
     url: "https://tailscale.com/install.sh"
     dest: "/tmp/install-tailscale.sh"
     mode: "0755"
     owner: "{{ user }}"
+
 - name: install tailscale
+  when: not tailscale_exists.rc == 0
   command: "/tmp/install-tailscale.sh"

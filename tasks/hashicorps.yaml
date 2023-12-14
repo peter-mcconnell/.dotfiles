@@ -1,5 +1,12 @@
 ---
+- name: terraform exists
+  become_user: "{{ user }}"
+  command: which terraform
+  register: terraform_exists
+  ignore_errors: yes
+
 - name: download terraform
+  when: not terraform_exists.rc == 0
   get_url:
     url: https://releases.hashicorp.com/terraform/1.0.10/terraform_1.0.10_linux_amd64.zip
     dest: /tmp/terraform.zip
@@ -7,13 +14,21 @@
     mode: 0644
 
 - name: unzip terraform
+  when: not terraform_exists.rc == 0
   unarchive:
     src: /tmp/terraform.zip
     dest: /usr/local/bin/
     owner: "{{ user }}"
     remote_src: yes
 
+- name: terragrunt exists
+  become_user: "{{ user }}"
+  command: which terragrunt
+  register: terragrunt_exists
+  ignore_errors: yes
+
 - name: download terragrunt
+  when: not terragrunt_exists.rc == 0
   get_url:
     url: https://github.com/gruntwork-io/terragrunt/releases/download/v0.44.5/terragrunt_linux_amd64
     dest: /usr/local/bin/terragrunt
