@@ -1,1 +1,9 @@
-nvim*
+.*
+!vars.yaml
+!playbook.yaml
+!ansible.cfg
+!*.sh
+!tasks/*
+!templates/*
+!backgrounds/*
+!backgrounds/*

@@ -1,5 +1,13 @@
 ---
-- name: copy images to Pictures directory
+- name: backgrounds dir exists
+  become_user: "{{ user }}"
+  stat:
+    path: "~/backgrounds"
+  register: backgrounds_dir
+
+- name: copy background images to host
+  become_user: "{{ user }}"
+  when: not backgrounds_dir.stat.exists
   copy:
     src: backgrounds/
     dest: ~/backgrounds

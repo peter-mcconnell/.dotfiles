@@ -1,12 +1,11 @@
 ---
 - name: Install networking tools
   apt:
-    name: "{{ item }}"
+    name:
+      - net-tools
+      - curl
+      - nmap
+      - nmon
+      - nikto
+      - dnsutils
     state: present
-  loop:
-    - net-tools
-    - curl
-    - nmap
-    - nmon
-    - nikto
-    - dnsutils

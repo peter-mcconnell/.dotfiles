@@ -20,10 +20,9 @@
 - name: install tmux
   when: not tmux_exists.rc == 0
   apt:
-    name: "{{ item }}"
+    name:
+      - tmux
     state: present
-  loop:
-    - tmux
 
 - name: create plugins directory if it doesn't exist
   become_user: "{{ user }}"

@@ -22,12 +22,12 @@ localhost ansible_connection=local
 Then you can run the playbook against that target:
 
 ```sh
-ansible-playbook -i ./inventory/homelab.ini playbook.yaml --extra-vars "hosts=local" -K
+ansible-playbook playbook.yaml --extra-vars "hosts=local" -K
 ```
 
 ## run against remotes
 
-`ansible-playbook -i ./inventory/homelab.ini playbook.yaml --extra-vars "hosts=something" `
+`ansible-playbook playbook.yaml --extra-vars "hosts=something"`
 
 
 ## docker

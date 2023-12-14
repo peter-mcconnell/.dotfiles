@@ -2,44 +2,44 @@
 - name: update apt sources
   apt:
     update_cache: yes
+    cache_valid_time: 86400
 
 - name: install deps
   apt:
-    name: "{{ item }}"
+    name:
+      - apt-utils
+      - git
+      - make
+      - curl
+      - apt-transport-https
+      - ca-certificates
+      - gnupg
+      - lsb-release
+      - jq
+      - libtool
+      - cmake
+      - unzip
+      - bat
+      - htop
+      - gcalcli
+      - fzf
+      - fonts-powerline
+      - fonts-anonymous-pro
+      - powerline
+      - xclip
+      - lua5.4
+      - hugo
+      - regina-rexx
+      - okteta
+      - x3270
+      - libtool-bin
+      - pkg-config
+      - gettext
+      - tree
+      - ripgrep
+      - openssh-server
+      - xsel
+      - graphviz
+      - meson
+      - rsync
     state: present
-  loop:
-    - apt-utils
-    - git
-    - make
-    - curl
-    - apt-transport-https
-    - ca-certificates
-    - gnupg
-    - lsb-release
-    - jq
-    - libtool
-    - cmake
-    - unzip
-    - bat
-    - htop
-    - gcalcli
-    - fzf
-    - fonts-powerline
-    - fonts-anonymous-pro
-    - powerline
-    - xclip
-    - lua5.4
-    - hugo
-    - regina-rexx
-    - okteta
-    - x3270
-    - libtool-bin
-    - pkg-config
-    - gettext
-    - tree
-    - ripgrep
-    - openssh-server
-    - xsel
-    - graphviz
-    - meson
-    - rsync

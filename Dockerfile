@@ -23,7 +23,7 @@ WORKDIR /home/pete/.dotfiles/
 #         - the effort splitting this into mulytple steps exceeds the value it returns
 #       If you are looking at this file and thinking "Oh, I should do that for my ansible
 #       playbook", stop - you almost certainly shouldn't.
-RUN ansible-playbook -i ./inventory/homelab.ini playbook.yaml --extra-vars "hosts=local" -K
+RUN ansible-playbook playbook.yaml --extra-vars "hosts=local" -K
 RUN rm -rf /tmp/*
 
 CMD ["bash"]

@@ -1,9 +1,8 @@
 ---
 - name: Install bash
   apt:
-    name: "{{ item }}"
+    name:
+      - bash
+      - shellcheck
+      - yamllint
     state: present
-  loop:
-    - bash
-    - shellcheck
-    - yamllint

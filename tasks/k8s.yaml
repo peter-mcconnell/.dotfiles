@@ -1,5 +1,12 @@
 ---
+- name: kubectl exists
+  become_user: "{{ user }}"
+  command: which kubectl
+  register: kubectl_exists
+  ignore_errors: yes
+
 - name: download kubectl binary
+  when: not kubectl_exists.rc == 0
   get_url:
     url: https://dl.k8s.io/release/{{ lookup('url', 'https://dl.k8s.io/release/stable.txt') }}/bin/linux/amd64/kubectl
     dest: /tmp/kubectl
@@ -7,10 +14,18 @@
     mode: '0755'
 
 - name: move kubectl binary to /usr/local/bin/
+  when: not kubectl_exists.rc == 0
   command: mv /tmp/kubectl /usr/local/bin/
+
+- name: krew dir exists
+  become_user: "{{ user }}"
+  stat:
+    path: "~/.krew"
+  register: krew_dir
 
 - name: install krew plugins
   become_user: "{{ user }}"
+  when: not krew_dir.stat.exists
   command: >
     sh -c "mkdir -p ~/.krew/bin &&
     cd ~/.krew &&

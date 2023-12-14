@@ -1,24 +1,23 @@
 ---
 - name: install debugging tools
   apt:
-    name: "{{ item }}"
+    name:
+      - build-essential
+      - bpfcc-tools
+      - bpftrace
+      - strace
+      - gdb
+      - dwarfdump
+      - gcc-multilib
+      - g++-multilib
+      - libc6-dev-i386
+      - nasm
+      - valgrind
+      - massif-visualizer
+      - libelf-dev
+      - linux-tools-generic
+      - linux-cloud-tools-generic
     state: present
-  loop:
-    - build-essential
-    - bpfcc-tools
-    - bpftrace
-    - strace
-    - gdb
-    - dwarfdump
-    - gcc-multilib
-    - g++-multilib
-    - libc6-dev-i386
-    - nasm
-    - valgrind
-    - massif-visualizer
-    - libelf-dev
-    - linux-tools-generic
-    - linux-cloud-tools-generic
 
 - name: download .gdbinit-gef.py using Ansible
   become_user: "{{ user }}"
@@ -33,4 +32,3 @@
     path: ~/.gdbinit
     line: 'source ~/.gdbinit-gef.py'
     create: yes
-
