@@ -27,6 +27,9 @@ require('packer').startup(function(use)
   -- Package manager
   use 'wbthomason/packer.nvim'
 
+  -- theme
+  use { "catppuccin/nvim", as = "catppuccin" }
+
   use {
     "folke/which-key.nvim",
     config = function()

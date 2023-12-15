@@ -41,3 +41,6 @@ require('lualine').setup {
   inactive_winbar = {},
   extensions = {}
 }
+
+-- set theme colorscheme
+vim.cmd.colorscheme "catppuccin"
