@@ -15,12 +15,42 @@
   when: not neovim_present.rc == 0
 
 - name: uninstall vim
+  when: not neovim_present.rc == 0
   apt:
     name: vim
     state: absent
 
+- name: update neovimsrc remotes
+  become_user: "{{ user }}"
+  when: "{{ neovim_nightly_update }}"
+  shell: |
+    cd ~/neovimsrc &&
+    git remote update
+
+- name: check for updates in neovim repository
+  become_user: "{{ user }}"
+  when: "{{ neovim_nightly_update }}"
+  shell: |
+    cd ~/neovimsrc &&
+    git status -uno | grep -q 'Your branch is behind'
+  register: git_updates
+  changed_when: git_updates.rc == 0
+  ignore_errors: yes
+
+- name: update neovim from git
+  become_user: "{{ user }}"
+  command: >
+    sh -c "cd ~/neovimsrc &&
+    git clean -fdx &&
+    git pull &&
+    make CMAKE_BUILD_TYPE=RelWithDebInfo &&
+    sudo make install"
+  when:
+    - "{{ neovim_nightly_update }}"
+    - git_updates.changed
+
 - name: install neovim plugins
   become_user: "{{ user }}"
-  shell: source ~/.bashrc && nvim --headless +PackerInstall +qall
+  shell: source ~/.bashrc && nvim --headless +PackerClean +PackerInstall +qall
   args:
      executable: /bin/bash

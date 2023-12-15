@@ -23,6 +23,9 @@ Then you can run the playbook against that target:
 
 ```sh
 ansible-playbook playbook.yaml --extra-vars "hosts=local" -K
+
+# or to include neovim nightly updates
+ansible-playbook playbook.yaml --extra-vars "hosts=local neovim_nightly_update=True" -K
 ```
 
 ## run against remotes

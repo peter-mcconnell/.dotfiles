@@ -1,5 +1,6 @@
 ---
 user: pete
+neovim_nightly_update: false
 dotfiles_home: ~/.dotfiles
 llvm_version: llvmorg-16.0.3
 llvm_build_dir_path: /usr/local/src/llvm
