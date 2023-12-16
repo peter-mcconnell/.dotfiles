@@ -22,14 +22,14 @@
 
 - name: update neovimsrc remotes
   become_user: "{{ user }}"
-  when: "{{ neovim_nightly_update }}"
+  when: neovim_nightly_update
   shell: |
     cd ~/neovimsrc &&
     git remote update
 
 - name: check for updates in neovim repository
   become_user: "{{ user }}"
-  when: "{{ neovim_nightly_update }}"
+  when: neovim_nightly_update
   shell: |
     cd ~/neovimsrc &&
     git status -uno | grep -q 'Your branch is behind'
@@ -46,7 +46,7 @@
     make CMAKE_BUILD_TYPE=RelWithDebInfo &&
     sudo make install"
   when:
-    - "{{ neovim_nightly_update }}"
+    - neovim_nightly_update
     - git_updates.changed
 
 - name: install neovim plugins
