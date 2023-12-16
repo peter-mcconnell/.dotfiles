@@ -9,5 +9,4 @@ full: install
 
 install:
 	@if ! command -v ansible > /dev/null; then sudo apt-get install -yq ansible; fi
-	ansible-playbook  playbook.yaml --extra-vars "$(EXTRA_VARS)" -K
-
+	ansible-playbook playbook.yaml --extra-vars "$(EXTRA_VARS)" -K

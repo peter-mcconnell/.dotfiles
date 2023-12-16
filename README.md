@@ -7,12 +7,12 @@ Personal dotfiles. ubuntu / tmux / neovim. single command install.
 
 ![only l33t little bots may contribute](./media/banner-robot.png)
 
-`sudo apt install ansible` - that should be all the dependencies
+`sudo apt install -yq make ansible` - that should be all the dependencies
 
 
 ## install locally
 
-This repo pulls in my personal .ini file which likely won't make sense for you. You can create `./inventory/homelab.ini` like so:
+Check the config for `./ansible.cfg` - you will likely need to create your own inventory file, e.g.
 
 ```
 [local]
@@ -22,16 +22,8 @@ localhost ansible_connection=local
 Then you can run the playbook against that target:
 
 ```sh
-ansible-playbook playbook.yaml --extra-vars "hosts=local" -K
-
-# or to include neovim nightly updates
-ansible-playbook playbook.yaml --extra-vars "hosts=local neovim_nightly_update=True" -K
+make full
 ```
-
-## run against remotes
-
-`ansible-playbook playbook.yaml --extra-vars "hosts=something"`
-
 
 ## docker
 
