@@ -88,15 +88,15 @@ if go_status then
 		gopls_remote_auto = true, -- add -remote=auto to gopls
 		gocoverage_sign = "█",
 		sign_priority = 5, -- change to a higher number to override other signs
-    dap_debug = true,
+    dap_debug = false,
 		-- dap_debug = false, -- set to false to disable dap
 		-- dap_debug_keymap = false, -- true: use keymap for debugger defined in go/dap.lua
 		-- false: do not use keymap in go/dap.lua.  you must define your own.
 		-- dap_debug_gui = false, -- set to true to enable dap gui, highly recommended
 		-- dap_debug_vt = false, -- set to true to enable dap virtual text
 		-- build_tags = "", --textobjects = true, -- enable default text jobects through treesittter-text-objects
-		test_runner = "dlv", -- richgo, go test, richgo, dlv, ginkgo
-		run_in_floaterm = false, -- set to true to run in float window. set default build tags
+		test_runner = "go", -- richgo, go test, richgo, dlv, ginkgo
+		run_in_floaterm = true, -- set to true to run in float window. set default build tags
 		-- float term recommend if you use richgo/ginkgo with terminal color
 		-- trouble = true, -- true: use trouble to open quickfix
 	})

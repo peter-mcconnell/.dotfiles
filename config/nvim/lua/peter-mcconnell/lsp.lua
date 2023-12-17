@@ -16,3 +16,11 @@ require('lspconfig').pyright.setup({})
 require('lspconfig').tflint.setup({})
 require('lspconfig').golangci_lint_ls.setup({})
 require('lspconfig').rust_analyzer.setup({})
+
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  ensure_installed = {},
+  handlers = {
+    lsp_zero.default_setup,
+  },
+})
