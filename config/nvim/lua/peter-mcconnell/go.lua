@@ -124,3 +124,17 @@ require('dap-go').setup({
 
 -- remaps
 vim.keymap.set('n', 'cl', ':GoCodeLenAct<CR>')
+
+-- custom go test functions
+vim.api.nvim_create_user_command('PeteGoTestFunc', function()
+    local envs = vim.g.proj_env_vars or {}
+    -- primarily used for CGO_CFLAGS et al
+    for key, value in pairs(envs) do
+        vim.fn.setenv(key, value)
+    end
+
+    local flags = vim.g.proj_go_test_flags or ''
+    require('go.gotest').test_func(flags)
+end, {})
+vim.keymap.set('n', 'tf', ':PeteGoTestFunc<CR>')
+

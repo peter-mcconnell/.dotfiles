@@ -14,7 +14,6 @@ require('lspconfig').cmake.setup({})
 require('lspconfig').gopls.setup({})
 require('lspconfig').pyright.setup({})
 require('lspconfig').tflint.setup({})
-require('lspconfig').golangci_lint_ls.setup({})
 require('lspconfig').rust_analyzer.setup({})
 
 require('mason').setup({})
