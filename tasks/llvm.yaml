@@ -3,22 +3,27 @@
   stat:
     path: "{{ llvm_build_dir_path }}"
   register: llvm_build_dir
+  when: llvm_install
 
 - name: check if clang exists
   command: which clang
   changed_when: false
   register: clang_exists
   ignore_errors: yes
+  when: llvm_install
 
 - name: check if llvm-readelf exists
   command: which llvm-readelf
   changed_when: false
   register: llvm_exists
   ignore_errors: yes
+  when: llvm_install
 
 - name: clone llvm
-  when: not llvm_build_dir.stat.exists and
-    llvm_exists is failed
+  when:
+    - llvm_install
+    - not llvm_build_dir.stat.exists
+    - llvm_exists is failed
   git:
     repo: https://github.com/llvm/llvm-project.git
     dest: "{{ llvm_build_dir_path }}"
@@ -26,7 +31,9 @@
     depth: 1
 
 - name: llvm cmake
-  when: llvm_exists is failed
+  when:
+    - llvm_install
+    - llvm_exists is failed
   shell: |
     rm -rf build && mkdir build && cd build && \
     cmake \
@@ -41,27 +48,34 @@
     chdir: "{{ llvm_build_dir_path }}"
 
 - name: llvm make
-  when: llvm_exists is failed
+  when:
+    - llvm_install
+    - llvm_exists is failed
   shell: |
     make -j$(nproc)
   args:
     chdir: "{{ llvm_build_dir_path }}/build"
 
 - name: llvm make clang
-  when: clang_exists is false
+  when:
+    - llvm_install
+    - clang_exists is false
   shell: |
     make -j$(nproc) clang
   args:
     chdir: "{{ llvm_build_dir_path }}/build"
 
 - name: llvm make install
-  when: llvm_exists is failed
+  when:
+    - llvm_install
+    - llvm_exists is failed
   shell: |
     make install -j$(nproc)
   args:
     chdir: "{{ llvm_build_dir_path }}/build"
 
 - name: llvm add path
+  when: llvm_install
   template:
     src: llvm.conf-template.j2
     dest: "/etc/ld.so.conf.d/llvm-{{ llvm_version }}.conf"
@@ -69,8 +83,10 @@
 
 - name: llvm run ldconfig
   command: ldconfig
+  when: llvm_install
 
 - name: llvm clean build dir
+  when: llvm_install
   file:
     state: absent
     path: "{{ llvm_build_dir_path }}"
