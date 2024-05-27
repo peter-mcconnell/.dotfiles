@@ -42,3 +42,11 @@ test -d /opt/jdk/jdk-21.0.1 && export JAVA_HOME=/opt/jdk/jdk-21.0.1
 test -d /opt/jdk/jdk-21.0.1 && export PATH="/opt/jdk/jdk-21.0.1/bin:$PATH"
 
 test -f ~/.machine.specific.exports && . ~/.machine.specific.exports
+
+test -d /opt/homebrew/bin && export PATH="$PATH:/opt/homebrew/bin/"
+
+test -d /Users/petermcconnell/Library/Python/3.9/bin && export PATH="$PATH:/Users/petermcconnell/Library/Python/3.9/bin/"
+
+export PATH="$PATH:/Users/petermcconnell/go/bin/"
+
+if command -v nvim >/dev/null 2>&1; then alias vim='nvim'; fi
