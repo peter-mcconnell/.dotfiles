@@ -21,10 +21,10 @@ if go_status then
 		-- NOTE: LSP is handled by lsp.lua and formatting is handled by null-ls.lua
 		-- NOTE: via `lsp_on_attach` the custom callback used by all other LSPs is called
 		go = "go", -- go command, can be go[default] or go1.18beta1
-		goimport = "gopls", -- goimport command, can be gopls[default] or goimport
+		goimports = "gopls", -- goimport command, can be gopls[default] or goimport
 		fillstruct = nil, -- can be nil (use fillstruct, slower) and gopls
 		gofmt = "gofumpt", -- gofmt cmd,
-		max_line_len = 128, -- max line length in golines format, Target maximum line length for golines
+		-- max_line_len = 128, -- max line length in golines format, Target maximum line length for golines
 		tag_transform = false, -- can be transform option("snakecase", "camelcase", etc) check gomodifytags for details and more options
 		tag_options = "json=omitempty", -- sets options sent to gomodifytags, i.e., json=omitempty
 		gotests_template = "", -- sets gotests -template parameter (check gotests for details)
@@ -133,7 +133,7 @@ vim.api.nvim_create_user_command('PeteGoTestFunc', function()
         vim.fn.setenv(key, value)
     end
 
-    local flags = vim.g.proj_go_test_flags or ''
+    local flags = vim.g.proj_go_test_flags or '-v'
     require('go.gotest').test_func(flags)
 end, {})
 vim.keymap.set('n', 'tf', ':PeteGoTestFunc<CR>')
