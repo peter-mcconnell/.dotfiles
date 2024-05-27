@@ -323,12 +323,11 @@ d_mysql() {
   if [ "${1}" = "l" ]; then _docker_logwrap "${FUNCNAME[0]}"; return; fi
   docker run \
     -p 3306:3306 \
-    -e MYSQL_USER=root \
     -e MYSQL_ROOT_PASSWORD=pass \
     -v "$HOME/v/mysql:/var/lib/mysql" \
     --name mysql \
     -d \
-    mysql:5.7
+    mysql:8.3
 }
 
 d_mongo() {
