@@ -7,6 +7,7 @@ test -d "${HOME}/.local/share/flatpak/exports/share" && export PATH="${HOME}/.lo
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 export PATH="/opt/apache-maven-3.3.9/bin:$PATH"
 export PATH="${HOME}/Library/Python/3.7/bin/:$PATH"
+export PATH="${HOME}/Library/Python/3.11/bin/:$PATH"
 test -d /opt/Goland-2023.2.1 && export PATH="/opt/GoLand-2023.2.1/bin:$PATH"
 #export PATH="/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages:$PATH"
 export PATH="${HOME}/Library/Python/2.7/bin:$PATH"
