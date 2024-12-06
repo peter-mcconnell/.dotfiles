@@ -174,6 +174,11 @@ vim.o.completeopt = 'menuone,noselect'
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- text wrapping
+vim.wo.wrap = true
+vim.wo.linebreak = true
+vim.wo.list = false
+
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })

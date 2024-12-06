@@ -133,7 +133,7 @@ vim.api.nvim_create_user_command('PeteGoTestFunc', function()
         vim.fn.setenv(key, value)
     end
 
-    local flags = vim.g.proj_go_test_flags or '-v'
+    local flags = vim.g.proj_go_test_flags or '-v -race'
     require('go.gotest').test_func(flags)
 end, {})
 vim.keymap.set('n', 'tf', ':PeteGoTestFunc<CR>')
