@@ -6,67 +6,67 @@
     - vars.yaml
   tasks:
     - name: install apt deps
-      include: tasks/aptdeps.yaml
+      include_tasks: tasks/aptdeps.yaml
 
     - name: install aws cli
-      include: tasks/aws.yaml
+      include_tasks: tasks/aws.yaml
 
     - name: configure git
-      include: tasks/git.yaml
+      include_tasks: tasks/git.yaml
 
     - name: install dotfiles
-      include: tasks/dotfiles.yaml
+      include_tasks: tasks/dotfiles.yaml
 
     - name: install nodejs
-      include: tasks/nodejs.yaml
+      include_tasks: tasks/nodejs.yaml
 
     - name: install python3
-      include: tasks/python3.yaml
+      include_tasks: tasks/python3.yaml
 
     - name: install rust
-      include: tasks/rust.yaml
+      include_tasks: tasks/rust.yaml
 
     - name: install golang
-      include: tasks/golang.yaml
+      include_tasks: tasks/golang.yaml
 
     - name: install bash
-      include: tasks/bash.yaml
+      include_tasks: tasks/bash.yaml
 
     - name: install debugging tools
-      include: tasks/debugtools.yaml
+      include_tasks: tasks/debugtools.yaml
 
     - name: install networking tools
-      include: tasks/nettools.yaml
+      include_tasks: tasks/nettools.yaml
 
     - name: install vpn
-      include: tasks/vpn.yaml
+      include_tasks: tasks/vpn.yaml
 
     - name: install docker
-      include: tasks/docker.yaml
+      include_tasks: tasks/docker.yaml
 
     - name: install terraform/terragrunt/packer things
-      include: tasks/hashicorps.yaml
+      include_tasks: tasks/hashicorps.yaml
 
     - name: install kubernetes things
-      include: tasks/k8s.yaml
+      include_tasks: tasks/k8s.yaml
 
     - name: install llvm
-      include: tasks/llvm.yaml
+      include_tasks: tasks/llvm.yaml
 
     - name: install neovim
-      include: tasks/neovim.yaml
+      include_tasks: tasks/neovim.yaml
 
     - name: install tmux
-      include: tasks/tmux.yaml
+      include_tasks: tasks/tmux.yaml
 
     - name: configure SSH
-      include: tasks/ssh.yaml
+      include_tasks: tasks/ssh.yaml
 
     - name: copy images
-      include: tasks/images.yaml
+      include_tasks: tasks/images.yaml
 
     - name: install java
-      include: tasks/java.yaml
+      include_tasks: tasks/java.yaml
 
     - name: install ghidra
-      include: tasks/ghidra.yaml
+      include_tasks: tasks/ghidra.yaml
