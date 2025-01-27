@@ -137,4 +137,4 @@ vim.api.nvim_create_user_command('PeteGoTestFunc', function()
     require('go.gotest').test_func(flags)
 end, {})
 vim.keymap.set('n', 'tf', ':PeteGoTestFunc<CR>')
-
+vim.keymap.set('n', 'ts', ':GoTestSubCase<CR>')
