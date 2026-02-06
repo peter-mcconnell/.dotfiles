@@ -77,3 +77,35 @@ if command -v nvim > /dev/null 2>&1; then
   alias vim=nvim
 fi
 alias awsp="export AWS_PROFILE=\$(sed -n \"s@\[profile \(.*\)\]@\1@gp\" ~/.aws/config | fzf)"
+
+function org_search() {
+    local search_string="$1"
+
+    if [[ -z "$search_string" ]]; then
+        echo "Usage: org_search <search_string>"
+        return 1
+    fi
+
+    URL_US="http://monitoring-receiver.us-east-1.prod.internal:5000/query/"
+    URL_EU="http://monitoring-receiver.eu-central-1.prod.internal:5000/query/"
+    URL_ME="http://monitoring-receiver.me-central-1.prod.internal:5000/query/"
+
+    BODY='{"sql":"SELECT orgId, orgName, clusterName FROM org_db_mappings","orgIds":[],"clusterNames":["coreDb"],"format":"json"}'
+    curl -s -X POST $URL_US \
+        -H 'Content-Type: application/json' \
+        -d "$BODY" \
+        | jq --arg search "$search_string" \
+        '.result.coreDb[] | select((.orgId | test($search; "i")) or (.orgName |  test($search; "i"))) | . + {region: "US"}'
+
+    curl -s -X POST $URL_ME \
+        -H 'Content-Type: application/json' \
+        -d "$BODY" \
+        | jq --arg search "$search_string" \
+        '.result.coreDb[] | select((.orgId | test($search; "i")) or (.orgName |  test($search; "i"))) | . + {region: "ME"}'
+
+    curl -s -X POST $URL_EU \
+        -H 'Content-Type: application/json' \
+        -d "$BODY" \
+        | jq --arg search "$search_string" \
+        '.result.coreDb[] | select((.orgId | test($search; "i")) or (.orgName |  test($search; "i"))) | . + {region: "EU"}'
+}

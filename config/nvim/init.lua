@@ -43,6 +43,16 @@ require('packer').startup(function(use)
   use { 'folke/tokyonight.nvim' }
 
   use {
+    'greggh/claude-code.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim', -- Required for git operations
+    },
+    config = function()
+      require('claude-code').setup()
+    end
+  }
+
+  use {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v3.x',
     requires = {
@@ -58,8 +68,6 @@ require('packer').startup(function(use)
       {'L3MON4D3/LuaSnip'},
     }
   }
-
-  use 'github/copilot.vim'
 
   use 'rhysd/vim-clang-format'
 
@@ -210,6 +218,9 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
+-- claude
+require('peter-mcconnell.claude');
+
 -- terminal settings
 require('peter-mcconnell.term')
 
@@ -230,9 +241,6 @@ require('peter-mcconnell.go');
 
 -- transparency rice
 require('peter-mcconnell.rice');
-
--- copilot
-require('peter-mcconnell.copilot');
 
 -- glance
 require('peter-mcconnell.glance');
