@@ -88,7 +88,7 @@ if go_status then
 		gopls_remote_auto = true, -- add -remote=auto to gopls
 		gocoverage_sign = "█",
 		sign_priority = 5, -- change to a higher number to override other signs
-    dap_debug = false,
+    dap_debug = true,
 		-- dap_debug = false, -- set to false to disable dap
 		-- dap_debug_keymap = false, -- true: use keymap for debugger defined in go/dap.lua
 		-- false: do not use keymap in go/dap.lua.  you must define your own.
@@ -103,14 +103,14 @@ if go_status then
 end
 
 -- dap (debugging)
+local dap = require('dap')
+local dapui = require('dapui')
+
+dapui.setup()
+
 require('dap-go').setup({
-	-- Additional dap configurations can be added.
-  -- dap_configurations accepts a list of tables where each entry
-  -- represents a dap configuration. For more details do:
-  -- :help dap-configuration
   dap_configurations = {
     {
-      -- Must be "go" or it will be ignored by the plugin
       type = "go",
       name = "Agent",
       request = "attach",
@@ -121,6 +121,41 @@ require('dap-go').setup({
     },
   },
 })
+
+-- Auto open/close dap-ui when debugging starts/stops
+dap.listeners.after.event_initialized["dapui_config"] = function()
+  dapui.open()
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+  dapui.close()
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+  dapui.close()
+end
+
+-- Debug keymaps (<leader>d prefix)
+vim.keymap.set('n', '<leader>db', dap.toggle_breakpoint, { desc = 'Toggle breakpoint' })
+vim.keymap.set('n', '<leader>dB', function()
+  dap.set_breakpoint(vim.fn.input('Breakpoint condition: '))
+end, { desc = 'Conditional breakpoint' })
+vim.keymap.set('n', '<leader>dc', dap.continue, { desc = 'Continue / start debug' })
+vim.keymap.set('n', '<leader>ds', dap.step_over, { desc = 'Step over' })
+vim.keymap.set('n', '<leader>di', dap.step_into, { desc = 'Step into' })
+vim.keymap.set('n', '<leader>do', dap.step_out, { desc = 'Step out' })
+vim.keymap.set('n', '<leader>dr', dap.restart, { desc = 'Restart debug' })
+vim.keymap.set('n', '<leader>dx', dap.terminate, { desc = 'Terminate debug' })
+vim.keymap.set('n', '<leader>du', dapui.toggle, { desc = 'Toggle DAP UI' })
+vim.keymap.set('n', '<leader>de', function()
+  dapui.eval(nil, { enter = true })
+end, { desc = 'Eval expression under cursor' })
+
+-- Debug test function: runs the nearest Go test with delve
+vim.keymap.set('n', '<leader>dt', function()
+  require('dap-go').debug_test()
+end, { desc = 'Debug nearest test' })
+vim.keymap.set('n', '<leader>dl', function()
+  require('dap-go').debug_last_test()
+end, { desc = 'Debug last test' })
 
 -- remaps
 vim.keymap.set('n', 'cl', ':GoCodeLenAct<CR>')

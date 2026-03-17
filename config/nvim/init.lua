@@ -89,7 +89,7 @@ require('packer').startup(function(use)
 
   use 'ray-x/guihua.lua'
   use 'ray-x/go.nvim'
-  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} } -- used for delve debugging
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"} } -- used for delve debugging
   use 'leoluz/nvim-dap-go'
 
   use {
