@@ -108,6 +108,18 @@ local dapui = require('dapui')
 
 dapui.setup()
 
+-- DAP sign highlights: make breakpoints and current line stand out
+vim.api.nvim_set_hl(0, 'DapBreakpoint', { fg = '#e06c75', bold = true })
+vim.api.nvim_set_hl(0, 'DapBreakpointLine', { bg = '#2d1f1f' })
+vim.api.nvim_set_hl(0, 'DapStopped', { fg = '#98c379', bold = true })
+vim.api.nvim_set_hl(0, 'DapStoppedLine', { bg = '#1f2d1f' })
+
+vim.fn.sign_define('DapBreakpoint', { text = '', texthl = 'DapBreakpoint', linehl = 'DapBreakpointLine', numhl = 'DapBreakpoint' })
+vim.fn.sign_define('DapBreakpointCondition', { text = '', texthl = 'DapBreakpoint', linehl = 'DapBreakpointLine', numhl = 'DapBreakpoint' })
+vim.fn.sign_define('DapBreakpointRejected', { text = '', texthl = 'DiagnosticWarn', linehl = '', numhl = '' })
+vim.fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped', linehl = 'DapStoppedLine', numhl = 'DapStopped' })
+vim.fn.sign_define('DapLogPoint', { text = '', texthl = 'DiagnosticInfo', linehl = '', numhl = '' })
+
 require('dap-go').setup({
   dap_configurations = {
     {
