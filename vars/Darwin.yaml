@@ -80,7 +80,11 @@ python_version: "3.13"
 
 python_packages:
   - "python@{{ python_version }}"
-  - pipx
+
+# brew's pipx is a standalone CLI in its own venv, not a module of the brew
+# interpreter, so tasks/Darwin/python3.yaml has to point the pipx module at it.
+pipx_bin: "{{ homebrew_prefix }}/bin/pipx"
+pip_bin: "{{ homebrew_prefix }}/bin/pip{{ python_version }}"
 
 python_tools:
   - black

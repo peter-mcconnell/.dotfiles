@@ -1,18 +1,40 @@
 ---
-- name: install python and pipx
+- name: install python
   become: false
   community.general.homebrew:
     name: "{{ python_packages }}"
     state: present
 
+- name: install pipx
+  become: false
+  community.general.homebrew:
+    name: pipx
+    state: present
+
+- name: pipx is on disk
+  become: false
+  ansible.builtin.stat:
+    path: "{{ pipx_bin }}"
+  register: pipx_installed
+
+- name: pipx must be installed
+  ansible.builtin.assert:
+    that: pipx_installed.stat.exists
+    fail_msg: "no pipx at {{ pipx_bin }} - `brew install pipx` did not land it"
+
 # PEP 668 means the brew interpreter refuses a plain `pip install`, so the two
 # groups are handled differently. Command line tools get their own pipx
 # environments, linked into ~/.local/bin which exports.sh already has on PATH.
+#
+# executable is required: left unset, the module runs `<ansible's python> -m
+# pipx`, and brew's pipx is a CLI in its own venv rather than a module of that
+# interpreter, which fails with "No module named pipx".
 - name: install python tools with pipx
   become: false
   community.general.pipx:
     name: "{{ item }}"
     state: present
+    executable: "{{ pipx_bin }}"
   loop: "{{ python_tools }}"
   environment:
     PATH: "{{ homebrew_prefix }}/bin:{{ ansible_env.PATH }}"
@@ -20,10 +42,15 @@
 # Libraries have to be importable by the interpreter neovim and the debugger
 # actually run, so these do go into the interpreter - as a user install, which
 # keeps them out of the Homebrew prefix.
+#
+# Deliberately the pip CLI rather than ansible.builtin.pip: that module refuses
+# to start unless `packaging` or `setuptools` is importable by whichever
+# interpreter ansible discovered, and brew's python ships neither. Calling pip
+# directly also means the interpreter being written to is pip_bin, not whatever
+# discovery happened to pick - this box has 3.12, 3.13 and 3.14 installed.
 - name: install python libs
   become: false
-  ansible.builtin.pip:
-    name: "{{ python_libs }}"
-    state: present
-    executable: "{{ homebrew_prefix }}/bin/pip{{ python_version }}"
-    extra_args: --user --break-system-packages
+  ansible.builtin.command: "{{ pip_bin }} install --user --break-system-packages {{ item }}"
+  loop: "{{ python_libs }}"
+  register: pip_libs
+  changed_when: "'Successfully installed' in pip_libs.stdout"
