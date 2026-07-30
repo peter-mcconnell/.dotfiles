@@ -2,7 +2,7 @@
 
 __get_ip() {
   LOCALIP="127.0.0.1"
-  if command -v "ifconfig" > /dev/null; then
+  if command -v "ip" > /dev/null; then
     if ip addr show en0 > /dev/null 2>&1; then
       LOCALIP=$(ip addr show en0 | grep -o -e "inet \([^ |\/]*\)" | awk '{ print $2 }')
     elif ip addr show wlp4s0 > /dev/null 2>&1; then
