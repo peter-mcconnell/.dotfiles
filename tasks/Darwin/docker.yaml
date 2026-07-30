@@ -1,0 +1,15 @@
+---
+# Docker Desktop instead of docker-ce, so there is no docker group to join - the
+# desktop app hands the socket to the logged in user itself.
+- name: install docker desktop
+  become: false
+  community.general.homebrew_cask:
+    name: docker-desktop
+    state: present
+    accept_external_apps: true
+
+- name: install hadolint
+  become: false
+  community.general.homebrew:
+    name: hadolint
+    state: present

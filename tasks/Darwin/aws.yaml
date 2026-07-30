@@ -1,0 +1,7 @@
+---
+# The awscli-exe bundle installer is linux-only; brew ships v2 as a formula.
+- name: install aws cli
+  become: false
+  community.general.homebrew:
+    name: awscli
+    state: present

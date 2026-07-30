@@ -1,0 +1,91 @@
+---
+- name: dotfiles
+  become: true
+  become_user: "{{ user }}"
+  block:
+    - name: dotfiles dir exists
+      ansible.builtin.stat:
+        path: "{{ dotfiles_home }}"
+      register: dotfiles_dir
+
+    - name: clone repo
+      ansible.builtin.git:
+        repo: https://github.com/peter-mcconnell/.dotfiles.git
+        dest: "{{ dotfiles_home }}"
+        clone: yes
+      when: not dotfiles_dir.stat.exists
+
+    - name: create symlink to config directory
+      ansible.builtin.file:
+        src: "{{ dotfiles_home }}/config"
+        dest: "{{ user_home }}/.config"
+        state: link
+        force: yes
+
+    - name: create symlink to bashrc file
+      ansible.builtin.file:
+        src: "{{ dotfiles_home }}/bashrc.sh"
+        dest: "{{ user_home }}/.bashrc"
+        state: link
+        force: yes
+
+    - name: create symlink to bash_profile file
+      ansible.builtin.file:
+        src: "{{ dotfiles_home }}/bash_profile.sh"
+        dest: "{{ user_home }}/.bash_profile"
+        state: link
+        force: yes
+
+    - name: create symlink to exports file
+      ansible.builtin.file:
+        src: "{{ dotfiles_home }}/exports.sh"
+        dest: "{{ user_home }}/.exports"
+        state: link
+
+    - name: create symlink to jira file
+      ansible.builtin.file:
+        src: "{{ dotfiles_home }}/jira.sh"
+        dest: "{{ user_home }}/.jira"
+        state: link
+
+    - name: create symlink to aliases file
+      ansible.builtin.file:
+        src: "{{ dotfiles_home }}/aliases.sh"
+        dest: "{{ user_home }}/.aliases"
+        state: link
+
+    - name: create symlink to functions file
+      ansible.builtin.file:
+        src: "{{ dotfiles_home }}/functions.sh"
+        dest: "{{ user_home }}/.functions"
+        state: link
+
+    - name: create symlink to dockerfunc file
+      ansible.builtin.file:
+        src: "{{ dotfiles_home }}/dockerfunc.sh"
+        dest: "{{ user_home }}/.dockerfunc"
+        state: link
+
+    - name: create symlink to bash_git file
+      ansible.builtin.file:
+        src: "{{ dotfiles_home }}/bash_git.sh"
+        dest: "{{ user_home }}/.bash_git"
+        state: link
+
+    - name: create symlink to zshrc file
+      ansible.builtin.file:
+        src: "{{ dotfiles_home }}/zshrc"
+        dest: "{{ user_home }}/.zshrc"
+        state: link
+
+    - name: create symlink to dircolors file
+      ansible.builtin.file:
+        src: "{{ dotfiles_home }}/dircolors"
+        dest: "{{ user_home }}/.dircolors"
+        state: link
+
+    - name: create symlink to tmux file
+      ansible.builtin.file:
+        src: "{{ dotfiles_home }}/tmux.conf"
+        dest: "{{ user_home }}/.tmux.conf"
+        state: link

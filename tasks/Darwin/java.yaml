@@ -1,0 +1,14 @@
+---
+- name: install jdk
+  become: false
+  community.general.homebrew:
+    name: openjdk@21
+    state: present
+
+# openjdk is keg-only, so nothing finds it until it is linked into the system
+# location that /usr/libexec/java_home (and therefore /usr/bin/java) searches.
+- name: make the jdk visible to java_home
+  ansible.builtin.file:
+    src: "{{ homebrew_prefix }}/opt/openjdk@21/libexec/openjdk.jdk"
+    dest: /Library/Java/JavaVirtualMachines/openjdk-21.jdk
+    state: link

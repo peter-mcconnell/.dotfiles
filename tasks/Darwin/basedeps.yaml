@@ -1,0 +1,46 @@
+---
+- name: locate homebrew
+  become: false
+  ansible.builtin.stat:
+    path: "{{ homebrew_prefix }}/bin/brew"
+  register: brew_bin
+
+- name: homebrew must already be installed
+  ansible.builtin.assert:
+    that: brew_bin.stat.exists
+    fail_msg: >-
+      no brew at {{ homebrew_prefix }}/bin/brew - install it first with
+      /bin/bash -c "$(curl -fsSL
+      https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+- name: check for the xcode command line tools
+  become: false
+  ansible.builtin.command: xcode-select -p
+  register: xcode_clt
+  changed_when: false
+  failed_when: false
+
+# The Linux equivalent is build-essential, which apt can just install; this one
+# needs a GUI prompt, so ask for it rather than trying to do it here.
+- name: xcode command line tools must be installed
+  ansible.builtin.assert:
+    that: xcode_clt.rc == 0
+    fail_msg: "no command line tools - run: xcode-select --install"
+
+- name: update homebrew
+  become: false
+  community.general.homebrew:
+    update_homebrew: true
+
+- name: install deps
+  become: false
+  community.general.homebrew:
+    name: "{{ base_packages }}"
+    state: present
+
+- name: install casks
+  become: false
+  community.general.homebrew_cask:
+    name: "{{ base_casks }}"
+    state: present
+    accept_external_apps: true

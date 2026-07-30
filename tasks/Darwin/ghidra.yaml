@@ -1,0 +1,8 @@
+---
+# The formula brings its own jdk and puts a ghidraRun launcher on PATH, so none
+# of the /opt/ghidra unpack-and-symlink work the Linux task does is needed.
+- name: install ghidra
+  become: false
+  community.general.homebrew:
+    name: ghidra
+    state: present

@@ -1,8 +1,0 @@
----
-- name: Install bash
-  apt:
-    name:
-      - bash
-      - shellcheck
-      - yamllint
-    state: present

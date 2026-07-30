@@ -1,0 +1,9 @@
+---
+# tailscale.com/install.sh only knows about linux distros; on macOS the client is
+# the menu bar app.
+- name: install tailscale
+  become: false
+  community.general.homebrew_cask:
+    name: tailscale-app
+    state: present
+    accept_external_apps: true

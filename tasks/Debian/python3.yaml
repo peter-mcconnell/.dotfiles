@@ -1,0 +1,12 @@
+---
+- name: python deps
+  ansible.builtin.apt:
+    name: "{{ python_packages }}"
+    state: present
+
+- name: pip deps
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.pip:
+    name: "{{ python_tools + python_libs }}"
+    state: present

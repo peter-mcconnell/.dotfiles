@@ -1,0 +1,8 @@
+---
+# No gef here: it is a gdb extension, and gdb has no working Apple silicon
+# build. lldb, dtrace and sample come with the Command Line Tools.
+- name: install debugging tools
+  become: false
+  community.general.homebrew:
+    name: "{{ debug_packages }}"
+    state: present

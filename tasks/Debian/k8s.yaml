@@ -1,0 +1,15 @@
+---
+- name: kubectl exists
+  become: true
+  become_user: "{{ user }}"
+  command: which kubectl
+  register: kubectl_exists
+  ignore_errors: yes
+
+- name: download kubectl binary
+  when: not kubectl_exists.rc == 0
+  ansible.builtin.get_url:
+    url: "https://dl.k8s.io/release/{{ lookup('url', 'https://dl.k8s.io/release/stable.txt') }}/bin/{{ target_os }}/{{ target_arch }}/kubectl"
+    dest: /usr/local/bin/kubectl
+    owner: "{{ user }}"
+    mode: '0755'

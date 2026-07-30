@@ -1,0 +1,29 @@
+---
+- name: install python and pipx
+  become: false
+  community.general.homebrew:
+    name: "{{ python_packages }}"
+    state: present
+
+# PEP 668 means the brew interpreter refuses a plain `pip install`, so the two
+# groups are handled differently. Command line tools get their own pipx
+# environments, linked into ~/.local/bin which exports.sh already has on PATH.
+- name: install python tools with pipx
+  become: false
+  community.general.pipx:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ python_tools }}"
+  environment:
+    PATH: "{{ homebrew_prefix }}/bin:{{ ansible_env.PATH }}"
+
+# Libraries have to be importable by the interpreter neovim and the debugger
+# actually run, so these do go into the interpreter - as a user install, which
+# keeps them out of the Homebrew prefix.
+- name: install python libs
+  become: false
+  ansible.builtin.pip:
+    name: "{{ python_libs }}"
+    state: present
+    executable: "{{ homebrew_prefix }}/bin/pip{{ python_version }}"
+    extra_args: --user --break-system-packages

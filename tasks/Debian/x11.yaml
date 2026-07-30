@@ -1,0 +1,24 @@
+---
+# Dotfiles that only mean anything under X11, split out of common/dotfiles.yaml
+# so the macOS task set can leave them alone.
+- name: x11 dotfiles
+  become: true
+  become_user: "{{ user }}"
+  block:
+    - name: create symlink to fehbg file
+      ansible.builtin.file:
+        src: "{{ dotfiles_home }}/fehbg.sh"
+        dest: "{{ user_home }}/.fehbg"
+        state: link
+
+    - name: create symlink to Xresources file
+      ansible.builtin.file:
+        src: "{{ dotfiles_home }}/Xresources"
+        dest: "{{ user_home }}/.Xresources"
+        state: link
+
+    - name: create symlink to xinitrc file
+      ansible.builtin.file:
+        src: "{{ dotfiles_home }}/xinitrc.sh"
+        dest: "{{ user_home }}/.xinitrc"
+        state: link

@@ -1,0 +1,15 @@
+---
+- name: ssh
+  become: true
+  become_user: "{{ user }}"
+  block:
+    - name: ssh directory exists
+      ansible.builtin.file:
+        path: "{{ user_home }}/.ssh"
+        state: directory
+        mode: '0700'
+
+    - name: Create ssh keys if not exist
+      ansible.builtin.command: ssh-keygen -t rsa -b 4096 -N "" -f {{ user_home }}/.ssh/id_rsa
+      args:
+        creates: "{{ user_home }}/.ssh/id_rsa"

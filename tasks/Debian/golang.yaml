@@ -1,0 +1,25 @@
+---
+- name: check if golang exists
+  become: true
+  become_user: "{{ user }}"
+  command: which go
+  register: go_exists
+  ignore_errors: yes
+
+- name: install go
+  when: not go_exists.rc == 0
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.get_url:
+    url: "https://dl.google.com/go/go{{ go_version }}.{{ target_os }}-{{ target_arch }}.tar.gz"
+    dest: "/tmp/go{{ go_version }}.{{ target_os }}-{{ target_arch }}.tar.gz"
+  register: go_download
+
+- name: extract go archive
+  when: not go_exists.rc == 0
+  ansible.builtin.unarchive:
+    src: "{{ go_download.dest }}"
+    dest: "/usr/local"
+    remote_src: yes
+    owner: "{{ user }}"
+    group: "{{ user }}"

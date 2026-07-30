@@ -1,0 +1,21 @@
+---
+- name: install debugging tools
+  ansible.builtin.apt:
+    name: "{{ debug_packages }}"
+    state: present
+
+- name: gef
+  become: true
+  become_user: "{{ user }}"
+  block:
+    - name: download .gdbinit-gef.py using Ansible
+      ansible.builtin.get_url:
+        url: https://gef.blah.cat/py
+        dest: "{{ user_home }}/.gdbinit-gef.py"
+        mode: '0644'
+
+    - name: add 'source ~/.gdbinit-gef.py' to ~/.gdbinit
+      ansible.builtin.lineinfile:
+        path: "{{ user_home }}/.gdbinit"
+        line: 'source ~/.gdbinit-gef.py'
+        create: yes

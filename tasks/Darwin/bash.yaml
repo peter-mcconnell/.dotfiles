@@ -1,0 +1,14 @@
+---
+- name: install bash
+  become: false
+  community.general.homebrew:
+    name: "{{ bash_packages }}"
+    state: present
+
+# macOS is stuck on bash 3.2 as /bin/bash. The brew build has to be listed in
+# /etc/shells before chsh will accept it as a login shell.
+- name: allow the homebrew bash as a login shell
+  ansible.builtin.lineinfile:
+    path: /etc/shells
+    line: "{{ homebrew_prefix }}/bin/bash"
+    state: present

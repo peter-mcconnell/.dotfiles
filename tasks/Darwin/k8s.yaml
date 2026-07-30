@@ -1,0 +1,6 @@
+---
+- name: install kubectl
+  become: false
+  community.general.homebrew:
+    name: kubernetes-cli
+    state: present

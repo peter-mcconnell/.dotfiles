@@ -2,71 +2,26 @@
 - name: Install dotfiles and dependencies
   hosts: "{{ hosts | default('remote') }}"
   become: true
+  # Facts are gathered explicitly below so they describe the login user rather
+  # than root - vars/<os_family>.yaml leans on ansible_user_id/ansible_user_dir.
+  gather_facts: false
   vars_files:
     - vars.yaml
+  pre_tasks:
+    - name: gather facts as the login user
+      become: false
+      ansible.builtin.setup:
+
+    - name: check the platform is supported
+      ansible.builtin.assert:
+        that: ansible_os_family in ['Debian', 'Darwin']
+        fail_msg: >-
+          unsupported os_family '{{ ansible_os_family }}' -
+          only Debian and Darwin have task sets
+
+    - name: load {{ ansible_os_family }} variables
+      ansible.builtin.include_vars: "vars/{{ ansible_os_family }}.yaml"
+
   tasks:
-    - name: install apt deps
-      include_tasks: tasks/aptdeps.yaml
-
-    - name: install aws cli
-      include_tasks: tasks/aws.yaml
-
-    - name: configure git
-      include_tasks: tasks/git.yaml
-
-    - name: install dotfiles
-      include_tasks: tasks/dotfiles.yaml
-
-    - name: install nodejs
-      include_tasks: tasks/nodejs.yaml
-
-    - name: install python3
-      include_tasks: tasks/python3.yaml
-
-    - name: install rust
-      include_tasks: tasks/rust.yaml
-
-    - name: install golang
-      include_tasks: tasks/golang.yaml
-
-    - name: install bash
-      include_tasks: tasks/bash.yaml
-
-    - name: install debugging tools
-      include_tasks: tasks/debugtools.yaml
-
-    - name: install networking tools
-      include_tasks: tasks/nettools.yaml
-
-    - name: install vpn
-      include_tasks: tasks/vpn.yaml
-
-    - name: install docker
-      include_tasks: tasks/docker.yaml
-
-    - name: install terraform/terragrunt/packer things
-      include_tasks: tasks/hashicorps.yaml
-
-    - name: install kubernetes things
-      include_tasks: tasks/k8s.yaml
-
-    - name: install llvm
-      include_tasks: tasks/llvm.yaml
-
-    - name: install neovim
-      include_tasks: tasks/neovim.yaml
-
-    - name: install tmux
-      include_tasks: tasks/tmux.yaml
-
-    - name: configure SSH
-      include_tasks: tasks/ssh.yaml
-
-    - name: copy images
-      include_tasks: tasks/images.yaml
-
-    - name: install java
-      include_tasks: tasks/java.yaml
-
-    - name: install ghidra
-      include_tasks: tasks/ghidra.yaml
+    - name: run the {{ ansible_os_family }} task set
+      ansible.builtin.include_tasks: "tasks/{{ ansible_os_family }}/main.yaml"

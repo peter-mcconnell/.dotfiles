@@ -1,0 +1,28 @@
+---
+# bash_profile.sh already sources $(brew --prefix nvm)/nvm.sh, so node is managed
+# by nvm here rather than by nodesource + n as on the Linux boxes.
+- name: install nvm
+  become: false
+  community.general.homebrew:
+    name: nvm
+    state: present
+
+- name: nvm dir exists
+  become: false
+  ansible.builtin.file:
+    path: "{{ user_home }}/.nvm"
+    state: directory
+    mode: '0755'
+
+- name: install node lts and yarn
+  become: false
+  ansible.builtin.shell: |
+    set -e
+    export NVM_DIR="{{ user_home }}/.nvm"
+    . "{{ homebrew_prefix }}/opt/nvm/nvm.sh"
+    nvm install --lts
+    nvm alias default 'lts/*'
+    npm install -g yarn
+  args:
+    executable: /bin/bash
+    creates: "{{ user_home }}/.nvm/alias/default"

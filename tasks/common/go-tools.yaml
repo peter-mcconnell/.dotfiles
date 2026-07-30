@@ -1,0 +1,9 @@
+---
+# go_bin differs per platform (upstream tarball on Linux, Homebrew on macOS),
+# so the tools themselves only need listing once in vars.yaml.
+- name: install go tools
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.command: "{{ go_bin }} install {{ item }}"
+  loop: "{{ go_tools }}"
+  changed_when: true

@@ -1,0 +1,22 @@
+---
+- name: git config
+  become: true
+  become_user: "{{ user }}"
+  block:
+    - name: configure git user.name
+      community.general.git_config:
+        name: user.name
+        scope: global
+        value: "{{ git_user_name }}"
+
+    - name: configure git user.email
+      community.general.git_config:
+        name: user.email
+        scope: global
+        value: "{{ git_user_email }}"
+
+    - name: set git rebase strategy
+      community.general.git_config:
+        name: pull.rebase
+        scope: global
+        value: "true"

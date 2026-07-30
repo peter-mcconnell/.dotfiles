@@ -1,0 +1,17 @@
+---
+- name: images
+  become: true
+  become_user: "{{ user }}"
+  block:
+    - name: backgrounds dir exists
+      ansible.builtin.stat:
+        path: "{{ user_home }}/backgrounds"
+      register: backgrounds_dir
+
+    - name: copy background images to host
+      when: not backgrounds_dir.stat.exists
+      ansible.builtin.copy:
+        src: "{{ playbook_dir }}/backgrounds/"
+        dest: "{{ user_home }}/backgrounds"
+        mode: '0755'
+        owner: "{{ user }}"

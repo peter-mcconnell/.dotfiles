@@ -1,0 +1,5 @@
+---
+- name: Install bash
+  ansible.builtin.apt:
+    name: "{{ bash_packages }}"
+    state: present

@@ -1,0 +1,5 @@
+---
+- name: Install networking tools
+  ansible.builtin.apt:
+    name: "{{ net_packages }}"
+    state: present

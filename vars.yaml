@@ -1,9 +1,33 @@
 ---
-user: pete
+# Variables shared by every supported platform. Anything that differs per OS
+# lives in vars/<os_family>.yaml, which is loaded after this file and therefore
+# wins (include_vars outranks vars_files).
+
 neovim_nightly_update: false
 llvm_install: false
-dotfiles_home: ~/.dotfiles
-llvm_version: llvmorg-16.0.3
-llvm_build_dir_path: /usr/local/src/llvm
-llvm_install_dir_path: /usr/local
+
+dotfiles_home: "{{ user_home }}/.dotfiles"
+
 go_version: 1.21.4
+go_tools:
+  - github.com/go-delve/delve/cmd/dlv@latest
+  - golang.org/x/tools/gopls@latest
+  - mvdan.cc/gofumpt@latest
+  - github.com/nametake/golangci-lint-langserver@latest
+  - github.com/segmentio/golines@latest
+
+terraform_version: 1.0.10
+terragrunt_version: 0.44.5
+
+git_user_name: Peter McConnell
+git_user_email: me@petermcconnell.com
+
+# Used to build download URLs for the handful of tools we fetch as release
+# binaries rather than from a package manager.
+target_os: "{{ 'darwin' if ansible_os_family == 'Darwin' else 'linux' }}"
+arch_map:
+  x86_64: amd64
+  aarch64: arm64
+  arm64: arm64
+  armv7l: arm
+target_arch: "{{ arch_map[ansible_architecture] | default('amd64') }}"

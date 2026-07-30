@@ -1,0 +1,31 @@
+---
+# rustup supports both platforms and installs into the user's home, so this runs
+# as the target user rather than root.
+- name: check if cargo is installed
+  become: true
+  become_user: "{{ user }}"
+  command: which cargo
+  register: cargo_exists
+  ignore_errors: yes
+  tags:
+    - rust
+
+- name: download installer
+  when: cargo_exists is failed
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.get_url:
+    url: https://sh.rustup.rs
+    dest: /tmp/sh.rustup.rs
+    mode: '0755'
+    force: 'yes'
+  tags:
+    - rust
+
+- name: install rust/cargo
+  when: cargo_exists is failed
+  become: true
+  become_user: "{{ user }}"
+  command: /tmp/sh.rustup.rs -y --no-modify-path
+  tags:
+    - rust

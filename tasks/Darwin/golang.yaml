@@ -1,0 +1,8 @@
+---
+# Linux pins go_version from the upstream tarball; here brew's go is used
+# instead, so go_version does not apply. go_bin in vars/Darwin.yaml points at it.
+- name: install go
+  become: false
+  community.general.homebrew:
+    name: go
+    state: present

@@ -1,0 +1,8 @@
+---
+# The git/make/sudo-make-install flow the Linux task uses is not reproduced here;
+# neovim_nightly_update maps onto asking brew for the newest build instead.
+- name: install neovim
+  become: false
+  community.general.homebrew:
+    name: neovim
+    state: "{{ 'latest' if neovim_nightly_update else 'present' }}"

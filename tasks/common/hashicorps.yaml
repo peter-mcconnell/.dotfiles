@@ -1,0 +1,47 @@
+---
+# The release archives are published for both linux and darwin, on amd64 and
+# arm64, so this only needs the platform pair from vars.yaml.
+- name: local bin dir exists
+  ansible.builtin.file:
+    path: "{{ local_bin }}"
+    state: directory
+    owner: "{{ user }}"
+    mode: '0755'
+
+- name: terraform exists
+  become: true
+  become_user: "{{ user }}"
+  command: which terraform
+  register: terraform_exists
+  ignore_errors: yes
+
+- name: download terraform
+  when: not terraform_exists.rc == 0
+  ansible.builtin.get_url:
+    url: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_{{ target_os }}_{{ target_arch }}.zip"
+    dest: /tmp/terraform.zip
+    owner: "{{ user }}"
+    mode: '0644'
+
+- name: unzip terraform
+  when: not terraform_exists.rc == 0
+  ansible.builtin.unarchive:
+    src: /tmp/terraform.zip
+    dest: "{{ local_bin }}"
+    owner: "{{ user }}"
+    remote_src: yes
+
+- name: terragrunt exists
+  become: true
+  become_user: "{{ user }}"
+  command: which terragrunt
+  register: terragrunt_exists
+  ignore_errors: yes
+
+- name: download terragrunt
+  when: not terragrunt_exists.rc == 0
+  ansible.builtin.get_url:
+    url: "https://github.com/gruntwork-io/terragrunt/releases/download/v{{ terragrunt_version }}/terragrunt_{{ target_os }}_{{ target_arch }}"
+    dest: "{{ local_bin }}/terragrunt"
+    owner: "{{ user }}"
+    mode: '0755'

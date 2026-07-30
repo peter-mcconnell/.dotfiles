@@ -1,1 +1,6 @@
 ---
+collections:
+  # homebrew, homebrew_cask, pipx and git_config
+  - name: community.general
+  # the timer/profile_tasks/profile_roles callbacks enabled in ansible.cfg
+  - name: ansible.posix

@@ -1,0 +1,95 @@
+---
+# macOS specifics.
+#
+# Unlike the Linux hosts, macOS is only ever provisioned locally, so the target
+# account is whoever is running the playbook. Tasks under tasks/Darwin/ run with
+# `become: false` for the same reason - Homebrew refuses to run as root, and
+# nothing here belongs in /var/root.
+
+user: "{{ ansible_user_id }}"
+user_home: "{{ ansible_user_dir }}"
+
+# Apple silicon keeps Homebrew out of /usr/local.
+homebrew_prefix: "{{ '/opt/homebrew' if target_arch == 'arm64' else '/usr/local' }}"
+
+# Where pinned release binaries (terraform, terragrunt, ...) are dropped. Kept
+# out of the Homebrew prefix so brew never sees files it does not own;
+# exports.sh already has this on PATH.
+local_bin: "{{ user_home }}/.local/bin"
+
+go_bin: "{{ homebrew_prefix }}/bin/go"
+
+# Formulae with no macOS equivalent are listed in the task files that would
+# otherwise have installed them, so it stays obvious what a Linux box gets that
+# this one does not.
+base_packages:
+  - bash              # macOS ships bash 3.2
+  - ca-certificates
+  - cmake
+  - coreutils         # GNU userland, matching the Linux boxes
+  - curl
+  - fzf
+  - gcalcli
+  - gettext
+  - git
+  - gnupg
+  - graphviz
+  - htop
+  - hugo
+  - jq
+  - libtool
+  - lua
+  - make
+  - meson
+  - ninja
+  - pkgconf           # provides pkg-config
+  - regina-rexx
+  - ripgrep
+  - rsync
+  - tree
+  - unzip
+  - watch
+  - x3270
+  - bat
+
+base_casks:
+  - font-anonymous-pro
+  - font-powerline-symbols
+  - hex-fiend         # stands in for okteta
+
+bash_packages:
+  - bash
+  - shellcheck
+  - yamllint
+
+# No bpfcc-tools/bpftrace (Linux tracing), no valgrind (unsupported on Apple
+# silicon), no massif-visualizer. dtrace, sample and lldb ship with macOS and
+# the Command Line Tools.
+debug_packages:
+  - binutils
+  - nasm
+
+# No net-tools (BSD equivalents are built in) and no nmon.
+net_packages:
+  - bind              # provides dig/nslookup, i.e. dnsutils
+  - curl
+  - nikto
+  - nmap
+
+python_version: "3.13"
+
+python_packages:
+  - "python@{{ python_version }}"
+  - pipx
+
+python_tools:
+  - black
+  - radon
+  - bandit
+  - pylint
+  - doq
+  - pytest
+
+python_libs:
+  - ipdb
+  - pynvim

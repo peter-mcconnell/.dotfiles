@@ -1,0 +1,55 @@
+---
+- name: neovim
+  become: true
+  become_user: "{{ user }}"
+  command: "which nvim"
+  register: neovim_present
+  ignore_errors: yes
+
+- name: install neovim
+  become: true
+  become_user: "{{ user }}"
+  command: >
+    sh -c "git clone https://github.com/neovim/neovim.git {{ user_home }}/neovimsrc &&
+    cd {{ user_home }}/neovimsrc/ &&
+    make CMAKE_BUILD_TYPE=RelWithDebInfo &&
+    sudo make install"
+  when: not neovim_present.rc == 0
+
+- name: uninstall vim
+  when: not neovim_present.rc == 0
+  ansible.builtin.apt:
+    name: vim
+    state: absent
+
+- name: update neovimsrc remotes
+  become: true
+  become_user: "{{ user }}"
+  when: neovim_nightly_update
+  shell: |
+    cd {{ user_home }}/neovimsrc &&
+    git remote update
+
+- name: check for updates in neovim repository
+  become: true
+  become_user: "{{ user }}"
+  when: neovim_nightly_update
+  shell: |
+    cd {{ user_home }}/neovimsrc &&
+    git status -uno | grep -q 'Your branch is behind'
+  register: git_updates
+  changed_when: git_updates.rc == 0
+  ignore_errors: yes
+
+- name: update neovim from git
+  become: true
+  become_user: "{{ user }}"
+  command: >
+    sh -c "cd {{ user_home }}/neovimsrc &&
+    git clean -fdx &&
+    git pull &&
+    make CMAKE_BUILD_TYPE=RelWithDebInfo &&
+    sudo make install"
+  when:
+    - neovim_nightly_update
+    - git_updates.changed

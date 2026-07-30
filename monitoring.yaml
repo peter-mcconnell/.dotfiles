@@ -10,6 +10,12 @@
     agent_version: 0.32.1
 
   tasks:
+    # systemd, /etc/systemd and a system user: this one really is linux only.
+    - name: check the platform is supported
+      ansible.builtin.assert:
+        that: ansible_os_family != 'Darwin'
+        fail_msg: "monitoring.yaml is linux only - there is no systemd on macOS"
+
     - name: Download Grafana Agent binary
       get_url:
         url: "https://github.com/grafana/agent/releases/download/v{{ agent_version }}/grafana-agent-{{ linux_architecture }}.zip"

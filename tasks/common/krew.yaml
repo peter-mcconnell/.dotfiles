@@ -1,0 +1,23 @@
+---
+- name: krew
+  become: true
+  become_user: "{{ user }}"
+  block:
+    - name: krew dir exists
+      ansible.builtin.stat:
+        path: "{{ user_home }}/.krew"
+      register: krew_dir
+
+    - name: install krew plugins
+      when: not krew_dir.stat.exists
+      ansible.builtin.shell: |
+        set -e
+        mkdir -p "{{ user_home }}/.krew/bin"
+        cd "{{ user_home }}/.krew"
+        curl -fsSL "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-{{ target_os }}_{{ target_arch }}.tar.gz" -o krew.tar.gz
+        tar zxf krew.tar.gz
+        "./krew-{{ target_os }}_{{ target_arch }}" install krew
+        ./bin/kubectl-krew install ctx
+        ./bin/kubectl-krew install ns
+      args:
+        executable: /bin/bash

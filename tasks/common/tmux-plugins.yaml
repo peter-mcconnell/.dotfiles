@@ -1,0 +1,41 @@
+---
+- name: tmux plugins
+  become: true
+  become_user: "{{ user }}"
+  block:
+    - name: tpm dir exists
+      ansible.builtin.stat:
+        path: "{{ user_home }}/.tmux/plugins/tpm"
+      register: tpm_dir
+
+    - name: resurrect exists
+      ansible.builtin.stat:
+        path: "{{ user_home }}/.tmux/plugins/resurrect.tmux"
+      register: resurrect
+
+    - name: create plugins directory if it doesn't exist
+      ansible.builtin.file:
+        path: "{{ user_home }}/.tmux/plugins"
+        state: directory
+        mode: '0755'
+
+    - name: clone tpm repository
+      when: not tpm_dir.stat.exists
+      ansible.builtin.git:
+        repo: https://github.com/tmux-plugins/tpm.git
+        dest: "{{ user_home }}/.tmux/plugins/tpm"
+
+    - name: download resurrect
+      when: not resurrect.stat.exists
+      ansible.builtin.get_url:
+        url: "https://github.com/tmux-plugins/tmux-resurrect/archive/master.tar.gz"
+        dest: "{{ user_home }}/.tmux/plugins/res.tar.gz"
+        owner: "{{ user }}"
+        mode: '0755'
+
+    - name: unpack resurrect
+      when: not resurrect.stat.exists
+      ansible.builtin.command: >
+        tar --strip-components=1
+        -xzf {{ user_home }}/.tmux/plugins/res.tar.gz
+        -C {{ user_home }}/.tmux/plugins/

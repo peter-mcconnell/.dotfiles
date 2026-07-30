@@ -1,0 +1,6 @@
+---
+- name: install tmux
+  become: false
+  community.general.homebrew:
+    name: tmux
+    state: present

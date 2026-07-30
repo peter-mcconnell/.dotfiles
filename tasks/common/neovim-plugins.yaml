@@ -1,0 +1,10 @@
+---
+# ~/.bashrc pulls in ~/.exports, which is what puts nvim on PATH on both
+# platforms (/usr/local/bin on Linux, the Homebrew prefix on macOS).
+- name: install neovim plugins
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.shell: source {{ user_home }}/.bashrc && nvim --headless +PackerClean +PackerInstall +qall
+  args:
+    executable: /bin/bash
+  changed_when: true

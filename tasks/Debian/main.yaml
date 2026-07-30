@@ -1,0 +1,81 @@
+---
+- name: install base deps
+  ansible.builtin.include_tasks: basedeps.yaml
+
+- name: install aws cli
+  ansible.builtin.include_tasks: aws.yaml
+
+- name: configure git
+  ansible.builtin.include_tasks: ../common/git.yaml
+
+- name: install dotfiles
+  ansible.builtin.include_tasks: ../common/dotfiles.yaml
+
+- name: install X11 dotfiles
+  ansible.builtin.include_tasks: x11.yaml
+
+- name: install nodejs
+  ansible.builtin.include_tasks: nodejs.yaml
+
+- name: install python3
+  ansible.builtin.include_tasks: python3.yaml
+
+- name: install rust
+  ansible.builtin.include_tasks: ../common/rust.yaml
+
+- name: install golang
+  ansible.builtin.include_tasks: golang.yaml
+
+- name: install go tools
+  ansible.builtin.include_tasks: ../common/go-tools.yaml
+
+- name: install bash
+  ansible.builtin.include_tasks: bash.yaml
+
+- name: install debugging tools
+  ansible.builtin.include_tasks: debugtools.yaml
+
+- name: install networking tools
+  ansible.builtin.include_tasks: nettools.yaml
+
+- name: install vpn
+  ansible.builtin.include_tasks: vpn.yaml
+
+- name: install docker
+  ansible.builtin.include_tasks: docker.yaml
+
+- name: install terraform/terragrunt/packer things
+  ansible.builtin.include_tasks: ../common/hashicorps.yaml
+
+- name: install kubernetes things
+  ansible.builtin.include_tasks: k8s.yaml
+
+- name: install krew
+  ansible.builtin.include_tasks: ../common/krew.yaml
+
+- name: install llvm
+  ansible.builtin.include_tasks: llvm.yaml
+
+- name: install neovim
+  ansible.builtin.include_tasks: neovim.yaml
+
+- name: install neovim plugins
+  ansible.builtin.include_tasks: ../common/neovim-plugins.yaml
+
+- name: install tmux
+  ansible.builtin.include_tasks: tmux.yaml
+
+- name: install tmux plugins
+  ansible.builtin.include_tasks: ../common/tmux-plugins.yaml
+
+- name: configure SSH
+  ansible.builtin.include_tasks: ../common/ssh.yaml
+
+- name: copy images
+  ansible.builtin.include_tasks: ../common/images.yaml
+
+- name: install java
+  ansible.builtin.include_tasks: java.yaml
+
+- name: install ghidra
+  ansible.builtin.include_tasks: ghidra.yaml

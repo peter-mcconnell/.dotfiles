@@ -1,0 +1,6 @@
+---
+- name: install networking tools
+  become: false
+  community.general.homebrew:
+    name: "{{ net_packages }}"
+    state: present
