@@ -1,4 +1,8 @@
 ---
+# Topics tagged `never` are opt-in: they are skipped on a normal run and only
+# execute when asked for by name, e.g. `make install TAGS=llvm,ghidra`. The
+# matching `apply:` puts the tag on the included tasks too, so `--tags ghidra`
+# on its own runs just that topic.
 - name: install base deps
   ansible.builtin.include_tasks: basedeps.yaml
 
@@ -54,7 +58,11 @@
   ansible.builtin.include_tasks: ../common/krew.yaml
 
 - name: install llvm
-  ansible.builtin.include_tasks: llvm.yaml
+  ansible.builtin.include_tasks:
+    file: llvm.yaml
+    apply:
+      tags: [llvm]
+  tags: [never, llvm]
 
 - name: install neovim
   ansible.builtin.include_tasks: neovim.yaml
@@ -74,8 +82,18 @@
 - name: copy images
   ansible.builtin.include_tasks: ../common/images.yaml
 
+# Also carries the ghidra tag: ghidra.yaml needs a jdk, and asking for one topic
+# should not leave the other half uninstalled.
 - name: install java
-  ansible.builtin.include_tasks: java.yaml
+  ansible.builtin.include_tasks:
+    file: java.yaml
+    apply:
+      tags: [java, ghidra]
+  tags: [never, java, ghidra]
 
 - name: install ghidra
-  ansible.builtin.include_tasks: ghidra.yaml
+  ansible.builtin.include_tasks:
+    file: ghidra.yaml
+    apply:
+      tags: [ghidra]
+  tags: [never, ghidra]

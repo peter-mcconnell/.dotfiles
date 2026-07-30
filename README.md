@@ -26,6 +26,22 @@ make full
 `./ansible.cfg` loads everything in `./inventory/`, so drop additional inventory
 files in there for remote targets.
 
+## optional topics
+
+`llvm`, `java` and `ghidra` are tagged `never`, so a normal run skips them. Ask
+for them by name:
+
+```sh
+make install TAGS=llvm,ghidra   # everything, plus those two
+make install TOPICS=ghidra      # only ghidra, skipping everything else
+```
+
+`TOPICS` is the useful one for adding a tool to a box that is already set up -
+it takes seconds instead of re-running the whole playbook. Fact gathering and
+the per-OS vars are tagged `always`, so a single-topic run still has everything
+it needs. On ubuntu the `ghidra` tag pulls in `java` too, since that ghidra
+needs a jdk.
+
 ## layout
 
 `playbook.yaml` gathers facts, loads `vars/<os_family>.yaml` and then hands off

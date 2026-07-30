@@ -1,27 +1,25 @@
 ---
+# Opt in with `make install TAGS=llvm`. The whole file is gated by the `never`
+# tag on the include in main.yaml, so nothing here re-checks a flag.
 - name: llvm build dir
   stat:
     path: "{{ llvm_build_dir_path }}"
   register: llvm_build_dir
-  when: llvm_install
 
 - name: check if clang exists
   command: which clang
   changed_when: false
   register: clang_exists
   ignore_errors: yes
-  when: llvm_install
 
 - name: check if llvm-readelf exists
   command: which llvm-readelf
   changed_when: false
   register: llvm_exists
   ignore_errors: yes
-  when: llvm_install
 
 - name: clone llvm
   when:
-    - llvm_install
     - not llvm_build_dir.stat.exists
     - llvm_exists is failed
   git:
@@ -31,9 +29,7 @@
     depth: 1
 
 - name: llvm cmake
-  when:
-    - llvm_install
-    - llvm_exists is failed
+  when: llvm_exists is failed
   shell: |
     rm -rf build && mkdir build && cd build && \
     cmake \
@@ -48,34 +44,38 @@
     chdir: "{{ llvm_build_dir_path }}"
 
 - name: llvm make
-  when:
-    - llvm_install
-    - llvm_exists is failed
+  when: llvm_exists is failed
   shell: |
     make -j{{ ansible_processor_vcpus }}
   args:
     chdir: "{{ llvm_build_dir_path }}/build"
 
+- name: llvm build tree exists
+  ansible.builtin.stat:
+    path: "{{ llvm_build_dir_path }}/build"
+  register: llvm_build_tree
+
+# 'llvm make' above already builds clang, since cmake was configured with it in
+# LLVM_ENABLE_PROJECTS. This only does anything when clang is missing but the
+# full build was skipped - i.e. picking up a build tree an interrupted run left
+# behind. Guarded on that tree because the last task in this file deletes it.
 - name: llvm make clang
   when:
-    - llvm_install
-    - clang_exists is false
+    - clang_exists is failed
+    - llvm_build_tree.stat.exists
   shell: |
     make -j{{ ansible_processor_vcpus }} clang
   args:
     chdir: "{{ llvm_build_dir_path }}/build"
 
 - name: llvm make install
-  when:
-    - llvm_install
-    - llvm_exists is failed
+  when: llvm_exists is failed
   shell: |
     make install -j{{ ansible_processor_vcpus }}
   args:
     chdir: "{{ llvm_build_dir_path }}/build"
 
 - name: llvm add path
-  when: llvm_install
   ansible.builtin.template:
     src: "{{ playbook_dir }}/templates/llvm.conf-template.j2"
     dest: "/etc/ld.so.conf.d/llvm-{{ llvm_version }}.conf"
@@ -83,10 +83,8 @@
 
 - name: llvm run ldconfig
   command: ldconfig
-  when: llvm_install
 
 - name: llvm clean build dir
-  when: llvm_install
   file:
     state: absent
     path: "{{ llvm_build_dir_path }}"

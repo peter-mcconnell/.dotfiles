@@ -2,6 +2,19 @@
 
 EXTRA_VARS?=hosts=local
 
+# Opt in to the topics that are tagged `never` (llvm, java, ghidra), e.g.
+#   make install TAGS=ghidra      everything, plus ghidra
+#   make install TOPICS=ghidra    only ghidra, nothing else
+TAGS?=
+TOPICS?=
+ifneq ($(TOPICS),)
+TAG_ARGS=--tags "$(TOPICS)"
+else ifneq ($(TAGS),)
+TAG_ARGS=--tags "all,$(TAGS)"
+else
+TAG_ARGS=
+endif
+
 test:
 
 full: EXTRA_VARS += neovim_nightly_update=True
@@ -15,4 +28,4 @@ deps:
 	ansible-galaxy collection install -r requirements.yaml
 
 install: deps
-	ansible-playbook playbook.yaml --extra-vars "$(EXTRA_VARS)" -K
+	ansible-playbook playbook.yaml --extra-vars "$(EXTRA_VARS)" $(TAG_ARGS) -K

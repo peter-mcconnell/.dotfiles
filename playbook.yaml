@@ -7,10 +7,14 @@
   gather_facts: false
   vars_files:
     - vars.yaml
+  # Everything up to and including the dispatch is tagged `always` so that a
+  # single-topic run (`--tags ghidra`) still gathers facts and loads the per-OS
+  # vars the task files depend on.
   pre_tasks:
     - name: gather facts as the login user
       become: false
       ansible.builtin.setup:
+      tags: always
 
     - name: check the platform is supported
       ansible.builtin.assert:
@@ -18,10 +22,13 @@
         fail_msg: >-
           unsupported os_family '{{ ansible_os_family }}' -
           only Debian and Darwin have task sets
+      tags: always
 
     - name: load {{ ansible_os_family }} variables
       ansible.builtin.include_vars: "vars/{{ ansible_os_family }}.yaml"
+      tags: always
 
   tasks:
     - name: run the {{ ansible_os_family }} task set
       ansible.builtin.include_tasks: "tasks/{{ ansible_os_family }}/main.yaml"
+      tags: always

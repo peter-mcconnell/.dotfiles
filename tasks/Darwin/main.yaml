@@ -1,4 +1,9 @@
 ---
+# Topics tagged `never` are opt-in: they are skipped on a normal run and only
+# execute when asked for by name, e.g. `make install TAGS=llvm,ghidra`. The
+# matching `apply:` puts the tag on the included tasks too, so `--tags ghidra`
+# on its own runs just that topic.
+#
 # The X11 dotfiles (xinitrc, Xresources, fehbg) have no place on macOS, so
 # unlike tasks/Debian/main.yaml there is no x11.yaml here.
 
@@ -54,7 +59,11 @@
   ansible.builtin.include_tasks: ../common/krew.yaml
 
 - name: install llvm
-  ansible.builtin.include_tasks: llvm.yaml
+  ansible.builtin.include_tasks:
+    file: llvm.yaml
+    apply:
+      tags: [llvm]
+  tags: [never, llvm]
 
 - name: install neovim
   ansible.builtin.include_tasks: neovim.yaml
@@ -75,7 +84,15 @@
   ansible.builtin.include_tasks: ../common/images.yaml
 
 - name: install java
-  ansible.builtin.include_tasks: java.yaml
+  ansible.builtin.include_tasks:
+    file: java.yaml
+    apply:
+      tags: [java]
+  tags: [never, java]
 
 - name: install ghidra
-  ansible.builtin.include_tasks: ghidra.yaml
+  ansible.builtin.include_tasks:
+    file: ghidra.yaml
+    apply:
+      tags: [ghidra]
+  tags: [never, ghidra]

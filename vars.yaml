@@ -3,8 +3,9 @@
 # lives in vars/<os_family>.yaml, which is loaded after this file and therefore
 # wins (include_vars outranks vars_files).
 
+# Opt-in topics (llvm, java, ghidra) are gated with the `never` tag in
+# tasks/<os_family>/main.yaml rather than with a flag here.
 neovim_nightly_update: false
-llvm_install: false
 
 dotfiles_home: "{{ user_home }}/.dotfiles"
 

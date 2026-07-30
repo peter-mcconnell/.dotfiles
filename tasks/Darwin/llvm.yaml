@@ -1,9 +1,8 @@
 ---
 # The Linux task builds llvm from source; brew's bottle is close enough here,
-# and the Command Line Tools already provide an Apple clang. Still gated on
-# llvm_install so a default run stays quick.
+# and the Command Line Tools already provide an Apple clang. Opt in with
+# `make install TAGS=llvm`.
 - name: install llvm
-  when: llvm_install
   become: false
   community.general.homebrew:
     name: llvm
