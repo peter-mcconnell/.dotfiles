@@ -149,6 +149,11 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
+-- Use the system clipboard for all yank/delete/paste operations.
+-- On macOS this is the standard pbcopy/pbpaste clipboard, so `yy` will
+-- copy the line straight to your Mac clipboard for pasting elsewhere.
+vim.opt.clipboard = 'unnamedplus'
+
 -- Set highlight on search
 vim.o.hlsearch = false
 
@@ -217,6 +222,9 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+
+-- codex
+require('peter-mcconnell.codex');
 
 -- claude
 require('peter-mcconnell.claude');

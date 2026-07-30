@@ -107,6 +107,9 @@ if [ -f /usr/share/powerline/bindings/bash/powerline.sh ]; then
   source /usr/share/powerline/bindings/bash/powerline.sh
 fi
 
+pybinpath="/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+test -d "$pybinpath" && export PATH="$PATH:$pybinpath"
+
 [[ -s "/home/peter/.gvm/scripts/gvm" ]] && source "/home/peter/.gvm/scripts/gvm"
 # shellcheck source=/dev/null
 test -f ~/.cargo/env && source ~/.cargo/env
