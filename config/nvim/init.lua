@@ -82,6 +82,7 @@ require('packer').startup(function(use)
 
   use {
     'nvim-treesitter/nvim-treesitter',
+    branch = 'master',
     run = function()
       pcall(require('nvim-treesitter.install').update { with_sync = true })
     end,
@@ -94,6 +95,7 @@ require('packer').startup(function(use)
 
   use {
     'nvim-treesitter/nvim-treesitter-textobjects',
+    branch = 'master',
     after = 'nvim-treesitter',
   }
 
