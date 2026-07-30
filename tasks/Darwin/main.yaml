@@ -66,19 +66,31 @@
   tags: [never, llvm]
 
 - name: install neovim
-  ansible.builtin.include_tasks: neovim.yaml
+  ansible.builtin.include_tasks:
+    file: neovim.yaml
+    apply:
+      tags: [neovim]
   tags: [neovim]
 
 - name: install neovim plugins
-  ansible.builtin.include_tasks: ../common/neovim-plugins.yaml
+  ansible.builtin.include_tasks:
+    file: ../common/neovim-plugins.yaml
+    apply:
+      tags: [neovim]
   tags: [neovim]
 
 - name: install tmux
-  ansible.builtin.include_tasks: tmux.yaml
+  ansible.builtin.include_tasks:
+    file: tmux.yaml
+    apply:
+      tags: [tmux]
   tags: [tmux]
 
 - name: install tmux plugins
-  ansible.builtin.include_tasks: ../common/tmux-plugins.yaml
+  ansible.builtin.include_tasks:
+    file: ../common/tmux-plugins.yaml
+    apply:
+      tags: [tmux]
   tags: [tmux]
 
 - name: configure SSH

@@ -1,6 +1,7 @@
 #!/bin/sh
 
 test -f "${HOME}/.kube/config.yaml" && export KUBECONFIG="$HOME/.kube/config.yaml"
+test -d "/usr/local/opt" && export PATH="/usr/local/opt:$PATH"
 test -d "${HOME}/.krew" && export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 test -d /var/lib/flatpak/exports/share && export PATH="/var/lib/flatpak/exports/share:$PATH"
 test -d "${HOME}/.local/share/flatpak/exports/share" && export PATH="${HOME}/.local/share/flatpak/exports/share:$PATH"

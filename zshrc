@@ -6,6 +6,8 @@
 
 export SKIP_PS1=1  # ignore bashrc's attempt at PS1
 source ~/.bashrc
+source ~/.aliases
+source ~/.exports
 
 # Local config
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
