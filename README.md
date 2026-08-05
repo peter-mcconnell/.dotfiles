@@ -17,7 +17,15 @@ Dependencies:
 
 ## install locally
 
-`inventory/local.ini` already points the `local` group at this machine, so:
+`inventory/local.ini` should have something like:
+
+
+```
+[local]
+localhost ansible_connection=local
+```
+
+Then you can install with:
 
 ```sh
 make full
